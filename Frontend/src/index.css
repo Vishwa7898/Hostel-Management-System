@@ -1,3 +1,384 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Reset and base styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  }
+
+  /* Typography */
+  h1 {
+    @apply text-3xl font-bold mb-4;
+  }
+  
+  h2 {
+    @apply text-2xl font-semibold mb-3;
+  }
+  
+  h3 {
+    @apply text-xl font-medium mb-2;
+  }
+  
+  p {
+    @apply mb-2;
+  }
+
+  /* Form elements */
+  input, select, textarea {
+    @apply border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+  }
+
+  button {
+    @apply cursor-pointer transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    @apply bg-white p-4 rounded-xl mb-8 flex items-center gap-4 shadow-md border-l-4;
+  }
+  .status-bar.success { @apply border-green-500; }
+  .status-bar.demo { @apply border-yellow-400; }
+  .status-bar.error { @apply border-red-500; }
+
+  /* Student Card */
+  .student-card {
+    @apply bg-white rounded-2xl p-6 mb-8 shadow-md;
+  }
+
+  .student-card-header {
+    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6;
+  }
+
+  .badge {
+    @apply bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium;
+  }
+
+  .student-details-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  .detail-item {
+    @apply flex flex-col gap-1;
+  }
+
+  .detail-item label {
+    @apply text-xs text-gray-500 uppercase tracking-wider;
+  }
+
+  .detail-item p {
+    @apply text-base font-medium text-gray-800 mb-0;
+  }
+
+  /* Meal Selector */
+  .meal-selector {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8;
+  }
+
+  .meal-chip {
+    @apply bg-white border-2 p-4 rounded-xl cursor-pointer flex flex-col items-center gap-2 transition-all duration-300 shadow-md hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .meal-chip.active {
+    @apply border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50;
+  }
+
+  .meal-icon {
+    @apply text-3xl;
+  }
+
+  .meal-label {
+    @apply font-semibold text-gray-800;
+  }
+
+  .meal-time {
+    @apply text-xs text-gray-500;
+  }
+
+  /* Menu Section */
+  .menu-section {
+    @apply bg-white rounded-2xl p-6 shadow-md;
+  }
+
+  .menu-header {
+    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6;
+  }
+
+  .menu-header h2 {
+    @apply text-lg sm:text-xl font-semibold text-gray-800 mb-0;
+  }
+
+  .menu-filters {
+    @apply flex flex-col sm:flex-row gap-4 w-full sm:w-auto;
+  }
+
+  .search-input {
+    @apply px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 w-full sm:w-48;
+  }
+
+  .veg-filter {
+    @apply flex items-center gap-2 text-sm cursor-pointer;
+  }
+
+  /* Food Cards */
+  .menu-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
+  .food-card {
+    @apply bg-white rounded-xl overflow-hidden transition-all duration-300 border border-gray-200 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .food-image {
+    @apply h-32 bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center relative;
+  }
+
+  .food-emoji {
+    @apply text-4xl;
+  }
+
+  .veg-badge {
+    @apply absolute top-2 right-2 bg-green-500 text-white px-2 py-0.5 rounded text-xs font-medium;
+  }
+
+  .food-details {
+    @apply p-4;
+  }
+
+  .food-details h3 {
+    @apply text-base font-semibold mb-1 text-gray-800;
+  }
+
+  .food-description {
+    @apply text-xs text-gray-500 mb-2 leading-relaxed;
+  }
+
+  .food-footer {
+    @apply flex justify-between items-center;
+  }
+
+  .food-price {
+    @apply font-semibold text-orange-500 text-lg;
+  }
+
+  .add-btn {
+    @apply bg-blue-500 text-white border-none px-4 py-1.5 rounded-md text-sm cursor-pointer transition-all duration-300 hover:bg-blue-600 hover:scale-105;
+  }
+
+  /* Cart Section */
+  .cart-section {
+    @apply bg-white rounded-2xl p-6 shadow-md sticky top-24 h-fit;
+  }
+
+  .cart-header {
+    @apply flex justify-between items-center mb-6;
+  }
+
+  .cart-header h2 {
+    @apply text-lg sm:text-xl font-semibold text-gray-800 mb-0;
+  }
+
+  .cart-count {
+    @apply bg-blue-500 text-white px-3 py-1 rounded-full text-sm;
+  }
+
+  .empty-cart {
+    @apply text-center py-12;
+  }
+
+  .empty-cart-icon {
+    @apply text-5xl block mb-4 opacity-50;
+  }
+
+  .cart-items {
+    @apply max-h-96 overflow-y-auto mb-4;
+  }
+
+  .cart-item {
+    @apply flex justify-between items-center py-3 border-b border-gray-200;
+  }
+
+  .cart-item-info {
+    @apply flex flex-col;
+  }
+
+  .cart-item-name {
+    @apply font-medium text-sm text-gray-800;
+  }
+
+  .cart-item-price {
+    @apply text-xs text-gray-500;
+  }
+
+  .cart-item-controls {
+    @apply flex items-center gap-2;
+  }
+
+  .quantity-input {
+    @apply w-16 p-1.5 border border-gray-200 rounded text-center text-sm;
+  }
+
+  .remove-btn {
+    @apply bg-transparent border-none text-red-500 text-base cursor-pointer px-2 py-1 rounded hover:bg-red-500 hover:text-white transition-colors;
+  }
+
+  .cart-summary {
+    @apply bg-gray-50 p-4 rounded-xl my-4;
+  }
+
+  .summary-row {
+    @apply flex justify-between mb-2 text-sm;
+  }
+
+  .summary-row.total {
+    @apply mt-2 pt-2 border-t-2 border-dashed border-gray-200 font-semibold text-lg;
+  }
+
+  .checkout-btn {
+    @apply w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white border-none py-4 rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-200;
+  }
+
+  /* Modal Styles */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50;
+  }
+
+  .modal {
+    @apply bg-white rounded-2xl p-8 max-w-md w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl;
+  }
+
+  .modal h2 {
+    @apply text-2xl font-semibold text-gray-800 mb-6 text-center;
+  }
+
+  .confirm-section {
+    @apply bg-gray-50 p-5 rounded-xl;
+  }
+
+  .confirm-section h3 {
+    @apply text-sm text-blue-500 font-medium mb-4;
+  }
+
+  .confirm-items {
+    @apply max-h-48 overflow-y-auto my-4;
+  }
+
+  .confirm-item {
+    @apply flex justify-between py-2 border-b border-dashed border-gray-200;
+  }
+
+  .confirm-total {
+    @apply flex justify-between mt-4 pt-4 border-t-2 border-gray-200 font-bold;
+  }
+
+  .confirm-actions {
+    @apply flex gap-4 mt-6;
+  }
+
+  .btn-primary {
+    @apply flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply flex-1 bg-gray-100 text-gray-800 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:bg-gray-200;
+  }
+
+  .success-modal {
+    @apply text-center;
+  }
+
+  .success-icon {
+    @apply text-6xl mb-4;
+  }
+
+  .order-details {
+    @apply bg-gray-50 p-6 rounded-xl my-6 text-left;
+  }
+
+  .order-details p {
+    @apply mb-2;
+  }
+
+  .payment-note {
+    @apply bg-orange-50 text-orange-500 p-4 rounded-lg my-4 font-medium;
+  }
+
+  /* Payment Modal */
+  .payment-modal-content {
+    @apply bg-white rounded-2xl p-8 max-w-md w-[90%] shadow-2xl;
+  }
+
+  .payment-modal-content h3 {
+    @apply text-2xl font-semibold text-gray-800 mb-2 text-center;
+  }
+
+  .payment-amount {
+    @apply text-3xl font-bold text-orange-500 text-center mb-8 p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-dashed border-orange-500;
+  }
+
+  .card-element-container {
+    @apply p-4 border-2 border-gray-200 rounded-xl mb-4 bg-gray-50 transition-all duration-300 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200;
+  }
+
+  .payment-error {
+    @apply bg-red-50 text-red-500 p-3 rounded-lg my-4 text-sm text-center border-l-4 border-red-500;
+  }
+
+  .payment-actions {
+    @apply flex gap-4 mt-8;
+  }
+
+  .test-card-info {
+    @apply mt-6 p-4 bg-blue-50 rounded-lg text-blue-800 text-center text-sm border border-blue-200;
+  }
+
+  /* Loading States */
+  .loading {
+    @apply text-center py-12;
+  }
+
+  .loader {
+    @apply w-10 h-10 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4;
+  }
+
+  /* Order Message */
+  .order-message {
+    @apply fixed bottom-8 right-8 px-8 py-4 rounded-xl bg-white shadow-lg z-50 animate-[slideIn_0.3s_ease-out];
+  }
+
+  .order-message.success {
+    @apply border-l-4 border-green-500;
+  }
+
+  .order-message.error {
+    @apply border-l-4 border-red-500;
+  }
+}
+
+@layer utilities {
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
