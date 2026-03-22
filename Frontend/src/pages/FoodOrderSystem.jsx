@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { Home, LogOut, LayoutDashboard, User, UtensilsCrossed, CreditCard } from 'lucide-react';
+import { Home, LogOut, LayoutDashboard, User, UtensilsCrossed, CreditCard, History } from 'lucide-react';
 import PaymentForm from '../components/PaymentForm';
 import '../index.css';
 
@@ -85,6 +85,11 @@ function App() {
   const [filterVegetarian, setFilterVegetarian] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
+  const [foodView, setFoodView] = useState('menu');
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+
+  const MEAL_LABELS = { breakfast: '🌅 Breakfast', lunch: '☀️ Lunch', dinner: '🌙 Dinner', tea: '🍵 Tea' };
 
   useEffect(() => {
     if (!token) {
@@ -128,6 +133,19 @@ function App() {
       }, 500);
     }
   }, [mealTime, backendStatus]);
+
+  useEffect(() => {
+    if (foodView === 'history' && token) {
+      setHistoryLoading(true);
+      fetch('http://localhost:5000/api/food/orders/my', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => setOrderHistory(Array.isArray(data) ? data : []))
+        .catch(() => setOrderHistory([]))
+        .finally(() => setHistoryLoading(false));
+    }
+  }, [foodView, token]);
 
   const filteredMenu = useMemo(() => {
     return menu.filter(item => {
@@ -187,6 +205,9 @@ function App() {
     setShowConfirmation(false);
   };
 
+  const isValidMongoId = (id) => /^[a-f0-9]{24}$/i.test(String(id || ''));
+  const cartHasRealIds = cart.every((c) => isValidMongoId(c._id || c.id));
+
   const handleConfirmOrder = async () => {
     setOrderSubmitting(true);
     setConfirmError('');
@@ -203,7 +224,7 @@ function App() {
         })),
       };
 
-      if (backendStatus.includes('Connected')) {
+      if (backendStatus.includes('Connected') && cartHasRealIds) {
         const res = await fetch('http://localhost:5000/api/food/order', {
           method: 'POST',
           headers: {
@@ -317,6 +338,90 @@ function App() {
           </header>
 
         <main className="flex-1 p-6 md:p-8 overflow-y-auto">
+          {/* View Tabs */}
+          <div className="flex gap-2 mb-6">
+            <button
+              onClick={() => setFoodView('menu')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all ${foodView === 'menu' ? 'bg-emerald-500 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-emerald-50'}`}
+            >
+              <UtensilsCrossed size={20} />
+              Order Menu
+            </button>
+            <button
+              onClick={() => setFoodView('history')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all ${foodView === 'history' ? 'bg-emerald-500 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-emerald-50'}`}
+            >
+              <History size={20} />
+              Order History
+            </button>
+          </div>
+
+          {foodView === 'history' ? (
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <h2 className="text-lg font-bold text-slate-800 p-4 border-b border-slate-100">My Order History</h2>
+              {historyLoading ? (
+                <div className="p-12 text-center">
+                  <div className="w-10 h-10 border-4 border-emerald-200 border-t-emerald-500 rounded-full animate-spin mx-auto" />
+                  <p className="mt-3 text-slate-600">Loading orders...</p>
+                </div>
+              ) : orderHistory.length === 0 ? (
+                <div className="p-12 text-center text-slate-500">
+                  <History size={48} className="mx-auto mb-3 opacity-50" />
+                  <p className="font-medium">No orders yet</p>
+                  <p className="text-sm">Your food orders will appear here</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="bg-slate-50 text-slate-600 text-sm uppercase tracking-wider">
+                        <th className="p-4 font-semibold">Order ID</th>
+                        <th className="p-4 font-semibold">Meal</th>
+                        <th className="p-4 font-semibold">Items</th>
+                        <th className="p-4 font-semibold">Amount</th>
+                        <th className="p-4 font-semibold">Payment</th>
+                        <th className="p-4 font-semibold">Status</th>
+                        <th className="p-4 font-semibold">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orderHistory.map((o) => (
+                        <tr key={o._id} className="border-t border-slate-100 hover:bg-slate-50">
+                          <td className="p-4 font-mono text-sm">#{o._id?.slice(-8)}</td>
+                          <td className="p-4">{MEAL_LABELS[o.mealTime] || o.mealTime}</td>
+                          <td className="p-4 text-sm">
+                            {o.items?.map((i, idx) => (
+                              <div key={idx}>{i.foodItem?.name || 'Item'} x{i.quantity}</div>
+                            ))}
+                          </td>
+                          <td className="p-4 font-semibold">Rs. {o.totalAmount}</td>
+                          <td className="p-4">
+                            <span className={`px-2 py-1 rounded text-xs font-bold ${o.paymentStatus === 'paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+                              {o.paymentStatus === 'paid' ? 'Paid ✓' : 'Unpaid'}
+                            </span>
+                          </td>
+                          <td className="p-4">
+                            <span className={`px-2 py-1 rounded text-xs font-bold ${
+                              o.status === 'served' ? 'bg-emerald-100 text-emerald-700' :
+                              o.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                              o.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :
+                              'bg-amber-100 text-amber-700'
+                            }`}>
+                              {o.status}
+                            </span>
+                          </td>
+                          <td className="p-4 text-sm text-slate-600">
+                            {o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '-'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          ) : (
+          <>
           {/* Meal Selector */}
           <div className="flex flex-wrap gap-3 mb-6">
             {MEAL_TIMES.map((m) => (
@@ -469,6 +574,8 @@ function App() {
               )}
             </div>
           </div>
+          </>
+          )}
 
           {/* Order Message */}
           {orderMessage && (

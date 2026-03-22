@@ -40,10 +40,10 @@ router.post('/create-payment-intent', protect, async (req, res) => {
       return res.status(400).json({ message: 'Order already paid' });
     }
 
-    // Use lkr for Sri Lankan Rupees (amount in main unit). Use usd for dollars (amount in cents).
+    // LKR has 100 cents - amount must be in smallest unit (e.g. Rs.300 = 30000)
     const currency = (process.env.STRIPE_CURRENCY || 'lkr').toLowerCase();
-    const isZeroDecimal = ['lkr', 'jpy', 'krw'].includes(currency);
-    const amount = isZeroDecimal ? Math.round(order.totalAmount) : Math.round(order.totalAmount * 100);
+    const isZeroDecimal = ['jpy', 'krw', 'vnd'].includes(currency);
+    const amount = isZeroDecimal ? Math.round(order.totalAmount) : Math.round(Number(order.totalAmount) * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount,

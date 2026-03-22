@@ -23,6 +23,10 @@ const STATUS_COLORS = {
   served: 'bg-emerald-100 text-emerald-700',
   cancelled: 'bg-red-100 text-red-700',
 };
+const PAYMENT_COLORS = {
+  paid: 'bg-emerald-100 text-emerald-700',
+  unpaid: 'bg-amber-100 text-amber-700',
+};
 
 export default function AdminFoodOrder() {
   const [orders, setOrders] = useState([]);
@@ -297,6 +301,7 @@ export default function AdminFoodOrder() {
                           <th className="p-4 border-b font-semibold">Meal</th>
                           <th className="p-4 border-b font-semibold">Items</th>
                           <th className="p-4 border-b font-semibold">Amount</th>
+                          <th className="p-4 border-b font-semibold">Payment</th>
                           <th className="p-4 border-b font-semibold">Status</th>
                           <th className="p-4 border-b font-semibold">Actions</th>
                         </tr>
@@ -314,6 +319,11 @@ export default function AdminFoodOrder() {
                               ))}
                             </td>
                             <td className="p-4 font-semibold">Rs. {o.totalAmount}</td>
+                            <td className="p-4">
+                              <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${PAYMENT_COLORS[o.paymentStatus] || 'bg-slate-100 text-slate-600'}`}>
+                                {o.paymentStatus === 'paid' ? 'Paid ✓' : 'Unpaid'}
+                              </span>
+                            </td>
                             <td className="p-4">
                               <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${STATUS_COLORS[o.status] || 'bg-slate-100'}`}>
                                 {o.status}
@@ -350,7 +360,7 @@ export default function AdminFoodOrder() {
                           </tr>
                         ))}
                         {orders.length === 0 && (
-                          <tr><td colSpan="8" className="p-12 text-center text-slate-500">No orders found.</td></tr>
+                          <tr><td colSpan="9" className="p-12 text-center text-slate-500">No orders found.</td></tr>
                         )}
                       </tbody>
                     </table>

@@ -28,12 +28,33 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
 
+  const isDemoOrder = String(orderId || '').startsWith('demo_');
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
     if (!stripe || !elements) {
+      setLoading(false);
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    if (isDemoOrder) {
+      const { error: pmError } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+      });
+      if (pmError) {
+        setError(pmError.message);
+        setLoading(false);
+        return;
+      }
+      await new Promise((r) => setTimeout(r, 800));
+      onPaymentSuccess();
+      setLoading(false);
       return;
     }
 
@@ -55,7 +76,6 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
         throw new Error(data.message || 'Failed to create payment');
       }
 
-      const cardElement = elements.getElement(CardElement);
       const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
         data.clientSecret,
         {
@@ -98,6 +118,11 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
       <div className="payment-modal-content">
         <h3>💳 Complete Payment</h3>
         <p className="payment-amount">Total Amount: Rs. {totalAmount}</p>
+        {isDemoOrder && (
+          <p className="text-sm text-slate-500 mb-3 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+            Demo order — card will be validated, no real charge
+          </p>
+        )}
         
         <form onSubmit={handleSubmit}>
           <div className="card-element-container">
