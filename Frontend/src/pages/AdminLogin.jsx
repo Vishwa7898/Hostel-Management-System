@@ -22,7 +22,8 @@ export default function AdminLogin() {
       if (res.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data));
-        navigate('/admin-dashboard');
+        const isStudent = data.role === 'Student';
+        navigate(isStudent ? '/student-dashboard' : '/admin-dashboard');
       } else {
         setError(data.message || 'Invalid credentials - please try again');
       }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, Key, X } from 'lucide-react';
+import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Key, X } from 'lucide-react';
 
 export default function StudentProfile() {
   const [formData, setFormData] = useState({
@@ -20,6 +20,7 @@ export default function StudentProfile() {
 
   useEffect(() => {
     if (!token) return navigate('/');
+    if (['Admin', 'Warden', 'Accountant'].includes(user.role)) return navigate('/admin-profile');
     fetchProfile();
   }, []);
 
@@ -188,6 +189,13 @@ export default function StudentProfile() {
             <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <CreditCard size={20} />
               <span>Payments</span>
+            </div>
+            <div
+              onClick={() => navigate(['Admin', 'Warden', 'Accountant'].includes(user.role) ? '/admin-food-order' : '/student-food-order')}
+              className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+            >
+              <UtensilsCrossed size={20} />
+              <span>Food Order</span>
             </div>
           </div>
           <div className="mt-8">

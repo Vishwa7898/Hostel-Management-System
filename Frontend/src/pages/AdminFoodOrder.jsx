@@ -155,7 +155,7 @@ export default function AdminFoodOrder() {
             <LayoutDashboard size={20} />
             <span>Dashboard</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <User size={20} />
             <span>Profile</span>
           </div>

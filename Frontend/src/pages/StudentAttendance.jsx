@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, Edit, Trash2, X } from 'lucide-react';
+import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Edit, Trash2, X } from 'lucide-react';
 
 export default function StudentAttendance() {
   const [records, setRecords] = useState([]);
@@ -14,6 +14,7 @@ export default function StudentAttendance() {
 
   useEffect(() => {
     if (!token) return navigate('/');
+    if (['Admin', 'Warden', 'Accountant'].includes(user.role)) return navigate('/admin-dashboard');
     fetchAttendance();
   }, []);
 
@@ -143,6 +144,13 @@ export default function StudentAttendance() {
             <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <CreditCard size={20} />
               <span>Payments</span>
+            </div>
+            <div
+              onClick={() => navigate(['Admin', 'Warden', 'Accountant'].includes(user.role) ? '/admin-food-order' : '/student-food-order')}
+              className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+            >
+              <UtensilsCrossed size={20} />
+              <span>Food Order</span>
             </div>
           </div>
           <div className="mt-8 border-t border-slate-100 pt-4">

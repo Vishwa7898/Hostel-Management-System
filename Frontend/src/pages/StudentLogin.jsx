@@ -21,7 +21,8 @@ export default function StudentLogin() {
       if (res.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data));
-        navigate('/student-dashboard');
+        const isAdmin = ['Admin', 'Warden', 'Accountant'].includes(data.role);
+        navigate(isAdmin ? '/admin-dashboard' : '/student-dashboard');
       } else {
         setError(data.message || 'Invalid credentials');
       }

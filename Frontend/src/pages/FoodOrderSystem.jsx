@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import PaymentForm from './components/PaymentForm';
-import './index.css';
+import PaymentForm from '../components/PaymentForm';
+import '../index.css';
 
 // Initialize Stripe
 const stripePromise = loadStripe('pk_test_your_stripe_publishable_key');
@@ -47,22 +48,25 @@ const SAMPLE_MENU = {
 };
 
 function App() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+  const [studentDetails] = useState({
+    regNumber: storedUser.studentId || storedUser.regNumber || 'STU001',
+    name: storedUser.name || 'Student',
+    hostelRoom: storedUser.hostelRoom || storedUser.address || 'N/A',
+    email: storedUser.email || '',
+    phone: storedUser.contactNumber || storedUser.studentPhone || '',
+    faculty: storedUser.faculty || 'N/A',
+    year: storedUser.year || 'N/A'
+  });
+
   const [backendStatus, setBackendStatus] = useState('Checking backend...');
   const [mealTime, setMealTime] = useState('breakfast');
   const [menu, setMenu] = useState([]);
   const [menuLoading, setMenuLoading] = useState(false);
   const [menuError, setMenuError] = useState('');
   const [cart, setCart] = useState([]);
-  
-  const [studentDetails] = useState({
-    regNumber: 'IT20201234',
-    name: 'Kamal Perera',
-    hostelRoom: 'B-204',
-    email: 'kamal.p@university.lk',
-    phone: '0771234567',
-    faculty: 'Information Technology',
-    year: '3rd Year'
-  });
 
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [orderMessage, setOrderMessage] = useState('');
@@ -74,6 +78,10 @@ function App() {
   const [currentOrder, setCurrentOrder] = useState(null);
 
   useEffect(() => {
+    if (!token) {
+      navigate('/');
+      return;
+    }
     fetch('http://localhost:5000/api/food/health')
       .then(async (res) => {
         if (!res.ok) throw new Error('Backend error');
@@ -131,24 +139,26 @@ function App() {
     [cart]
   );
 
+  const getItemKey = (item) => item._id || item.id;
   const addToCart = (food) => {
     setCart((prev) => {
-      const existing = prev.find((i) => i.id === food.id);
+      const key = getItemKey(food);
+      const existing = prev.find((i) => getItemKey(i) === key);
       if (existing) {
         return prev.map((i) =>
-          i.id === food.id ? { ...i, quantity: i.quantity + 1 } : i
+          getItemKey(i) === key ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
       return [...prev, { ...food, quantity: 1 }];
     });
   };
 
-  const updateQuantity = (id, quantity) => {
+  const updateQuantity = (itemKey, quantity) => {
     if (quantity <= 0) {
-      setCart((prev) => prev.filter((i) => i.id !== id));
+      setCart((prev) => prev.filter((i) => getItemKey(i) !== itemKey));
     } else {
       setCart((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity } : i))
+        prev.map((i) => (getItemKey(i) === itemKey ? { ...i, quantity } : i))
       );
     }
   };
@@ -177,7 +187,7 @@ function App() {
         hostelRoom: studentDetails.hostelRoom,
         mealTime,
         items: cart.map((c) => ({
-          foodItemId: c.id,
+          foodItemId: c._id || c.id,
           quantity: c.quantity,
         })),
       };
@@ -185,7 +195,10 @@ function App() {
       if (backendStatus.includes('Connected')) {
         const res = await fetch('http://localhost:5000/api/food/order', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
           body: JSON.stringify(body),
         });
 
@@ -396,7 +409,7 @@ function App() {
                 <>
                   <div className="cart-items">
                     {cart.map((item) => (
-                      <div key={item.id} className="cart-item">
+                      <div key={getItemKey(item)} className="cart-item">
                         <div className="cart-item-info">
                           <span className="cart-item-name">{item.name}</span>
                           <span className="cart-item-price">Rs. {item.price}</span>
@@ -407,12 +420,12 @@ function App() {
                             min="1"
                             max="10"
                             value={item.quantity}
-                            onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 1)}
+                            onChange={(e) => updateQuantity(getItemKey(item), parseInt(e.target.value) || 1)}
                             className="quantity-input"
                           />
                           <button
                             className="remove-btn"
-                            onClick={() => updateQuantity(item.id, 0)}
+                            onClick={() => updateQuantity(getItemKey(item), 0)}
                           >
                             ✕
                           </button>
@@ -474,7 +487,7 @@ function App() {
                   <p><strong>Meal Time:</strong> {MEAL_TIMES.find(m => m.id === mealTime)?.label}</p>
                   <div className="confirm-items">
                     {cart.map(item => (
-                      <div key={item.id} className="confirm-item">
+                      <div key={getItemKey(item)} className="confirm-item">
                         <span>{item.name} x{item.quantity}</span>
                         <span>Rs. {item.price * item.quantity}</span>
                       </div>
