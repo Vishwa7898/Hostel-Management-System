@@ -7,7 +7,7 @@ import PaymentForm from '../components/PaymentForm';
 import '../index.css';
 
 const API_BASE = 'http://localhost:5000';
-const stripePromise = loadStripe('pk_test_your_stripe_publishable_key');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder');
 
 function FoodImage({ imageUrl }) {
   if (!imageUrl) return <span className="text-5xl">🍽️</span>;
@@ -78,6 +78,7 @@ function App() {
 
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [orderMessage, setOrderMessage] = useState('');
+  const [confirmError, setConfirmError] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -177,8 +178,9 @@ function App() {
       setOrderMessage('Please add items to your cart');
       return;
     }
-    setShowConfirmation(true);
+    setConfirmError('');
     setOrderMessage('');
+    setShowConfirmation(true);
   };
 
   const handleCancelConfirmation = () => {
@@ -187,6 +189,7 @@ function App() {
 
   const handleConfirmOrder = async () => {
     setOrderSubmitting(true);
+    setConfirmError('');
     
     try {
       const body = {
@@ -210,18 +213,18 @@ function App() {
           body: JSON.stringify(body),
         });
 
+        const data = await res.json().catch(() => ({}));
+
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
           throw new Error(data.message || 'Failed to place order');
         }
 
-        const data = await res.json();
         setCurrentOrder(data.order);
         setShowConfirmation(false);
         setShowPayment(true);
       } else {
         const demoOrder = {
-          _id: 'ORD' + Math.floor(Math.random() * 10000),
+          _id: 'demo_' + Date.now(),
           ...body,
           totalAmount,
         };
@@ -230,7 +233,7 @@ function App() {
         setShowPayment(true);
       }
     } catch (err) {
-      setOrderMessage(`❌ ${err.message}`);
+      setConfirmError(err.message || 'Something went wrong. Please try again.');
     } finally {
       setOrderSubmitting(false);
     }
@@ -266,7 +269,7 @@ function App() {
         {/* Sidebar */}
         <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
           <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800">
-            <div className="w-8 h-8 bg-orange-500 rounded flex justify-center items-center text-white">
+            <div className="w-8 h-8 bg-emerald-500 rounded flex justify-center items-center text-white">
               <Home size={18} />
             </div>
             <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
@@ -280,7 +283,7 @@ function App() {
               <User size={20} />
               <span>Profile</span>
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium">
+            <div className="flex items-center space-x-3 px-4 py-3 bg-emerald-50 text-black rounded-lg font-medium">
               <UtensilsCrossed size={20} />
               <span>Food Order</span>
             </div>
@@ -300,14 +303,14 @@ function App() {
         <div className="flex-1 flex flex-col min-w-0">
           <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center z-0">
             <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">
-              Food Order <span className="text-orange-500">Menu</span>
+              Food Order <span className="text-emerald-600">Menu</span>
             </h1>
             <div className="flex items-center gap-4 ml-auto">
               <div className="flex flex-col text-right">
                 <span className="font-bold text-sm text-slate-800 leading-none">{studentDetails.name}</span>
                 <span className="text-xs text-slate-500">{studentDetails.regNumber} · {studentDetails.hostelRoom}</span>
               </div>
-              <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg">
+              <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-lg">
                 {studentDetails.name ? studentDetails.name.charAt(0).toUpperCase() : 'S'}
               </div>
             </div>
@@ -320,8 +323,8 @@ function App() {
               <button
                 key={m.id}
                 className={`flex items-center gap-3 px-5 py-3 rounded-xl font-medium transition-all ${m.id === mealTime
-                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-200'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:border-orange-300 hover:bg-orange-50'}`}
+                  ? 'bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg shadow-emerald-200'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-300 hover:bg-emerald-50'}`}
                 onClick={() => setMealTime(m.id)}
               >
                 <span className="text-2xl">{m.icon}</span>
@@ -345,14 +348,14 @@ function App() {
                     placeholder="Search items..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="px-4 py-2 border border-slate-200 rounded-lg focus:border-orange-500 outline-none w-full sm:w-48"
+                    className="px-4 py-2 border border-slate-200 rounded-lg focus:border-emerald-500 outline-none w-full sm:w-48"
                   />
                   <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
                     <input
                       type="checkbox"
                       checked={filterVegetarian}
                       onChange={(e) => setFilterVegetarian(e.target.checked)}
-                      className="rounded text-orange-500"
+                      className="rounded text-emerald-500"
                     />
                     <span>🌱 Vegetarian</span>
                   </label>
@@ -361,7 +364,7 @@ function App() {
 
               {menuLoading && (
                 <div className="flex flex-col items-center justify-center py-16">
-                  <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin" />
+                  <div className="w-12 h-12 border-4 border-emerald-200 border-t-emerald-500 rounded-full animate-spin" />
                   <p className="mt-4 text-slate-600">Loading menu...</p>
                 </div>
               )}
@@ -379,7 +382,7 @@ function App() {
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {!menuLoading && filteredMenu.map((item) => (
                   <div key={item.id || item._id} className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                    <div className="relative h-40 bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center overflow-hidden">
+                    <div className="relative h-40 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center overflow-hidden">
                       <FoodImage imageUrl={item.imageUrl} />
                       {item.isVegetarian && (
                         <span className="absolute top-2 right-2 px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">🌱 Veg</span>
@@ -389,10 +392,10 @@ function App() {
                       <h3 className="font-bold text-slate-800 text-lg mb-1">{item.name}</h3>
                       <p className="text-slate-500 text-sm mb-4 line-clamp-2">{item.description || 'Delicious meal'}</p>
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-orange-600">Rs. {item.price}</span>
+                        <span className="font-bold text-emerald-600">Rs. {item.price}</span>
                         <button
                           onClick={() => addToCart(item)}
-                          className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors"
+                          className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-lg transition-colors"
                         >
                           Add to Cart
                         </button>
@@ -407,7 +410,7 @@ function App() {
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 h-fit sticky top-24">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-lg font-bold text-slate-800 font-outfit">Your Order</h2>
-                <span className="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-semibold rounded-full">{totalItems} items</span>
+                <span className="px-3 py-1 bg-emerald-100 text-emerald-600 text-sm font-semibold rounded-full">{totalItems} items</span>
               </div>
 
               {cart.length === 0 ? (
@@ -452,13 +455,13 @@ function App() {
                     </div>
                     <div className="flex justify-between font-bold text-slate-800 text-lg">
                       <span>Total</span>
-                      <span className="text-orange-600">Rs. {totalAmount}</span>
+                      <span className="text-emerald-600">Rs. {totalAmount}</span>
                     </div>
                   </div>
 
                   <button
                     onClick={handleProceedToConfirmation}
-                    className="w-full mt-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors"
+                    className="w-full mt-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors"
                   >
                     Proceed to Payment
                   </button>
@@ -477,46 +480,60 @@ function App() {
 
         {/* Confirmation Modal */}
         {showConfirmation && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <h2>📝 Confirm Your Order</h2>
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[1000] p-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-emerald-500 to-green-600 px-6 py-4">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">📝 Confirm Your Order</h2>
+              </div>
               
-              <div className="space-y-6">
-                <div className="confirm-section">
-                  <h3>Student Details</h3>
-                  <p><strong>Name:</strong> {studentDetails.name}</p>
-                  <p><strong>Reg Number:</strong> {studentDetails.regNumber}</p>
-                  <p><strong>Room:</strong> {studentDetails.hostelRoom}</p>
-                </div>
-
-                <div className="confirm-section">
-                  <h3>Order Summary</h3>
-                  <p><strong>Meal Time:</strong> {MEAL_TIMES.find(m => m.id === mealTime)?.label}</p>
-                  <div className="confirm-items">
-                    {cart.map(item => (
-                      <div key={getItemKey(item)} className="confirm-item">
-                        <span>{item.name} x{item.quantity}</span>
-                        <span>Rs. {item.price * item.quantity}</span>
-                      </div>
-                    ))}
+              <div className="p-6 space-y-6">
+                {confirmError && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium">
+                    ❌ {confirmError}
                   </div>
-                  <div className="confirm-total">
-                    <strong>Total Amount:</strong>
-                    <strong className="text-orange-500">Rs. {totalAmount}</strong>
+                )}
+
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Student Details</h3>
+                  <div className="bg-slate-50 rounded-xl p-4 space-y-2">
+                    <p className="text-slate-700"><span className="font-semibold text-slate-600">Name:</span> {studentDetails.name}</p>
+                    <p className="text-slate-700"><span className="font-semibold text-slate-600">Reg Number:</span> {studentDetails.regNumber}</p>
+                    <p className="text-slate-700"><span className="font-semibold text-slate-600">Room:</span> {studentDetails.hostelRoom}</p>
                   </div>
                 </div>
 
-                <div className="confirm-actions">
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Order Summary</h3>
+                  <div className="bg-slate-50 rounded-xl p-4 space-y-3">
+                    <p className="text-slate-700"><span className="font-semibold text-slate-600">Meal Time:</span> {MEAL_TIMES.find(m => m.id === mealTime)?.label}</p>
+                    <div className="border-t border-slate-200 pt-3 space-y-2">
+                      {cart.map(item => (
+                        <div key={getItemKey(item)} className="flex justify-between text-slate-700">
+                          <span>{item.name} x{item.quantity}</span>
+                          <span className="font-medium">Rs. {item.price * item.quantity}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-between items-center pt-3 border-t-2 border-emerald-200 font-bold text-slate-800">
+                      <span>Total Amount</span>
+                      <span className="text-emerald-600 text-lg">Rs. {totalAmount}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
                   <button 
-                    className="btn-secondary"
                     onClick={handleCancelConfirmation}
+                    type="button"
+                    className="flex-1 px-4 py-3 border-2 border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all"
                   >
                     Cancel
                   </button>
                   <button 
-                    className="btn-primary"
                     onClick={handleConfirmOrder}
+                    type="button"
                     disabled={orderSubmitting}
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold rounded-xl hover:from-emerald-600 hover:to-green-700 shadow-lg shadow-emerald-200 hover:shadow-emerald-300 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {orderSubmitting ? 'Processing...' : 'Proceed to Payment'}
                   </button>
@@ -538,32 +555,43 @@ function App() {
 
         {/* Order Success Modal */}
         {orderDetails && (
-          <div className="modal-overlay">
-            <div className="modal success-modal">
-              <div className="success-icon">✅</div>
-              <h2>Payment Successful!</h2>
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[1000] p-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+              <div className="bg-gradient-to-r from-emerald-500 to-green-600 px-6 py-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center text-4xl backdrop-blur-sm">
+                  ✓
+                </div>
+                <h2 className="text-2xl font-bold text-white">Payment Successful!</h2>
+                <p className="text-emerald-100 text-sm mt-1">Your order has been confirmed</p>
+              </div>
               
-              <div className="order-details">
-                <p><strong>Order ID:</strong> #{orderDetails.id}</p>
-                <p><strong>Student:</strong> {orderDetails.name}</p>
-                <p><strong>Room:</strong> {orderDetails.hostelRoom}</p>
-                <p><strong>Meal Time:</strong> {MEAL_TIMES.find(m => m.id === orderDetails.mealTime)?.label}</p>
-                <p><strong>Total Amount:</strong> Rs. {orderDetails.totalAmount}</p>
-                <p><strong>Order Time:</strong> {orderDetails.orderDate}</p>
-                <p><strong>Estimated Ready:</strong> {orderDetails.estimatedTime}</p>
-                <p><strong>Payment Status:</strong> <span className="text-green-600">Paid ✓</span></p>
-              </div>
+              <div className="p-6 space-y-4">
+                <div className="bg-slate-50 rounded-xl p-4 space-y-2.5 text-slate-700">
+                  <div className="flex justify-between"><span className="font-semibold text-slate-600">Order ID</span><span className="font-mono text-sm">#{String(orderDetails.id).slice(-8)}</span></div>
+                  <div className="flex justify-between"><span className="font-semibold text-slate-600">Student</span><span>{orderDetails.name}</span></div>
+                  <div className="flex justify-between"><span className="font-semibold text-slate-600">Room</span><span>{orderDetails.hostelRoom}</span></div>
+                  <div className="flex justify-between"><span className="font-semibold text-slate-600">Meal Time</span><span>{MEAL_TIMES.find(m => m.id === orderDetails.mealTime)?.label}</span></div>
+                  <div className="flex justify-between pt-2 border-t border-slate-200"><span className="font-semibold text-slate-600">Total Amount</span><span className="font-bold text-emerald-600">Rs. {orderDetails.totalAmount}</span></div>
+                  <div className="flex justify-between"><span className="font-semibold text-slate-600">Order Time</span><span className="text-sm">{orderDetails.orderDate}</span></div>
+                  <div className="flex justify-between"><span className="font-semibold text-slate-600">Estimated Ready</span><span>{orderDetails.estimatedTime}</span></div>
+                  <div className="flex justify-between pt-2 border-t border-slate-200">
+                    <span className="font-semibold text-slate-600">Payment Status</span>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-100 text-emerald-700 font-semibold rounded-full text-sm">Paid ✓</span>
+                  </div>
+                </div>
 
-              <div className="payment-note">
-                <p>🍽️ Show this confirmation at the counter to collect your food</p>
-              </div>
+                <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                  <span className="text-2xl">🍽️</span>
+                  <p className="text-sm text-amber-800 font-medium">Show this confirmation at the counter to collect your food</p>
+                </div>
 
-              <button 
-                className="btn-primary w-full"
-                onClick={() => setOrderDetails(null)}
-              >
-                Close
-              </button>
+                <button 
+                  onClick={() => setOrderDetails(null)}
+                  className="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold rounded-xl hover:from-emerald-600 hover:to-green-700 shadow-lg shadow-emerald-200 transition-all mt-2"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         )}

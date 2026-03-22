@@ -26,6 +26,7 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,13 +37,15 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
       return;
     }
 
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+
     try {
-      // 1. Backend එකෙන් payment intent එක create කරගන්න
       const response = await fetch('http://localhost:5000/api/payment/create-payment-intent', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({ orderId }),
       });
 
@@ -52,17 +55,13 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
         throw new Error(data.message || 'Failed to create payment');
       }
 
-      // 2. Stripe එකට payment confirm කරන්න
       const cardElement = elements.getElement(CardElement);
-      
       const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
         data.clientSecret,
         {
           payment_method: {
             card: cardElement,
-            billing_details: {
-              // Student details auto-filled from order
-            },
+            billing_details: {},
           },
         }
       );
@@ -70,13 +69,10 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
       if (stripeError) {
         setError(stripeError.message);
         setLoading(false);
-      } else if (paymentIntent.status === 'succeeded') {
-        // 3. Backend එකට payment success එක confirm කරන්න
+      } else if (paymentIntent?.status === 'succeeded') {
         const confirmResponse = await fetch('http://localhost:5000/api/payment/confirm-payment', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers,
           body: JSON.stringify({
             paymentIntentId: paymentIntent.id,
             orderId: orderId,
@@ -85,10 +81,14 @@ const PaymentForm = ({ orderId, totalAmount, onPaymentSuccess, onClose }) => {
 
         if (confirmResponse.ok) {
           onPaymentSuccess();
+        } else {
+          const errData = await confirmResponse.json().catch(() => ({}));
+          setError(errData.message || 'Payment confirmed but update failed');
         }
       }
     } catch (err) {
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
