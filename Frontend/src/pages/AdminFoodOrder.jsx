@@ -5,7 +5,18 @@ import {
   UtensilsCrossed, Plus, Pencil, Trash2
 } from 'lucide-react';
 
+const API_BASE = 'http://localhost:5000';
 const MEAL_LABELS = { breakfast: '🌅 Breakfast', lunch: '☀️ Lunch', dinner: '🌙 Dinner', tea: '🍵 Tea' };
+
+function FoodIcon({ imageUrl }) {
+  if (!imageUrl) return <span className="text-2xl">🍽️</span>;
+  if (imageUrl.startsWith('/')) {
+    return (
+      <img src={`${API_BASE}${imageUrl}`} alt="" className="w-10 h-10 rounded-lg object-cover" />
+    );
+  }
+  return <span className="text-2xl">{imageUrl}</span>;
+}
 const STATUS_COLORS = {
   pending: 'bg-amber-100 text-amber-700',
   confirmed: 'bg-blue-100 text-blue-700',
@@ -23,7 +34,8 @@ export default function AdminFoodOrder() {
   const [filterDate, setFilterDate] = useState('');
   const [showItemModal, setShowItemModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
-  const [formData, setFormData] = useState({ name: '', description: '', price: '', mealTime: 'breakfast', imageUrl: '🍽️', isVegetarian: false });
+  const [formData, setFormData] = useState({ name: '', description: '', price: '', mealTime: 'breakfast', imageUrl: '', isVegetarian: false });
+  const [imageFile, setImageFile] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -84,7 +96,8 @@ export default function AdminFoodOrder() {
 
   const openAddItem = () => {
     setEditingItem(null);
-    setFormData({ name: '', description: '', price: '', mealTime: 'breakfast', imageUrl: '🍽️', isVegetarian: false });
+    setFormData({ name: '', description: '', price: '', mealTime: 'breakfast', imageUrl: '', isVegetarian: false });
+    setImageFile(null);
     setShowItemModal(true);
   };
 
@@ -95,9 +108,10 @@ export default function AdminFoodOrder() {
       description: item.description || '',
       price: item.price,
       mealTime: item.mealTime,
-      imageUrl: item.imageUrl || '🍽️',
+      imageUrl: item.imageUrl || '',
       isVegetarian: !!item.isVegetarian,
     });
+    setImageFile(null);
     setShowItemModal(true);
   };
 
@@ -108,13 +122,30 @@ export default function AdminFoodOrder() {
         ? `http://localhost:5000/api/food/items/${editingItem._id}`
         : 'http://localhost:5000/api/food/items';
       const method = editingItem ? 'PUT' : 'POST';
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(formData),
-      });
+
+      let body;
+      let headers = { Authorization: `Bearer ${token}` };
+      if (imageFile) {
+        const fd = new FormData();
+        fd.append('name', formData.name);
+        fd.append('description', formData.description);
+        fd.append('price', formData.price);
+        fd.append('mealTime', formData.mealTime);
+        fd.append('isVegetarian', formData.isVegetarian);
+        fd.append('image', imageFile);
+        body = fd;
+      } else {
+        headers['Content-Type'] = 'application/json';
+        body = JSON.stringify({
+          ...formData,
+          imageUrl: formData.imageUrl || '🍽️',
+        });
+      }
+
+      const res = await fetch(url, { method, headers, body });
       if (res.ok) {
         setShowItemModal(false);
+        setImageFile(null);
         fetchItems();
       }
     } catch (err) {
@@ -359,7 +390,7 @@ export default function AdminFoodOrder() {
                       <tbody>
                         {items.map((item) => (
                           <tr key={item._id} className="hover:bg-slate-50 border-b last:border-0">
-                            <td className="p-4 text-2xl">{item.imageUrl || '🍽️'}</td>
+                            <td className="p-4"><FoodIcon imageUrl={item.imageUrl} /></td>
                             <td className="p-4 font-medium">{item.name}</td>
                             <td className="p-4">{MEAL_LABELS[item.mealTime] || item.mealTime}</td>
                             <td className="p-4 font-semibold">Rs. {item.price}</td>
@@ -440,14 +471,31 @@ export default function AdminFoodOrder() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Icon (emoji)</label>
-                <input
-                  type="text"
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value || '🍽️' })}
-                  className="w-full border border-slate-300 rounded px-3 py-2 outline-none focus:border-orange-500"
-                  placeholder="🍽️"
-                />
+                <label className="block text-sm font-medium text-slate-600 mb-1">Food Image</label>
+                <div className="flex items-center gap-3">
+                  <div className="w-16 h-16 rounded-lg border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center">
+                    {imageFile ? (
+                      <img src={URL.createObjectURL(imageFile)} alt="" className="w-full h-full object-cover" />
+                    ) : formData.imageUrl?.startsWith('/') ? (
+                      <img src={`${API_BASE}${formData.imageUrl}`} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-3xl">{formData.imageUrl || '🍽️'}</span>
+                    )}
+                  </div>
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        setImageFile(f || null);
+                        if (!f) setFormData({ ...formData, imageUrl: formData.imageUrl });
+                      }}
+                      className="text-sm text-slate-600 file:mr-2 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-orange-50 file:text-orange-600 file:font-medium hover:file:bg-orange-100"
+                    />
+                    <p className="text-xs text-slate-500 mt-1">Upload image or leave empty for default icon</p>
+                  </div>
+                </div>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input

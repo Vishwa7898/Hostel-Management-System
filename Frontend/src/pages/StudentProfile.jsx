@@ -186,7 +186,7 @@ export default function StudentProfile() {
               <MessageSquare size={20} />
               <span>Complaints</span>
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <CreditCard size={20} />
               <span>Payments</span>
             </div>

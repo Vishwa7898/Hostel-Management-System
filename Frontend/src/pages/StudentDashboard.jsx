@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, CheckCircle, Clock, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed } from 'lucide-react';
+import { LogOut, LayoutDashboard, ChevronDown, CheckCircle, Clock, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, ArrowRight } from 'lucide-react';
+
+const MEAL_LABELS = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', tea: 'Tea' };
 
 export default function StudentDashboard() {
   const [records, setRecords] = useState([]);
+  const [myOrders, setMyOrders] = useState([]);
   const [status, setStatus] = useState('Inside');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [checkOutTime, setCheckOutTime] = useState('');
@@ -21,7 +24,20 @@ export default function StudentDashboard() {
     if (!token) return navigate('/');
     if (['Admin', 'Warden', 'Accountant'].includes(user.role)) return navigate('/admin-dashboard');
     fetchAttendance();
+    fetchMyOrders();
   }, []);
+
+  const fetchMyOrders = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/food/orders/my', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      setMyOrders(Array.isArray(data) ? data.slice(0, 5) : []);
+    } catch {
+      setMyOrders([]);
+    }
+  };
 
   useEffect(() => {
     if (status === 'Inside') {
@@ -157,7 +173,7 @@ export default function StudentDashboard() {
               <MessageSquare size={20} />
               <span>Complaints</span>
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <CreditCard size={20} />
               <span>Payments</span>
             </div>
@@ -330,6 +346,67 @@ export default function StudentDashboard() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            </div>
+
+            {/* My Recent Orders */}
+            <div className="mt-8 col-span-full">
+              <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-xl font-bold text-slate-800 font-outfit">My Recent Food Orders</h3>
+                  <button
+                    onClick={() => navigate('/student-food-order')}
+                    className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors"
+                  >
+                    Order Food <ArrowRight size={18} />
+                  </button>
+                </div>
+                {myOrders.length === 0 ? (
+                  <div className="text-center py-8 text-slate-500">
+                    <UtensilsCrossed size={40} className="mx-auto mb-2 opacity-50" />
+                    <p>No orders yet. Order your next meal!</p>
+                    <button onClick={() => navigate('/student-food-order')} className="mt-3 text-orange-500 font-medium hover:underline">Go to Food Order</button>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="text-slate-500 border-b border-slate-100 font-medium">
+                          <th className="pb-3 px-2">Date</th>
+                          <th className="pb-3 px-2">Meal</th>
+                          <th className="pb-3 px-2">Items</th>
+                          <th className="pb-3 px-2">Amount</th>
+                          <th className="pb-3 px-2">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {myOrders.map((o) => (
+                          <tr key={o._id} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                            <td className="py-4 px-2 text-slate-700 font-medium">
+                              {o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '-'}
+                            </td>
+                            <td className="py-4 px-2">{MEAL_LABELS[o.mealTime] || o.mealTime}</td>
+                            <td className="py-4 px-2 text-sm">
+                              {o.items?.map((i, idx) => (
+                                <span key={idx}>{i.foodItem?.name || 'Item'} x{i.quantity}{idx < (o.items?.length || 0) - 1 ? ', ' : ''}</span>
+                              ))}
+                            </td>
+                            <td className="py-4 px-2 font-semibold">Rs. {o.totalAmount}</td>
+                            <td className="py-4 px-2">
+                              <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${
+                                o.status === 'served' ? 'bg-emerald-100 text-emerald-700' :
+                                o.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :
+                                o.status === 'cancelled' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                              }`}>
+                                {o.status || 'pending'}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
 

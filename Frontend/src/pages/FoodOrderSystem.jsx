@@ -2,11 +2,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { Home, LogOut, LayoutDashboard, User, UtensilsCrossed, CreditCard } from 'lucide-react';
 import PaymentForm from '../components/PaymentForm';
 import '../index.css';
 
-// Initialize Stripe
+const API_BASE = 'http://localhost:5000';
 const stripePromise = loadStripe('pk_test_your_stripe_publishable_key');
+
+function FoodImage({ imageUrl }) {
+  if (!imageUrl) return <span className="text-5xl">🍽️</span>;
+  if (imageUrl.startsWith('/'))
+    return <img src={`${API_BASE}${imageUrl}`} alt="" className="w-full h-full object-cover" />;
+  return <span className="text-5xl">{imageUrl}</span>;
+}
 
 const MEAL_TIMES = [
   { id: 'breakfast', label: '🌅 Breakfast', icon: '🍳', time: '7:00 AM - 9:00 AM' },
@@ -247,78 +255,80 @@ function App() {
     setShowPayment(false);
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
+
   return (
     <Elements stripe={stripePromise}>
-      <div className="min-h-screen bg-gray-50">
-        {/* Header */}
-        <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sticky top-0 z-50 shadow-lg">
-          <div className="container-custom flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold">🏛️ University Hostel</h1>
-              <p className="text-sm opacity-90">Food Ordering System</p>
+      <div className="min-h-screen flex bg-slate-50 font-sans">
+        {/* Sidebar */}
+        <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
+          <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800">
+            <div className="w-8 h-8 bg-orange-500 rounded flex justify-center items-center text-white">
+              <Home size={18} />
             </div>
-            <div className="flex items-center gap-4 bg-white/20 px-4 sm:px-6 py-2 rounded-full backdrop-blur">
-              <span className="text-2xl sm:text-3xl">👨‍🎓</span>
-              <div className="flex flex-col">
-                <span className="font-semibold text-sm sm:text-base">{studentDetails.name}</span>
-                <span className="text-xs opacity-90">{studentDetails.regNumber}</span>
-              </div>
+            <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
+          </div>
+          <div className="flex-1 space-y-2">
+            <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+              <LayoutDashboard size={20} />
+              <span>Dashboard</span>
+            </div>
+            <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+              <User size={20} />
+              <span>Profile</span>
+            </div>
+            <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium">
+              <UtensilsCrossed size={20} />
+              <span>Food Order</span>
+            </div>
+            <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+              <CreditCard size={20} />
+              <span>Payments</span>
             </div>
           </div>
-        </header>
-
-        <main className="container-custom py-8">
-          {/* Status Bar */}
-          <div className={`status-bar ${backendStatus.includes('demo') ? 'demo' : 'success'}`}>
-            <span className="text-xl">{backendStatus.includes('Connected') ? '🟢' : '🟡'}</span>
-            <span className="text-sm sm:text-base">{backendStatus}</span>
-          </div>
-
-          {/* Student Card */}
-          <div className="student-card">
-            <div className="student-card-header">
-              <h2>📋 Student Information</h2>
-              <span className="badge">Auto-filled</span>
-            </div>
-            <div className="student-details-grid">
-              <div className="detail-item">
-                <label>Registration Number</label>
-                <p>{studentDetails.regNumber}</p>
-              </div>
-              <div className="detail-item">
-                <label>Full Name</label>
-                <p>{studentDetails.name}</p>
-              </div>
-              <div className="detail-item">
-                <label>Hostel Room</label>
-                <p>{studentDetails.hostelRoom}</p>
-              </div>
-              <div className="detail-item">
-                <label>Faculty</label>
-                <p>{studentDetails.faculty}</p>
-              </div>
-              <div className="detail-item">
-                <label>Email</label>
-                <p>{studentDetails.email}</p>
-              </div>
-              <div className="detail-item">
-                <label>Phone</label>
-                <p>{studentDetails.phone}</p>
-              </div>
+          <div className="mt-8 border-t border-slate-100 pt-4">
+            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
+              <LogOut size={20} />
+              <span>Logout</span>
             </div>
           </div>
+        </div>
 
+        <div className="flex-1 flex flex-col min-w-0">
+          <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center z-0">
+            <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">
+              Food Order <span className="text-orange-500">Menu</span>
+            </h1>
+            <div className="flex items-center gap-4 ml-auto">
+              <div className="flex flex-col text-right">
+                <span className="font-bold text-sm text-slate-800 leading-none">{studentDetails.name}</span>
+                <span className="text-xs text-slate-500">{studentDetails.regNumber} · {studentDetails.hostelRoom}</span>
+              </div>
+              <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg">
+                {studentDetails.name ? studentDetails.name.charAt(0).toUpperCase() : 'S'}
+              </div>
+            </div>
+          </header>
+
+        <main className="flex-1 p-6 md:p-8 overflow-y-auto">
           {/* Meal Selector */}
-          <div className="meal-selector">
+          <div className="flex flex-wrap gap-3 mb-6">
             {MEAL_TIMES.map((m) => (
               <button
                 key={m.id}
-                className={`meal-chip ${m.id === mealTime ? 'active' : ''}`}
+                className={`flex items-center gap-3 px-5 py-3 rounded-xl font-medium transition-all ${m.id === mealTime
+                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-200'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:border-orange-300 hover:bg-orange-50'}`}
                 onClick={() => setMealTime(m.id)}
               >
-                <span className="meal-icon">{m.icon}</span>
-                <span className="meal-label">{m.label}</span>
-                <span className="meal-time">{m.time}</span>
+                <span className="text-2xl">{m.icon}</span>
+                <div className="text-left">
+                  <span className="block font-semibold">{m.label}</span>
+                  <span className="text-xs opacity-80">{m.time}</span>
+                </div>
               </button>
             ))}
           </div>
@@ -326,62 +336,63 @@ function App() {
           {/* Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8">
             {/* Menu Section */}
-            <div className="menu-section">
-              <div className="menu-header">
-                <h2>🍽️ Today's Menu - {MEAL_TIMES.find(m => m.id === mealTime)?.label}</h2>
-                <div className="menu-filters">
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <h2 className="text-xl font-bold text-slate-800 font-outfit">Today's Menu — {MEAL_TIMES.find(m => m.id === mealTime)?.label}</h2>
+                <div className="flex items-center gap-4">
                   <input
                     type="text"
-                    placeholder="🔍 Search items..."
-                    className="search-input"
+                    placeholder="Search items..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="px-4 py-2 border border-slate-200 rounded-lg focus:border-orange-500 outline-none w-full sm:w-48"
                   />
-                  <label className="veg-filter">
+                  <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
                     <input
                       type="checkbox"
                       checked={filterVegetarian}
                       onChange={(e) => setFilterVegetarian(e.target.checked)}
-                      className="rounded text-blue-500"
+                      className="rounded text-orange-500"
                     />
-                    <span>🌱 Vegetarian only</span>
+                    <span>🌱 Vegetarian</span>
                   </label>
                 </div>
               </div>
 
               {menuLoading && (
-                <div className="loading">
-                  <div className="loader"></div>
-                  <p className="text-gray-600">Loading delicious food...</p>
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin" />
+                  <p className="mt-4 text-slate-600">Loading menu...</p>
                 </div>
               )}
 
-              {menuError && <p className="text-red-500 text-center">{menuError}</p>}
+              {menuError && <p className="text-amber-600 text-center py-2">{menuError}</p>}
 
               {!menuLoading && !menuError && filteredMenu.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-gray-800 text-lg mb-2">🍽️ No items found</p>
-                  <span className="text-gray-500 text-sm">Try adjusting your filters</span>
+                <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
+                  <span className="text-6xl block mb-4">🍽️</span>
+                  <p className="text-slate-700 font-medium">No items found</p>
+                  <span className="text-slate-500 text-sm">Try adjusting your filters</span>
                 </div>
               )}
 
-              <div className="menu-grid">
-                {filteredMenu.map((item) => (
-                  <div key={item.id || item._id} className="food-card">
-                    <div className="food-image">
-                      <span className="food-emoji">{item.imageUrl}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {!menuLoading && filteredMenu.map((item) => (
+                  <div key={item.id || item._id} className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                    <div className="relative h-40 bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center overflow-hidden">
+                      <FoodImage imageUrl={item.imageUrl} />
                       {item.isVegetarian && (
-                        <span className="veg-badge" title="Vegetarian">🌱</span>
+                        <span className="absolute top-2 right-2 px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">🌱 Veg</span>
                       )}
                     </div>
-                    <div className="food-details">
-                      <h3>{item.name}</h3>
-                      <p className="food-description">{item.description}</p>
-                      <div className="food-footer">
-                        <span className="food-price">Rs. {item.price}</span>
-                        <button 
-                          className="add-btn"
+                    <div className="p-4">
+                      <h3 className="font-bold text-slate-800 text-lg mb-1">{item.name}</h3>
+                      <p className="text-slate-500 text-sm mb-4 line-clamp-2">{item.description || 'Delicious meal'}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-orange-600">Rs. {item.price}</span>
+                        <button
                           onClick={() => addToCart(item)}
+                          className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors"
                         >
                           Add to Cart
                         </button>
@@ -393,39 +404,39 @@ function App() {
             </div>
 
             {/* Cart Section */}
-            <div className="cart-section">
-              <div className="cart-header">
-                <h2>🛒 Your Order</h2>
-                <span className="cart-count">{totalItems} items</span>
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 h-fit sticky top-24">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-lg font-bold text-slate-800 font-outfit">Your Order</h2>
+                <span className="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-semibold rounded-full">{totalItems} items</span>
               </div>
 
               {cart.length === 0 ? (
-                <div className="empty-cart">
-                  <span className="empty-cart-icon">🛍️</span>
-                  <p className="text-gray-500 mb-2">Your cart is empty</p>
-                  <small className="text-gray-400">Add items from the menu</small>
+                <div className="text-center py-12">
+                  <span className="text-5xl block mb-3">🛒</span>
+                  <p className="text-slate-500 font-medium">Your cart is empty</p>
+                  <small className="text-slate-400 text-sm">Add items from the menu</small>
                 </div>
               ) : (
                 <>
-                  <div className="cart-items">
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
                     {cart.map((item) => (
-                      <div key={getItemKey(item)} className="cart-item">
-                        <div className="cart-item-info">
-                          <span className="cart-item-name">{item.name}</span>
-                          <span className="cart-item-price">Rs. {item.price}</span>
+                      <div key={getItemKey(item)} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                        <div>
+                          <span className="font-medium text-slate-800">{item.name}</span>
+                          <span className="block text-sm text-slate-500">Rs. {item.price} each</span>
                         </div>
-                        <div className="cart-item-controls">
+                        <div className="flex items-center gap-2">
                           <input
                             type="number"
                             min="1"
                             max="10"
                             value={item.quantity}
                             onChange={(e) => updateQuantity(getItemKey(item), parseInt(e.target.value) || 1)}
-                            className="quantity-input"
+                            className="w-14 py-1 px-2 border border-slate-200 rounded text-center text-sm"
                           />
                           <button
-                            className="remove-btn"
                             onClick={() => updateQuantity(getItemKey(item), 0)}
+                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                           >
                             ✕
                           </button>
@@ -434,24 +445,20 @@ function App() {
                     ))}
                   </div>
 
-                  <div className="cart-summary">
-                    <div className="summary-row">
-                      <span>Subtotal:</span>
+                  <div className="mt-6 space-y-2 pt-4 border-t border-slate-100">
+                    <div className="flex justify-between text-slate-600">
+                      <span>Subtotal</span>
                       <span>Rs. {totalAmount}</span>
                     </div>
-                    <div className="summary-row">
-                      <span>Service Fee:</span>
-                      <span>Rs. 0</span>
-                    </div>
-                    <div className="summary-row total">
-                      <span>Total:</span>
-                      <span>Rs. {totalAmount}</span>
+                    <div className="flex justify-between font-bold text-slate-800 text-lg">
+                      <span>Total</span>
+                      <span className="text-orange-600">Rs. {totalAmount}</span>
                     </div>
                   </div>
 
-                  <button 
-                    className="checkout-btn"
+                  <button
                     onClick={handleProceedToConfirmation}
+                    className="w-full mt-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors"
                   >
                     Proceed to Payment
                   </button>
@@ -560,6 +567,7 @@ function App() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </Elements>
   );

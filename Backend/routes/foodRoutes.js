@@ -1,9 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const FoodItem = require('../models/FoodItem');
 const Order = require('../models/Order');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+
+const foodUploadDir = path.join(__dirname, '../uploads/food');
+if (!fs.existsSync(foodUploadDir)) fs.mkdirSync(foodUploadDir, { recursive: true });
+
+const foodStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/food/'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'))
+});
+const uploadFood = multer({ storage: foodStorage });
 
 const protect = async (req, res, next) => {
   let token;
@@ -83,6 +95,19 @@ router.post('/order', protect, async (req, res) => {
   }
 });
 
+// Student: Get my orders
+router.get('/orders/my', protect, async (req, res) => {
+  try {
+    const orders = await Order.find({ student: req.user._id })
+      .populate('items.foodItem', 'name price imageUrl')
+      .sort({ createdAt: -1 })
+      .limit(50);
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Admin: Get all orders
 router.get('/orders', protect, adminOnly, async (req, res) => {
   try {
@@ -135,20 +160,21 @@ router.get('/items', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Admin: Create food item
-router.post('/items', protect, adminOnly, async (req, res) => {
+// Admin: Create food item (supports multipart with image)
+router.post('/items', protect, adminOnly, uploadFood.single('image'), async (req, res) => {
   try {
-    const { name, description, price, mealTime, imageUrl, isVegetarian } = req.body;
+    const { name, description, price, mealTime, imageUrl, isVegetarian } = req.body || {};
     if (!name || !price || !mealTime) {
       return res.status(400).json({ message: 'Name, price and mealTime are required' });
     }
+    const imgUrl = req.file ? '/uploads/food/' + req.file.filename : (imageUrl || '🍽️');
     const item = await FoodItem.create({
       name,
       description: description || '',
-      price,
+      price: parseFloat(price),
       mealTime,
-      imageUrl: imageUrl || '🍽️',
-      isVegetarian: !!isVegetarian,
+      imageUrl: imgUrl,
+      isVegetarian: isVegetarian === 'true' || isVegetarian === true,
     });
     res.status(201).json(item);
   } catch (error) {
@@ -156,12 +182,22 @@ router.post('/items', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Admin: Update food item
-router.put('/items/:id', protect, adminOnly, async (req, res) => {
+// Admin: Update food item (supports multipart with image)
+router.put('/items/:id', protect, adminOnly, uploadFood.single('image'), async (req, res) => {
   try {
+    const { name, description, price, mealTime, imageUrl, isVegetarian } = req.body || {};
+    const updates = {};
+    if (name !== undefined) updates.name = name;
+    if (description !== undefined) updates.description = description;
+    if (price !== undefined) updates.price = parseFloat(price);
+    if (mealTime !== undefined) updates.mealTime = mealTime;
+    if (isVegetarian !== undefined) updates.isVegetarian = isVegetarian === 'true' || isVegetarian === true;
+    if (req.file) updates.imageUrl = '/uploads/food/' + req.file.filename;
+    else if (imageUrl !== undefined) updates.imageUrl = imageUrl;
+
     const item = await FoodItem.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: updates },
       { new: true }
     );
     if (!item) return res.status(404).json({ message: 'Food item not found' });
