@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, LayoutDashboard, Calendar, Home, CreditCard, MessageSquare, ChevronDown } from 'lucide-react';
 
 export default function StudentLogin() {
@@ -31,49 +31,20 @@ export default function StudentLogin() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-cyan-600 via-teal-400 to-green-300 font-sans">
-      {/* Sidebar (as per screenshot) */}
-      <div className="w-64 bg-white/95 text-slate-800 p-6 flex flex-col hidden md:flex rounded-r-3xl shadow-2xl z-10">
-        <div className="font-bold text-3xl text-teal-700 mb-10 tracking-tight">Stay<span className="text-teal-500">Sphere</span></div>
-        
-        <div className="flex-1 space-y-2">
-          <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-teal-800 rounded-lg cursor-pointer font-medium mb-4">
-            <span>Student View</span>
-            <ChevronDown size={18} />
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 rounded-lg cursor-pointer text-slate-600 transition-colors">
-            <LayoutDashboard size={20} />
-            <span>Dashboard</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 rounded-lg cursor-pointer text-slate-600 transition-colors">
-            <Calendar size={20} />
-            <span>Attendance</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 rounded-lg cursor-pointer text-slate-600 transition-colors">
-            <Home size={20} />
-            <span>Room Allocation</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 rounded-lg cursor-pointer text-slate-600 transition-colors">
-            <CreditCard size={20} />
-            <span>Payments</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 rounded-lg cursor-pointer text-slate-600 transition-colors">
-            <MessageSquare size={20} />
-            <span>Complaints</span>
-          </div>
-        </div>
+    <div className="min-h-screen flex hostel-bg-student font-sans">
 
-        <div className="text-sm text-slate-500 text-center mt-auto">
-          <p>© 2026 StaySphere |</p>
-          <p>MERN Stack</p>
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 relative">
-        <h1 className="text-4xl font-bold text-white mb-8 drop-shadow-md">Student Login</h1>
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-extrabold drop-shadow-lg mb-2 tracking-tight">
+            <span className="text-gray-200">Welcome to </span>
+            <span><span className="text-slate-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
+          </h1>
+          <p className="text-xl font-medium text-gray-200 drop-shadow-md tracking-wider uppercase">Hostel Management System</p>
+        </div>
         
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 transform transition-all hover:scale-[1.01]">
+        <div className="bg-white/80 backdrop-blur-lg border border-white/50 rounded-2xl shadow-2xl w-full max-w-md p-8 transform transition-all hover:scale-[1.01]">
           <h2 className="text-2xl font-bold text-center text-slate-800 mb-6">Student Login</h2>
           
           <form onSubmit={handleLogin} className="space-y-5">
@@ -129,10 +100,17 @@ export default function StudentLogin() {
               Login
             </button>
             
-            <div className="text-center mt-4">
-              <a href="#" className="text-sm font-medium text-teal-600 hover:text-teal-800 transition-colors">
-                Forgot Password?
-              </a>
+            <div className="text-center mt-4 space-y-2">
+              <div>
+                <Link to="/student-register" className="text-sm font-medium text-teal-600 hover:text-teal-800 transition-colors">
+                  Don't have an account? Create one
+                </Link>
+              </div>
+              <div>
+                <Link to="/admin-login" className="text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">
+                  Are you an Admin/Warden? Login here
+                </Link>
+              </div>
             </div>
           </form>
         </div>

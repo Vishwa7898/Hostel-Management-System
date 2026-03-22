@@ -469,3 +469,20 @@ h1, h2, h3, h4, h5, p {
   max-width: 550px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.25);
 }
+
+/* Custom Hostel Backgrounds */
+.hostel-bg-student {
+  background-image: linear-gradient(rgba(14, 180, 200, 0.15), rgba(39, 175, 108, 0.2)), url('./assets/hostel_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.hostel-bg-admin {
+  background-image: linear-gradient(rgba(242, 139, 36, 0.15), rgba(7, 100, 150, 0.2)), url('./assets/hostel_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

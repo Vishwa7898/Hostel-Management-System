@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Download, Users, Calendar } from 'lucide-react';
+import { LogOut, Download, Users, Calendar, FileText, LayoutDashboard, User, Home, MessageSquare, CreditCard, ChevronDown } from 'lucide-react';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 export default function AdminDashboard() {
   const [records, setRecords] = useState([]);
@@ -45,24 +47,109 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.setTextColor(236, 136, 36);
+    const title = dateFilter 
+      ? `Attendance Report - ${dateFilter}` 
+      : 'Complete Attendance Report';
+    doc.text(title, 14, 22);
+    
+    const tableColumn = ["Student ID", "Student Name", "Date", "Check Out", "Check In", "Status"];
+    const tableRows = [];
+    
+    records.forEach(record => {
+      const recordData = [
+        record.user?.studentId || 'N/A',
+        record.user?.name || 'N/A',
+        record.date,
+        record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-',
+        record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-',
+        record.status
+      ];
+      tableRows.push(recordData);
+    });
+    
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+      theme: 'grid',
+      styles: { fontSize: 10, cellPadding: 3 },
+      headStyles: { fillColor: [236, 136, 36], textColor: [255, 255, 255] },
+      alternateRowStyles: { fillColor: [248, 250, 252] }
+    });
+    
+    doc.save(`attendance_report${dateFilter ? '_' + dateFilter : ''}.pdf`);
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     navigate('/admin-login');
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans flex flex-col">
-      <header className="bg-orange-500 text-white p-4 shadow-md flex justify-between items-center">
-        <h1 className="text-xl font-bold tracking-tight">Stay<span className="text-orange-200">Sphere</span> Admin</h1>
-        <div className="flex items-center space-x-4">
-          <span className="font-medium">{user.name} ({user.role})</span>
-          <button onClick={handleLogout} className="flex items-center space-x-1 bg-orange-600 px-3 py-1 rounded hover:bg-orange-700 transition">
-            <LogOut size={16} /> <span>Logout</span>
-          </button>
+    <div className="min-h-screen flex bg-slate-50 font-sans">
+      {/* Sidebar */}
+      <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
+        <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800">
+          <div className="w-8 h-8 bg-orange-500 rounded flex justify-center items-center text-white">
+            <Home size={18} />
+          </div>
+          <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
         </div>
-      </header>
+        
+        <div className="flex-1 space-y-2">
+          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <LayoutDashboard size={20} />
+            <span>Dashboard</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <User size={20} />
+            <span>Profile</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Calendar size={20} />
+            <span>Attendance</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Home size={20} />
+            <span>Room Details</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <MessageSquare size={20} />
+            <span>Complaints</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <CreditCard size={20} />
+            <span>Payments</span>
+          </div>
+        </div>
+        <div className="mt-8 border-t border-slate-100 pt-4">
+          <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
+            <LogOut size={20} />
+            <span>Logout</span>
+          </div>
+        </div>
+      </div>
 
-      <main className="flex-1 p-8 max-w-6xl mx-auto w-full">
+      <div className="flex-1 flex flex-col min-w-0">
+        <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center z-0">
+          <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">Admin <span className="text-orange-500">Dashboard</span></h1>
+          <div className="flex items-center space-x-4 ml-auto">
+            <div className="hidden sm:flex flex-col text-right">
+              <span className="font-bold text-sm text-slate-800 leading-none">{user.name}</span>
+              <span className="text-xs text-slate-500">{user.role || 'Admin'}</span>
+            </div>
+            <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg">
+              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 p-8 overflow-x-hidden">
         <div className="flex justify-between items-end mb-6">
           <div>
             <h2 className="text-2xl font-bold text-slate-800 mb-1 flex items-center space-x-2">
@@ -81,12 +168,20 @@ export default function AdminDashboard() {
                 onChange={(e) => setDateFilter(e.target.value)}
               />
             </div>
-            <button 
-              onClick={handleDownloadReport}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 mt-5 rounded flex items-center space-x-2 transition-colors shadow-sm"
-            >
-              <Download size={18} /> <span>Export CSV</span>
-            </button>
+            <div className="flex space-x-2 mt-5">
+              <button 
+                onClick={handleDownloadReport}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded flex items-center space-x-1 transition-colors shadow-sm text-sm"
+              >
+                <Download size={16} /> <span>CSV</span>
+              </button>
+              <button 
+                onClick={handleDownloadPDF}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded flex items-center space-x-1 transition-colors shadow-sm text-sm"
+              >
+                <FileText size={16} /> <span>PDF</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -94,8 +189,8 @@ export default function AdminDashboard() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-100 text-slate-600 text-sm uppercase tracking-wider">
+                <th className="p-4 border-b font-semibold">Student ID</th>
                 <th className="p-4 border-b font-semibold">Student Name</th>
-                <th className="p-4 border-b font-semibold">Email</th>
                 <th className="p-4 border-b font-semibold">Date</th>
                 <th className="p-4 border-b font-semibold">Check Out</th>
                 <th className="p-4 border-b font-semibold">Check In</th>
@@ -105,8 +200,8 @@ export default function AdminDashboard() {
             <tbody>
               {records.map(record => (
                 <tr key={record._id} className="hover:bg-slate-50 border-b last:border-0 transition-colors">
+                  <td className="p-4 text-slate-600 text-sm font-semibold">{record.user?.studentId || 'N/A'}</td>
                   <td className="p-4 text-slate-800 font-medium">{record.user?.name || 'N/A'}</td>
-                  <td className="p-4 text-slate-600 text-sm">{record.user?.email || 'N/A'}</td>
                   <td className="p-4 text-slate-600">{record.date}</td>
                   <td className="p-4 text-slate-600">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-'}</td>
                   <td className="p-4 text-slate-600">{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-'}</td>
@@ -124,6 +219,7 @@ export default function AdminDashboard() {
           </table>
         </div>
       </main>
+      </div>
     </div>
   );
 }

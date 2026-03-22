@@ -20,6 +20,16 @@ const AttendanceSchema = new mongoose.Schema({
     },
     checkInTime: {
         type: Date
+    },
+    purpose: {
+        type: String,
+        enum: ['Shopping', 'Medical', 'Other', 'Home', '']
+    },
+    expectedReturn: {
+        type: Date
+    },
+    description: {
+        type: String
     }
 }, { timestamps: true });
 
