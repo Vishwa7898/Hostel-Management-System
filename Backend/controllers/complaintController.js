@@ -1,5 +1,5 @@
 const Complaint = require("../models/Complaint");
-const User = require("../models/User");
+const User = require("../models/user");
 
 exports.createComplaint = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ exports.createComplaint = async (req, res) => {
     }
 
     const complaint = await Complaint.create({
-      student: req.user.id,
+      student: req.user._id,
       anonymous,
       displayName: anonymous ? "Anonymous" : req.user.name,
       category,
@@ -33,7 +33,7 @@ exports.createComplaint = async (req, res) => {
 
 exports.getStudentComplaints = async (req, res) => {
   try {
-    const complaints = await Complaint.find({ student: req.user.id }).sort({ createdAt: -1 });
+    const complaints = await Complaint.find({ student: req.user._id }).sort({ createdAt: -1 });
     res.json(complaints);
   } catch (error) {
     res.status(500).json({ message: error.message });
