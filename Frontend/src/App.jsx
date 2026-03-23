@@ -11,6 +11,8 @@ import AdminFoodOrder from './pages/AdminFoodOrder';
 import AdminProfile from './pages/AdminProfile';
 import FoodOrderSystem from './pages/FoodOrderSystem';
 import StudentPayments from './pages/StudentPayments';
+import StudentComplaint from './pages/StudentComplaint';
+import AdminComplaint from './pages/AdminComplaint';
 import './index.css';
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/admin-food-order" element={<AdminFoodOrder />} />
+        <Route path="/admin-complaints" element={<AdminComplaint />} />
+        <Route path="/student-complaints" element={<StudentComplaint />} />
         {/* Redirect unknown routes */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

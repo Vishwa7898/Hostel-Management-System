@@ -169,7 +169,7 @@ export default function StudentDashboard() {
               <Home size={20} />
               <span>Room Details</span>
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <div onClick={() => navigate('/student-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <MessageSquare size={20} />
               <span>Complaints</span>
             </div>
