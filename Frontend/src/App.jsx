@@ -14,8 +14,18 @@ import StudentPayments from './pages/StudentPayments';
 import './index.css';
 import RoomAllocation from './pages/RoomAllocation';
 import AvailableRooms from './pages/AvailableRooms';
+import Sidebar from './components/Sidebar';
 
 function App() {
+  const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('userRole');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    window.location.href = '/';
+  };
+
   return (
     <Router>
       <Routes>
