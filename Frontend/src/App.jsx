@@ -12,6 +12,8 @@ import AdminProfile from './pages/AdminProfile';
 import FoodOrderSystem from './pages/FoodOrderSystem';
 import StudentPayments from './pages/StudentPayments';
 import './index.css';
+import RoomAllocation from './pages/RoomAllocation';
+import AvailableRooms from './pages/AvailableRooms';
 
 function App() {
   return (
@@ -28,6 +30,34 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/admin-food-order" element={<AdminFoodOrder />} />
+              {/* 2. Admin Routes - Admin ට විතරයි යන්න පුළුවන් */}
+        <Route
+          path="/room-allocation"
+          element={
+            token && userRole === 'admin' ? (
+              <div className="flex min-h-screen bg-gray-50">
+                <Sidebar onLogout={handleLogout} />
+                <div className="flex-1 lg:ml-64"> {/* Sidebar එක නිසා ඉඩ තබනවා */}
+                  <RoomAllocation token={token} />
+                </div>
+              </div>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+               <Route
+          path="/available-rooms"
+          element={
+            token ? (
+              <AvailableRooms token={token} onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+
         {/* Redirect unknown routes */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
