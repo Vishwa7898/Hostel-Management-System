@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, LayoutDashboard, Calendar, Home, CreditCard, MessageSquare, ChevronDown } from 'lucide-react';
+import studentLoginBackground from '../assets/image4.jpg';
 
 export default function StudentLogin() {
   const [email, setEmail] = useState('');
@@ -32,7 +33,10 @@ export default function StudentLogin() {
   };
 
   return (
-    <div className="min-h-screen flex hostel-bg-student font-sans">
+    <div
+      className="min-h-screen flex font-sans bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${studentLoginBackground})` }}
+    >
 
 
       {/* Main Content */}
