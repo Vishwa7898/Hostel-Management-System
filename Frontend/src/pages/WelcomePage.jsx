@@ -27,8 +27,8 @@ export default function WelcomePage() {
           <span className="text-slate-400">Stay</span>
           <span className="text-[#4BB580]">Sphere</span>
         </h1>
-        <p className="text-xl md:text-4xl text-[#5C4033] font-semibold mb-8">
-          Stay Smart. Live Better.
+        <p className="text-xl md:text-4xl text-[#4BB580] font-semibold mb-8">
+          “Your Home Away From Home”
         </p>
 
         <button
