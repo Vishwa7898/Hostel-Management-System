@@ -19,6 +19,13 @@ export default function StudentDashboard() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const token = localStorage.getItem('token');
+  const getLocalDateString = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     if (!token) return navigate('/');
@@ -66,11 +73,9 @@ export default function StudentDashboard() {
       });
       const data = await res.json();
       setRecords(data);
-      if (data.length > 0) {
-        setStatus(data[0].status);
-      } else {
-        setStatus('Inside');
-      }
+      const today = getLocalDateString();
+      const todayRecord = Array.isArray(data) ? data.find((r) => r.date === today) : null;
+      setStatus(todayRecord ? todayRecord.status : 'Inside');
     } catch (err) {
       console.error(err);
     }
@@ -125,6 +130,10 @@ export default function StudentDashboard() {
     const now = new Date();
     return `${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}, ${now.getDate()} ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
   };
+
+  const today = getLocalDateString();
+  const todayRecords = records.filter((r) => r.date === today);
+  const latestTodayRecord = todayRecords.length > 0 ? todayRecords[0] : null;
 
   return (
     <div 
@@ -314,28 +323,28 @@ export default function StudentDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {records.filter(r => r.date === new Date().toISOString().split('T')[0]).map(rec => (
-                        <tr key={rec._id} className="border-b border-slate-50 group hover:bg-slate-50 transition-colors">
+                      {latestTodayRecord && (
+                        <tr key={latestTodayRecord._id} className="border-b border-slate-50 group hover:bg-slate-50 transition-colors">
                           <td className="py-4 px-2 text-slate-700">
-                            <div className="font-semibold text-sm">{rec.date}</div>
-                            <div className="text-xs text-slate-400 mt-1 max-w-[120px] truncate" title={rec.purpose}>
-                              {rec.purpose || (rec.status === 'Inside' ? 'Check In' : 'Check Out')}
+                            <div className="font-semibold text-sm">{latestTodayRecord.date}</div>
+                            <div className="text-xs text-slate-400 mt-1 max-w-[120px] truncate" title={latestTodayRecord.purpose}>
+                              {latestTodayRecord.purpose || (latestTodayRecord.status === 'Inside' ? 'Check In' : 'Check Out')}
                             </div>
                           </td>
                           <td className="py-4 px-2">
-                            {rec.checkOutTime && (
+                            {latestTodayRecord.checkOutTime && (
                               <div className="mb-2">
-                                <span className={`text-xs px-2 py-1 rounded font-bold uppercase ${rec.status === 'Outside' && !rec.checkInTime ? 'bg-orange-100 text-orange-600' : 'bg-slate-100 text-slate-500'}`}>Out</span>
-                                <span className="text-xs text-slate-600 ml-2">{new Date(rec.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                <span className={`text-xs px-2 py-1 rounded font-bold uppercase ${latestTodayRecord.status === 'Outside' && !latestTodayRecord.checkInTime ? 'bg-orange-100 text-orange-600' : 'bg-slate-100 text-slate-500'}`}>Out</span>
+                                <span className="text-xs text-slate-600 ml-2">{new Date(latestTodayRecord.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                               </div>
                             )}
-                            {rec.checkInTime && (
+                            {latestTodayRecord.checkInTime && (
                               <div>
                                 <span className="text-xs px-2 py-1 rounded font-bold uppercase bg-teal-100 text-teal-600">In</span>
-                                <span className="text-xs text-slate-600 ml-2 pb-1">{new Date(rec.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                <span className="text-xs text-slate-600 ml-2 pb-1">{new Date(latestTodayRecord.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                               </div>
                             )}
-                            {rec.status === 'Outside' && !rec.checkInTime && (
+                            {latestTodayRecord.status === 'Outside' && !latestTodayRecord.checkInTime && (
                               <div>
                                 <span className="text-xs px-2 py-1 rounded font-bold uppercase bg-slate-100 text-slate-400 opacity-50">In</span>
                                 <span className="text-xs text-slate-400 ml-2 pb-1">--:--</span>
@@ -343,8 +352,8 @@ export default function StudentDashboard() {
                             )}
                           </td>
                         </tr>
-                      ))}
-                      {records.length === 0 && (
+                      )}
+                      {todayRecords.length === 0 && (
                         <tr><td colSpan="2" className="py-8 text-center text-slate-400 text-sm">No history yet</td></tr>
                       )}
                     </tbody>
