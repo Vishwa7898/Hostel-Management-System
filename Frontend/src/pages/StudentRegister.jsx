@@ -6,6 +6,7 @@ export default function StudentRegister() {
   const [formData, setFormData] = useState({
     name: '', address: '', city: '', studentPhone: '', email: '', password: '', guardianName: '', contactNumber: ''
   });
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [nicFront, setNicFront] = useState(null);
   const [nicBack, setNicBack] = useState(null);
@@ -32,6 +33,7 @@ export default function StudentRegister() {
     if (!profilePhoto) return setError('Please upload a profile photo');
     if (!nicFront) return setError('Please upload ID Card Front');
     if (!nicBack) return setError('Please upload ID Card Back');
+    if (!agreedToTerms) return setError('Please accept the Terms and Conditions to continue');
 
     const submitData = new FormData();
     Object.keys(formData).forEach(key => submitData.append(key, formData[key]));
@@ -150,6 +152,31 @@ export default function StudentRegister() {
 
             <input type="text" name="contactNumber" required placeholder="Guardian Phone Number" value={formData.contactNumber} onChange={handleInputChange}
               className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-400 outline-none text-slate-800" />
+          </div>
+
+          <div className="w-full mt-8 bg-slate-100/80 border border-slate-200 rounded-2xl p-5">
+            <h3 className="text-lg font-bold text-slate-800 mb-3">Terms and Conditions</h3>
+            <ul className="list-disc pl-5 space-y-2 text-slate-700 text-sm">
+              <li>Students are required to check in and check out daily using the system.</li>
+              <li>The use or possession of alcohol or illegal drugs within the hostel premises is strictly prohibited.</li>
+              <li>Any form of fighting, harassment, or disturbance to other residents is not permitted.</li>
+              <li>Students must treat fellow residents and hostel staff with respect at all times.</li>
+              <li>Students must ensure that the guardian details provided are accurate and accessible in case of an emergency.</li>
+              <li>All students are required to comply with the safety and security guidelines established by hostel management.</li>
+              <li>Students are expected to maintain proper discipline and conduct within the hostel environment.</li>
+              <li>Engagement in any illegal, harmful, or unethical activities within the hostel premises is strictly forbidden.</li>
+            </ul>
+
+            <label className="mt-4 flex items-start gap-3 text-slate-800 font-medium cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                required
+                className="mt-1 h-4 w-4 accent-teal-600"
+              />
+              <span>I have read and agree to the Terms and Conditions</span>
+            </label>
           </div>
 
           {error && <p className="text-red-600 font-semibold mt-4 bg-red-100 px-4 py-2 rounded-lg">{error}</p>}
