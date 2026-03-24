@@ -19,15 +19,15 @@ export default function WelcomePage() {
         <img
           src={staySphereLogo}
           alt="StaySphere logo"
-          className="w-72 md:w-[460px] h-auto object-contain mx-auto -mb-10 drop-shadow-2xl"
+          className="w-72 md:w-[460px] h-auto object-contain mx-auto -mb-16 drop-shadow-2xl"
         />
 
-        <h1 className="text-3xl md:text-5xl font-extrabold mb-3 tracking-tight whitespace-nowrap drop-shadow-lg">
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-3 tracking-tight whitespace-nowrap drop-shadow-lg">
           <span className="text-black">Welcome to </span>
           <span className="text-slate-400">Stay</span>
           <span className="text-[#4BB580]">Sphere</span>
         </h1>
-        <p className="text-lg md:text-xl text-[#5C4033] font-semibold mb-8">
+        <p className="text-xl md:text-4xl text-[#5C4033] font-semibold mb-8">
           Stay Smart. Live Better.
         </p>
 
