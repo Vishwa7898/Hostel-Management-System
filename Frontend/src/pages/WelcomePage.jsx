@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import welcomeBackground from '../assets/image6.jpg';
+import welcomeBackground from '../assets/hostel_bg.png';
 import staySphereLogo from '../assets/staysphere logo.png';
 
 export default function WelcomePage() {

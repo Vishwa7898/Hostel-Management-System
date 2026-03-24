@@ -6,6 +6,14 @@ const User = require('../models/user');
 const path = require('path');
 const fs = require('fs');
 
+const getLocalDateString = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 // Middleware to protect routes
 const protect = async (req, res, next) => {
     let token;
@@ -26,7 +34,7 @@ const protect = async (req, res, next) => {
 router.post('/checkout', protect, async (req, res) => {
     try {
         const { purpose, description, expectedReturn } = req.body;
-        const today = new Date().toISOString().split('T')[0];
+        const today = getLocalDateString();
         // Check if already checked out today
         const existing = await Attendance.findOne({ user: req.user._id, date: today, status: 'Outside' });
         if (existing) return res.status(400).json({ message: 'Already checked out' });
@@ -49,7 +57,7 @@ router.post('/checkout', protect, async (req, res) => {
 // Check In
 router.post('/checkin', protect, async (req, res) => {
     try {
-        const today = new Date().toISOString().split('T')[0];
+        const today = getLocalDateString();
         const existing = await Attendance.findOne({ user: req.user._id, date: today, status: 'Outside' });
         
         if (!existing) return res.status(400).json({ message: 'No active check-out found for today' });
