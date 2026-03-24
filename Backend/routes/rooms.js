@@ -16,11 +16,10 @@ router.get('/', protect, async (req, res) => {
 // 2. POST - ADD NEW ROOM
 router.post('/', async (req, res) => {
   try {
-    // නව කාමරයක් එක් කරන විට ආරම්භයේදී ඉඩ ප්‍රමාණයන් නිවැරදිව සැකසීම
     const roomData = {
       ...req.body,
-      occupiedBeds: 0, // ආරම්භයේදී 0 ලෙස සලකයි
-      assignedStudentName: "None" // ආරම්භයේදී කිසිවෙක් නැත
+      occupiedBeds: 0, 
+      assignedStudentName: "None" 
     };
     const room = new Room(roomData);
     const saved = await room.save();

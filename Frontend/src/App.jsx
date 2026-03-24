@@ -56,14 +56,10 @@ function App() {
             )
           }
         />
-               <Route
+        <Route
           path="/available-rooms"
           element={
-            token ? (
-              <AvailableRooms token={token} onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <AvailableRooms onLogout={handleLogout} />
           }
         />
 

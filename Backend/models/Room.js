@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema({
   totalBeds: { type: Number, required: true },
   price: { type: Number, required: true },
   image: { type: String },
-  // මේ fields අලුතින් එක් කරන්න
+  
   occupiedBeds: { type: Number, default: 0 }, 
   occupiedCount: { type: Number, default: 0 },
   assignedStudentName: { type: String, default: "None" },

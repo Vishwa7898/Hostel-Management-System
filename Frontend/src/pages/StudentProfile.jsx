@@ -178,7 +178,7 @@ export default function StudentProfile() {
               <Calendar size={20} />
               <span>Attendance</span>
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <div onClick={() => navigate('/available-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <Home size={20} />
               <span>Room Details</span>
             </div>
