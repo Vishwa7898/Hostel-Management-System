@@ -28,45 +28,30 @@ export default function StudentNotices() {
     setLoading(true);
     setError('');
     try {
-      const [complaintsRes, attendanceRes, ordersRes] = await Promise.all([
-        fetch('http://localhost:5000/api/complaints/my', { headers: { Authorization: `Bearer ${token}` } }),
-        fetch('http://localhost:5000/api/attendance/my', { headers: { Authorization: `Bearer ${token}` } }),
-        fetch('http://localhost:5000/api/food/orders/my', { headers: { Authorization: `Bearer ${token}` } })
-      ]);
+      const res = await fetch('http://localhost:5000/api/notices', { 
+        headers: { Authorization: `Bearer ${token}` } 
+      });
 
-      const complaintsData = complaintsRes.ok ? await complaintsRes.json() : [];
-      const attendanceData = attendanceRes.ok ? await attendanceRes.json() : [];
-      const ordersData = ordersRes.ok ? await ordersRes.json() : [];
+      if (!res.ok) {
+        throw new Error('Failed to fetch notices');
+      }
 
-      const complaintNotices = (Array.isArray(complaintsData) ? complaintsData : []).slice(0, 8).map((c) => ({
-        id: `complaint-${c._id}`,
-        title: `Complaint ${c.status || 'Pending'}`,
-        message: `${c.title || 'Complaint'}${c.assignedWorker ? ` - Assigned to ${c.assignedWorker}` : ''}`,
-        time: c.updatedAt || c.createdAt || new Date().toISOString(),
-        type: c.status === 'Done' ? 'success' : 'info'
+      const noticesData = await res.json();
+      
+      const formattedNotices = (Array.isArray(noticesData) ? noticesData : []).map((n) => ({
+        id: `notice-${n._id}`,
+        title: n.title || 'Maintenance Notice',
+        message: n.description || '',
+        time: n.date || n.createdAt || new Date().toISOString(),
+        author: n.author || 'Admin',
+        type: 'info'
       }));
 
-      const attendanceNotices = (Array.isArray(attendanceData) ? attendanceData : []).slice(0, 6).map((a) => ({
-        id: `attendance-${a._id}`,
-        title: `Attendance ${a.status || ''}`.trim(),
-        message: a.checkInTime ? 'Check-in recorded successfully.' : 'Check-out recorded successfully.',
-        time: a.checkInTime || a.checkOutTime || new Date().toISOString(),
-        type: a.checkInTime ? 'success' : 'warning'
-      }));
-
-      const orderNotices = (Array.isArray(ordersData) ? ordersData : []).slice(0, 6).map((o) => ({
-        id: `order-${o._id}`,
-        title: `Food Order ${o.status || 'pending'}`,
-        message: `Total Rs. ${o.totalAmount || 0} - ${(o.items || []).length} item(s).`,
-        time: o.updatedAt || o.createdAt || new Date().toISOString(),
-        type: o.status === 'cancelled' ? 'warning' : o.status === 'served' ? 'success' : 'info'
-      }));
-
-      const merged = [...complaintNotices, ...attendanceNotices, ...orderNotices].sort(
+      const sorted = formattedNotices.sort(
         (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
       );
 
-      setNotices(merged);
+      setNotices(sorted);
     } catch {
       setError('Unable to load notices right now.');
       setNotices([]);
@@ -101,9 +86,7 @@ export default function StudentNotices() {
   };
 
   const badgeClasses = {
-    success: 'bg-emerald-100 text-emerald-700',
-    warning: 'bg-amber-100 text-amber-700',
-    info: 'bg-sky-100 text-sky-700'
+    info: 'bg-teal-100 text-teal-800 border border-teal-200'
   };
 
   return (
@@ -125,7 +108,7 @@ export default function StudentNotices() {
         <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
           <div className="flex-1 space-y-2">
             <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer font-bold mb-4">
-              <span>Notices</span>
+              <span>Maintenance Notices</span>
               <ChevronDown size={18} />
             </div>
             <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
@@ -152,7 +135,7 @@ export default function StudentNotices() {
               <CreditCard size={20} />
               <span>Payments</span>
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-teal-700 font-bold rounded-lg cursor-pointer transition-colors">
               <Bell size={20} />
               <span>Notices</span>
             </div>
@@ -170,7 +153,7 @@ export default function StudentNotices() {
         </div>
 
         <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto w-full">
-          <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8">My Notices</h1>
+          <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8">Maintenance Notices</h1>
 
           <div className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
             <div className="flex flex-wrap justify-between gap-3 items-center mb-6">
@@ -190,29 +173,42 @@ export default function StudentNotices() {
 
             {error && <div className="mb-4 bg-red-50 text-red-600 px-4 py-3 rounded-xl font-medium text-sm">{error}</div>}
 
-            {notices.length === 0 ? (
+            {loading && notices.length === 0 ? (
               <div className="text-center py-12 text-slate-500">
-                <CheckCircle size={44} className="mx-auto mb-3 text-slate-300" />
-                <p>No notices available.</p>
+                <RefreshCw size={44} className="mx-auto mb-3 text-slate-300 animate-spin" />
+                <p>Loading notices...</p>
+              </div>
+            ) : notices.length === 0 ? (
+              <div className="text-center py-16 text-slate-500 bg-slate-50 rounded-2xl border border-slate-100">
+                <CheckCircle size={48} className="mx-auto mb-4 text-slate-300" />
+                <h3 className="text-xl font-bold text-slate-700 mb-2">You're All Caught Up</h3>
+                <p>No new maintenance notices are available.</p>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {notices.map((n) => (
                   <button
                     key={n.id}
                     onClick={() => markAsRead(n.id)}
-                    className={`w-full text-left border rounded-2xl px-4 py-4 transition-colors ${readMap[n.id] ? 'bg-slate-50 border-slate-200' : 'bg-white border-teal-200 hover:bg-teal-50/40'}`}
+                    className={`w-full text-left border rounded-2xl px-5 py-5 transition-all shadow-sm ${readMap[n.id] ? 'bg-slate-50 border-slate-200' : 'bg-white border-teal-300 hover:bg-teal-50 hover:-translate-y-0.5 shadow-md'}`}
                   >
-                    <div className="flex justify-between gap-3 items-start">
-                      <div>
-                        <h3 className="font-bold text-slate-800">{n.title}</h3>
-                        <p className="text-sm text-slate-600 mt-1">{n.message}</p>
+                    <div className="flex justify-between gap-4 items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="text-lg font-bold text-slate-800">{n.title}</h3>
+                          {!readMap[n.id] && (
+                            <span className={`text-[10px] tracking-wide uppercase font-bold px-2 py-0.5 rounded shadow-sm ${badgeClasses.info}`}>
+                              NEW
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-slate-600 mt-2 leading-relaxed whitespace-pre-wrap">{n.message}</p>
                       </div>
-                      <span className={`text-xs font-bold px-2 py-1 rounded ${badgeClasses[n.type] || badgeClasses.info}`}>
-                        {readMap[n.id] ? 'READ' : 'NEW'}
-                      </span>
                     </div>
-                    <p className="text-xs text-slate-400 mt-2">{new Date(n.time).toLocaleString()}</p>
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100/60">
+                      <span className="text-xs font-medium text-slate-500">From: <span className="text-slate-700">{n.author}</span></span>
+                      <span className="text-xs font-medium text-slate-400">{new Date(n.time).toLocaleString()}</span>
+                    </div>
                   </button>
                 ))}
               </div>
