@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, LayoutDashboard, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell, RefreshCw, CheckCircle } from 'lucide-react';
 
-export default function AdminNotification() {
-  const [notifications, setNotifications] = useState([]);
+export default function AdminNotices() {
+  const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [readMap, setReadMap] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('adminNotificationReadMap') || '{}');
+      return JSON.parse(localStorage.getItem('adminNoticesReadMap') || '{}');
     } catch {
       return {};
     }
@@ -20,10 +20,10 @@ export default function AdminNotification() {
 
   useEffect(() => {
     if (!token || user.role === 'Student') return navigate('/admin-login');
-    fetchNotifications();
+    fetchNotices();
   }, [navigate, token, user.role]);
 
-  const fetchNotifications = async () => {
+  const fetchNotices = async () => {
     setLoading(true);
     setError('');
     try {
@@ -65,33 +65,33 @@ export default function AdminNotification() {
         (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
       );
 
-      setNotifications(merged);
+      setNotices(merged);
     } catch {
-      setError('Unable to load admin notifications right now.');
-      setNotifications([]);
+      setError('Unable to load admin notices right now.');
+      setNotices([]);
     } finally {
       setLoading(false);
     }
   };
 
   const unreadCount = useMemo(
-    () => notifications.filter((n) => !readMap[n.id]).length,
-    [notifications, readMap]
+    () => notices.filter((n) => !readMap[n.id]).length,
+    [notices, readMap]
   );
 
   const markAsRead = (id) => {
     const updated = { ...readMap, [id]: true };
     setReadMap(updated);
-    localStorage.setItem('adminNotificationReadMap', JSON.stringify(updated));
+    localStorage.setItem('adminNoticesReadMap', JSON.stringify(updated));
   };
 
   const markAllAsRead = () => {
     const updated = { ...readMap };
-    notifications.forEach((n) => {
+    notices.forEach((n) => {
       updated[n.id] = true;
     });
     setReadMap(updated);
-    localStorage.setItem('adminNotificationReadMap', JSON.stringify(updated));
+    localStorage.setItem('adminNoticesReadMap', JSON.stringify(updated));
   };
 
   const handleLogout = () => {
@@ -142,7 +142,7 @@ export default function AdminNotification() {
           </div>
           <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <Bell size={20} />
-            <span>Notifications</span>
+            <span>Notices</span>
           </div>
           <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <UtensilsCrossed size={20} />
@@ -159,7 +159,7 @@ export default function AdminNotification() {
 
       <div className="flex-1 flex flex-col min-w-0">
         <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center z-0">
-          <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">Admin <span className="text-orange-500">Notifications</span></h1>
+          <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">Admin <span className="text-orange-500">Notices</span></h1>
           <div className="flex items-center space-x-4 ml-auto">
             <div className="hidden sm:flex flex-col text-right">
               <span className="font-bold text-sm text-slate-800 leading-none">{user.name}</span>
@@ -179,7 +179,7 @@ export default function AdminNotification() {
                 <span className="font-bold text-slate-700">{unreadCount} unread</span>
               </div>
               <div className="flex gap-2">
-                <button onClick={fetchNotifications} className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium flex items-center gap-2">
+                <button onClick={fetchNotices} className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium flex items-center gap-2">
                   <RefreshCw size={16} className={loading ? 'animate-spin' : ''} /> Refresh
                 </button>
                 <button onClick={markAllAsRead} className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium">
@@ -190,14 +190,14 @@ export default function AdminNotification() {
 
             {error && <div className="mb-4 bg-red-50 text-red-600 px-4 py-3 rounded-lg font-medium text-sm">{error}</div>}
 
-            {notifications.length === 0 ? (
+            {notices.length === 0 ? (
               <div className="text-center py-12 text-slate-500">
                 <CheckCircle size={44} className="mx-auto mb-3 text-slate-300" />
-                <p>No notifications available.</p>
+                <p>No notices available.</p>
               </div>
             ) : (
               <div className="space-y-3">
-                {notifications.map((n) => (
+                {notices.map((n) => (
                   <button
                     key={n.id}
                     onClick={() => markAsRead(n.id)}

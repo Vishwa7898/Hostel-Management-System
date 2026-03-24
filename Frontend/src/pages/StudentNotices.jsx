@@ -2,13 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell, CheckCircle, RefreshCw } from 'lucide-react';
 
-export default function StudentNotification() {
-  const [notifications, setNotifications] = useState([]);
+export default function StudentNotices() {
+  const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [readMap, setReadMap] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('studentNotificationReadMap') || '{}');
+      return JSON.parse(localStorage.getItem('studentNoticesReadMap') || '{}');
     } catch {
       return {};
     }
@@ -21,10 +21,10 @@ export default function StudentNotification() {
   useEffect(() => {
     if (!token) return navigate('/');
     if (['Admin', 'Warden', 'Accountant'].includes(user.role)) return navigate('/admin-dashboard');
-    fetchNotifications();
+    fetchNotices();
   }, [navigate, token, user.role]);
 
-  const fetchNotifications = async () => {
+  const fetchNotices = async () => {
     setLoading(true);
     setError('');
     try {
@@ -66,33 +66,33 @@ export default function StudentNotification() {
         (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
       );
 
-      setNotifications(merged);
+      setNotices(merged);
     } catch {
-      setError('Unable to load notifications right now.');
-      setNotifications([]);
+      setError('Unable to load notices right now.');
+      setNotices([]);
     } finally {
       setLoading(false);
     }
   };
 
   const unreadCount = useMemo(
-    () => notifications.filter((n) => !readMap[n.id]).length,
-    [notifications, readMap]
+    () => notices.filter((n) => !readMap[n.id]).length,
+    [notices, readMap]
   );
 
   const markAsRead = (id) => {
     const updated = { ...readMap, [id]: true };
     setReadMap(updated);
-    localStorage.setItem('studentNotificationReadMap', JSON.stringify(updated));
+    localStorage.setItem('studentNoticesReadMap', JSON.stringify(updated));
   };
 
   const markAllAsRead = () => {
     const updated = { ...readMap };
-    notifications.forEach((n) => {
+    notices.forEach((n) => {
       updated[n.id] = true;
     });
     setReadMap(updated);
-    localStorage.setItem('studentNotificationReadMap', JSON.stringify(updated));
+    localStorage.setItem('studentNoticesReadMap', JSON.stringify(updated));
   };
 
   const handleLogout = () => {
@@ -125,7 +125,7 @@ export default function StudentNotification() {
         <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
           <div className="flex-1 space-y-2">
             <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer font-bold mb-4">
-              <span>Notifications</span>
+              <span>Notices</span>
               <ChevronDown size={18} />
             </div>
             <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
@@ -154,7 +154,7 @@ export default function StudentNotification() {
             </div>
             <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <Bell size={20} />
-              <span>Notifications</span>
+              <span>Notices</span>
             </div>
             <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <UtensilsCrossed size={20} />
@@ -170,7 +170,7 @@ export default function StudentNotification() {
         </div>
 
         <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto w-full">
-          <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8">My Notifications</h1>
+          <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8">My Notices</h1>
 
           <div className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
             <div className="flex flex-wrap justify-between gap-3 items-center mb-6">
@@ -179,7 +179,7 @@ export default function StudentNotification() {
                 <span className="font-bold text-slate-700">{unreadCount} unread</span>
               </div>
               <div className="flex gap-2">
-                <button onClick={fetchNotifications} className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium flex items-center gap-2">
+                <button onClick={fetchNotices} className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium flex items-center gap-2">
                   <RefreshCw size={16} className={loading ? 'animate-spin' : ''} /> Refresh
                 </button>
                 <button onClick={markAllAsRead} className="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium">
@@ -190,14 +190,14 @@ export default function StudentNotification() {
 
             {error && <div className="mb-4 bg-red-50 text-red-600 px-4 py-3 rounded-xl font-medium text-sm">{error}</div>}
 
-            {notifications.length === 0 ? (
+            {notices.length === 0 ? (
               <div className="text-center py-12 text-slate-500">
                 <CheckCircle size={44} className="mx-auto mb-3 text-slate-300" />
-                <p>No notifications available.</p>
+                <p>No notices available.</p>
               </div>
             ) : (
               <div className="space-y-3">
-                {notifications.map((n) => (
+                {notices.map((n) => (
                   <button
                     key={n.id}
                     onClick={() => markAsRead(n.id)}
