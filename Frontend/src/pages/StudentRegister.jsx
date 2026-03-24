@@ -155,8 +155,8 @@ export default function StudentRegister() {
           </div>
 
           <div className="w-full mt-8 bg-slate-100/80 border border-slate-200 rounded-2xl p-5">
-            <h3 className="text-lg font-bold text-slate-800 mb-3">Terms and Conditions</h3>
-            <ul className="list-disc pl-5 space-y-2 text-slate-700 text-sm">
+            <h3 className="text-lg font-bold text-red-700 mb-3">Terms & Conditions</h3>
+            <ul className="list-disc pl-5 space-y-2 text-red-600 text-sm">
               <li>Students are required to check in and check out daily using the system.</li>
               <li>The use or possession of alcohol or illegal drugs within the hostel premises is strictly prohibited.</li>
               <li>Any form of fighting, harassment, or disturbance to other residents is not permitted.</li>
