@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Download, Users, Calendar, FileText, LayoutDashboard, User, Home, MessageSquare, CreditCard, UtensilsCrossed, ChevronDown } from 'lucide-react';
+import { LogOut, Download, Users, Calendar, FileText, LayoutDashboard, User, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell } from 'lucide-react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -125,6 +125,10 @@ export default function AdminDashboard() {
           <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <CreditCard size={20} />
             <span>Payments</span>
+          </div>
+          <div onClick={() => navigate('/admin-notifications')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Bell size={20} />
+            <span>Notifications</span>
           </div>
           <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <UtensilsCrossed size={20} />

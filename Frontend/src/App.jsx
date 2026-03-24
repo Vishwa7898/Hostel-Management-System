@@ -13,6 +13,8 @@ import FoodOrderSystem from './pages/FoodOrderSystem';
 import StudentPayments from './pages/StudentPayments';
 import StudentComplaint from './pages/StudentComplaint';
 import AdminComplaint from './pages/AdminComplaint';
+import StudentNotification from './pages/StudentNotification';
+import AdminNotification from './pages/AdminNotification';
 import './index.css';
 
 function App() {
@@ -27,9 +29,11 @@ function App() {
         <Route path="/student-attendance" element={<StudentAttendance />} />
         <Route path="/student-food-order" element={<FoodOrderSystem />} />
         <Route path="/student-payments" element={<StudentPayments />} />
+        <Route path="/student-notifications" element={<StudentNotification />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/admin-food-order" element={<AdminFoodOrder />} />
+        <Route path="/admin-notifications" element={<AdminNotification />} />
         <Route path="/admin-complaints" element={<AdminComplaint />} />
         <Route path="/student-complaints" element={<StudentComplaint />} />
         {/* Redirect unknown routes */}
