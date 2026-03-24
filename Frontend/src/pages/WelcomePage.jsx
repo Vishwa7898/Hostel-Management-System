@@ -12,17 +12,19 @@ export default function WelcomePage() {
       className="min-h-screen flex items-center justify-center p-6 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${welcomeBackground})` }}
     >
-      <div className="w-full max-w-xl rounded-3xl bg-black/35 backdrop-blur-sm border border-white/30 p-8 md:p-12 text-center shadow-2xl">
+      <div className="w-full max-w-4xl text-center">
         <img
           src={staySphereLogo}
           alt="StaySphere logo"
-          className="w-36 md:w-44 mx-auto mb-5 drop-shadow-lg"
+          className="w-56 md:w-72 mx-auto mb-6 drop-shadow-2xl"
         />
 
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">
-          Welcome to StaySphere
+        <h1 className="text-3xl md:text-5xl font-extrabold mb-3 tracking-tight whitespace-nowrap drop-shadow-lg">
+          <span className="text-white">Welcome to </span>
+          <span className="text-slate-400">Stay</span>
+          <span className="text-[#4BB580]">Sphere</span>
         </h1>
-        <p className="text-lg md:text-xl text-white/95 font-medium mb-8">
+        <p className="text-lg md:text-xl text-white font-medium mb-8 drop-shadow-md">
           Stay Smart. Live Better.
         </p>
 
