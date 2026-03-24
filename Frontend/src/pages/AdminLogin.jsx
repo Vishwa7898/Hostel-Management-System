@@ -101,7 +101,7 @@ export default function AdminLogin() {
             {error && <p className="text-red-500 text-sm text-center font-medium mt-3">{error}</p>}
 
             <div className="text-center mt-4">
-              <Link to="/" className="text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">
+              <Link to="/student-login" className="text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">
                 Are you a Student? Login here
               </Link>
             </div>

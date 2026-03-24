@@ -185,7 +185,7 @@ export default function StudentRegister() {
             Register Student
           </button>
 
-          <Link to="/" className="text-teal-600 hover:text-teal-800 font-medium mt-6 transition-colors">
+          <Link to="/student-login" className="text-teal-600 hover:text-teal-800 font-medium mt-6 transition-colors">
             Return to Login
           </Link>
 
