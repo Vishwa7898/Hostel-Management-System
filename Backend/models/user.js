@@ -13,7 +13,10 @@ const UserSchema = new mongoose.Schema({
     profilePhoto: { type: String },
     nicFront: { type: String },
     nicBack: { type: String },
-    role: { type: String, enum: ['Student', 'Warden', 'Admin', 'Accountant'], default: 'Student' },
+    role: { 
+        type: String, 
+        enum: ['Student', 'Warden', 'Admin', 'Accountant'], 
+        default: 'Student' },
     studentId: { type: String }
 }, { timestamps: true });
 
@@ -27,4 +30,4 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.models.User || mongoose.model("User", UserSchema);
