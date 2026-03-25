@@ -27,7 +27,7 @@ export default function WelcomePage() {
           <span className="text-slate-400">Stay</span>
           <span className="text-[#4BB580]">Sphere</span>
         </h1>
-        <p className="text-xl md:text-4xl text-[#4BB580] font-semibold mb-8">
+        <p className="text-xl md:text-4xl text-white font-bold mb-8">
           “Your Home Away From Home”
         </p>
 
