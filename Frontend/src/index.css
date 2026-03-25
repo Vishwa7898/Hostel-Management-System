@@ -11,6 +11,12 @@ body {
   color: #333;
 }
 
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
 h1, h2, h3, h4, .brand-text-green, .brand-text-orange, .dash-main-title, .login-header {
   font-family: 'Outfit', sans-serif;
 }

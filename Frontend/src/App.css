@@ -28,6 +28,125 @@
   color: #61dafb;
 }
 
+.dashboard-shell {
+  min-height: 100vh;
+  background: #f2f4f9;
+}
+
+.dashboard-topbar {
+  height: 74px;
+  background: #e9cf50;
+  color: #202020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #d7c14f;
+}
+
+.brand {
+  font-size: 44px;
+  font-weight: 800;
+}
+
+.welcome-text {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.role-switch {
+  display: inline-flex;
+  border: 1px solid #cbb749;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.role-switch button {
+  border: 0;
+  background: #f2da63;
+  color: #3a3312;
+  font-weight: 700;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+.role-switch button.active {
+  background: #272727;
+  color: #fff;
+}
+
+.dashboard-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 74px);
+}
+
+.sidebar {
+  background: #fff;
+  padding: 18px 14px;
+  border-right: 1px solid #eceff5;
+}
+
+.sidebar-item {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #3f4d6a;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  background: #f1f4fa;
+}
+
+.sidebar-item.active {
+  background: #ddebf9;
+  color: #1b355f;
+}
+
+.dashboard-content {
+  padding: 20px;
+}
+
+.coming-soon {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 8px 26px rgba(31, 46, 82, 0.07);
+}
+
+@media (max-width: 900px) {
+  .dashboard-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 8px;
+    border-right: 0;
+    border-bottom: 1px solid #eceff5;
+  }
+
+  .sidebar-item {
+    margin-bottom: 0;
+  }
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
