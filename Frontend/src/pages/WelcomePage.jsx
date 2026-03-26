@@ -2,26 +2,26 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, BedDouble, Building2, ShieldCheck } from 'lucide-react';
 import staySphereLogo from '../assets/staysphere logo.png';
-import sliitCampusImage from '../assets/sliit-campus.jpg';
+import sliitCampusImage from '../assets/hostel_bg.png';
 import hostelRoomImage from '../assets/hostel-room.jpg';
-import hostelCommonAreaImage from '../assets/hostel-common-area.jpg';
+import studyImage from '../assets/study.avif';
 
 export default function WelcomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
+    <div className="min-h-screen bg-gray-200 text-slate-800">
       <nav className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-3 md:px-8">
           <div className="flex items-center gap-3">
-            <img src={staySphereLogo} alt="StaySphere logo" className="h-11 w-auto object-contain" />
+            <img src={staySphereLogo} alt="StaySphere logo" className="h-24 w-auto object-contain" />
             <div>
               <p className="text-sm font-semibold text-slate-500">SLIIT Hostel Management</p>
-              <h1 className="text-xl font-extrabold text-slate-800">StaySphere</h1>
+              <h1 className="text-4xl font-black"><span className="text-gray-700">Stay</span><span className="text-[#4BB580]">Sphere</span></h1>
             </div>
           </div>
 
-          <div className="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
+          <div className="hidden items-center gap-7 text-lg font-bold text-amber-900 md:flex">
             <a href="#home" className="transition hover:text-[#4BB580]">Home</a>
             <a href="#facilities" className="transition hover:text-[#4BB580]">Facilities</a>
             <a href="#about" className="transition hover:text-[#4BB580]">About</a>
@@ -31,7 +31,7 @@ export default function WelcomePage() {
           <button
             type="button"
             onClick={() => navigate('/student-login')}
-            className="rounded-lg bg-[#4BB580] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#3d9e6d]"
+            className="rounded-lg bg-[#4BB580] px-8 py-4 text-lg font-bold text-white transition hover:bg-[#3d9e6d]"
           >
             Student Login
           </button>
@@ -40,11 +40,11 @@ export default function WelcomePage() {
 
       <section id="home" className="mx-auto grid w-full max-w-7xl gap-8 px-5 pb-12 pt-8 md:grid-cols-2 md:px-8 md:pt-12">
         <div className="flex flex-col justify-center">
-          <p className="mb-3 inline-block w-fit rounded-full bg-[#4BB580]/15 px-3 py-1 text-sm font-bold text-[#2f8657]">
+          <p className="mb-3 inline-block w-fit rounded-full bg-[#4BB580]/15 px-3 py-1 text-lg font-bold text-[#2f8657]">
             Welcome to SLIIT Hostel Community
           </p>
           <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
-            Your trusted place to stay, study, and grow.
+            "Your Home , Away From Home "
           </h2>
           <p className="mb-6 text-lg text-slate-600">
             Easy room booking, quick hostel notices, and safer student life in one simple platform.
@@ -62,7 +62,7 @@ export default function WelcomePage() {
             <button
               type="button"
               onClick={() => navigate('/admin-login')}
-              className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-bold text-slate-700 transition hover:bg-slate-100"
+              className="rounded-xl border border-orange-300 bg-orange-200 px-6 py-3 font-bold text-orange-900 transition hover:bg-orange-300"
             >
               Admin Login
             </button>
@@ -92,7 +92,7 @@ export default function WelcomePage() {
           </article>
 
           <article className="overflow-hidden rounded-2xl bg-white shadow-md">
-            <img src={hostelCommonAreaImage} alt="Hostel common area" className="h-56 w-full object-cover" />
+            <img src={studyImage} alt="Hostel common area" className="h-56 w-full object-cover" />
             <div className="p-5">
               <p className="mb-2 flex items-center gap-2 text-lg font-bold"><Building2 size={20} /> Shared Living Spaces</p>
               <p className="text-slate-600">
