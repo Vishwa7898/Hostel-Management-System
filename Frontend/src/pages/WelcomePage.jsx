@@ -44,7 +44,7 @@ export default function WelcomePage() {
             Welcome to SLIIT Hostel Community
           </p>
           <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
-            Your trusted place to stay, study, and grow.
+            "Your Home , Away From Home "
           </h2>
           <p className="mb-6 text-lg text-slate-600">
             Easy room booking, quick hostel notices, and safer student life in one simple platform.
@@ -62,7 +62,7 @@ export default function WelcomePage() {
             <button
               type="button"
               onClick={() => navigate('/admin-login')}
-              className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-bold text-slate-700 transition hover:bg-slate-100"
+              className="rounded-xl border border-orange-300 bg-orange-200 px-6 py-3 font-bold text-orange-900 transition hover:bg-orange-300"
             >
               Admin Login
             </button>
