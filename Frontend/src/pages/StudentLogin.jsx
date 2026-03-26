@@ -23,7 +23,7 @@ export default function StudentLogin() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data));
         const isAdmin = ['Admin', 'Warden', 'Accountant'].includes(data.role);
-        navigate(isAdmin ? '/admin-dashboard' : '/student-dashboard');
+        navigate(isAdmin ? '/admin-dashboard' : '/student-home');
       } else {
         setError(data.message || 'Invalid credentials');
       }

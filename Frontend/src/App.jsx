@@ -18,6 +18,7 @@ import StudentNotices from './pages/StudentNotices';
 import AdminNotices from './pages/AdminNotices';
 import RoomList from './pages/Student/RoomList.jsx';
 import RoomManagement from './pages/Admin/RoomManagement.jsx';
+import StudentHome from './pages/StudentHome';
 import './index.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/student-login" element={<StudentLogin />} />
         <Route path="/student-register" element={<StudentRegister />} />
         <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/student-home" element={<StudentHome />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/student-profile" element={<StudentProfile />} />
         <Route path="/student-attendance" element={<StudentAttendance />} />
