@@ -14,10 +14,10 @@ export default function WelcomePage() {
       <nav className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-3 md:px-8">
           <div className="flex items-center gap-3">
-            <img src={staySphereLogo} alt="StaySphere logo" className="h-11 w-auto object-contain" />
+            <img src={staySphereLogo} alt="StaySphere logo" className="h-24 w-auto object-contain" />
             <div>
               <p className="text-sm font-semibold text-slate-500">SLIIT Hostel Management</p>
-              <h1 className="text-xl font-extrabold text-slate-800">StaySphere</h1>
+              <h1 className="text-2xl font-black text-black">StaySphere</h1>
             </div>
           </div>
 
