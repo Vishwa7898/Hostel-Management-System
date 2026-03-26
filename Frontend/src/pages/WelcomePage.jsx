@@ -17,11 +17,11 @@ export default function WelcomePage() {
             <img src={staySphereLogo} alt="StaySphere logo" className="h-24 w-auto object-contain" />
             <div>
               <p className="text-sm font-semibold text-slate-500">SLIIT Hostel Management</p>
-              <h1 className="text-2xl font-black text-black">StaySphere</h1>
+              <h1 className="text-4xl font-black"><span className="text-gray-700">Stay</span><span className="text-[#4BB580]">Sphere</span></h1>
             </div>
           </div>
 
-          <div className="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
+          <div className="hidden items-center gap-7 text-lg font-bold text-amber-900 md:flex">
             <a href="#home" className="transition hover:text-[#4BB580]">Home</a>
             <a href="#facilities" className="transition hover:text-[#4BB580]">Facilities</a>
             <a href="#about" className="transition hover:text-[#4BB580]">About</a>
@@ -31,7 +31,7 @@ export default function WelcomePage() {
           <button
             type="button"
             onClick={() => navigate('/student-login')}
-            className="rounded-lg bg-[#4BB580] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#3d9e6d]"
+            className="rounded-lg bg-[#4BB580] px-8 py-4 text-lg font-bold text-white transition hover:bg-[#3d9e6d]"
           >
             Student Login
           </button>
