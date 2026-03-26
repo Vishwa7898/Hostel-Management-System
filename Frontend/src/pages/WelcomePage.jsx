@@ -4,7 +4,7 @@ import { ArrowRight, BedDouble, Building2, ShieldCheck } from 'lucide-react';
 import staySphereLogo from '../assets/staysphere logo.png';
 import sliitCampusImage from '../assets/sliit-campus.jpg';
 import hostelRoomImage from '../assets/hostel-room.jpg';
-import hostelCommonAreaImage from '../assets/hostel-common-area.jpg';
+import studyImage from '../assets/study.avif';
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ export default function WelcomePage() {
           </article>
 
           <article className="overflow-hidden rounded-2xl bg-white shadow-md">
-            <img src={hostelCommonAreaImage} alt="Hostel common area" className="h-56 w-full object-cover" />
+            <img src={studyImage} alt="Hostel common area" className="h-56 w-full object-cover" />
             <div className="p-5">
               <p className="mb-2 flex items-center gap-2 text-lg font-bold"><Building2 size={20} /> Shared Living Spaces</p>
               <p className="text-slate-600">
