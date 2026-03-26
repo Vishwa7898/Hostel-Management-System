@@ -102,7 +102,7 @@ export default function AdminDashboard() {
         </div>
         
         <div className="flex-1 space-y-2">
-          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <LayoutDashboard size={20} />
             <span>Dashboard</span>
           </div>
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
             <User size={20} />
             <span>Profile</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <Calendar size={20} />
             <span>Attendance</span>
           </div>
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
             <MessageSquare size={20} />
             <span>Complaints</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <CreditCard size={20} />
             <span>Payments</span>
           </div>

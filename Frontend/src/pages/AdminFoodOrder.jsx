@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   LogOut, LayoutDashboard, User, Home, MessageSquare, CreditCard, Calendar,
-  UtensilsCrossed, Plus, Pencil, Trash2
+  UtensilsCrossed, Plus, Pencil, Trash2, Bell
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5000';
@@ -194,23 +194,27 @@ export default function AdminFoodOrder() {
             <User size={20} />
             <span>Profile</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <Calendar size={20} />
             <span>Attendance</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <Home size={20} />
             <span>Room Details</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <MessageSquare size={20} />
             <span>Complaints</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <CreditCard size={20} />
             <span>Payments</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium">
+          <div onClick={() => navigate('/admin-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Bell size={20} />
+            <span>Maintenance Notices</span>
+          </div>
+          <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium cursor-pointer transition-colors">
             <UtensilsCrossed size={20} />
             <span>Food Order</span>
           </div>

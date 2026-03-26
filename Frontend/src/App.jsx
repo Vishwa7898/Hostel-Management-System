@@ -10,6 +10,7 @@ import StudentAttendance from './pages/StudentAttendance';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminFoodOrder from './pages/AdminFoodOrder';
 import AdminProfile from './pages/AdminProfile';
+import AdminPayments from './pages/AdminPayments';
 import FoodOrderSystem from './pages/FoodOrderSystem';
 import StudentPayments from './pages/StudentPayments';
 import StudentComplaint from './pages/StudentComplaint';
@@ -40,6 +41,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/admin-food-order" element={<AdminFoodOrder />} />
+        <Route path="/admin-payments" element={<AdminPayments />} />
         <Route path="/admin-notices" element={<AdminNotices />} />
         <Route path="/admin-complaints" element={<AdminComplaint />} />
         <Route path="/admin-rooms" element={<RoomManagement />} />

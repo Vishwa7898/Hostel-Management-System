@@ -137,7 +137,7 @@ export default function AdminNotices() {
             <Calendar size={20} />
             <span>Attendance</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <Home size={20} />
             <span>Room Details</span>
           </div>
@@ -145,11 +145,11 @@ export default function AdminNotices() {
             <MessageSquare size={20} />
             <span>Complaints</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <CreditCard size={20} />
             <span>Payments</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-orange-600 rounded-lg cursor-pointer transition-colors font-bold">
+          <div onClick={() => navigate('/admin-notices')} className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-orange-600 rounded-lg cursor-pointer transition-colors font-bold">
             <Bell size={20} />
             <span>Maintenance Notices</span>
           </div>

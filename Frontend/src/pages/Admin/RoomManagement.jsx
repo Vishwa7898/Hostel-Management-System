@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import {
+  Home,
+  LayoutDashboard,
+  User,
+  Calendar,
+  MessageSquare,
+  CreditCard,
+  Bell,
+  UtensilsCrossed,
+  LogOut
+} from 'lucide-react';
 
 const RoomManagement = () => {
+  const navigate = useNavigate();
   const displayStudent = (student) => {
     if (!student) return 'Student';
     if (typeof student === 'string') return `Student (${student.slice(-6)})`;
@@ -26,6 +39,12 @@ const RoomManagement = () => {
   });
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/admin-login');
+  };
 
   useEffect(() => {
     fetchAdminData();
@@ -185,6 +204,48 @@ const RoomManagement = () => {
   return (
     <section className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-10">
       <div className="mx-auto max-w-7xl">
+        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h2 className="text-lg font-extrabold text-slate-800">
+              Admin <span className="text-orange-500">Navigation</span>
+            </h2>
+            <div className="text-sm font-semibold text-slate-600">
+              {user.name || 'Admin'}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            <button type="button" onClick={() => navigate('/admin-dashboard')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <LayoutDashboard size={16} /> Dashboard
+            </button>
+            <button type="button" onClick={() => navigate('/admin-profile')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <User size={16} /> Profile
+            </button>
+            <button type="button" onClick={() => navigate('/admin-dashboard')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <Calendar size={16} /> Attendance
+            </button>
+            <button type="button" className="flex items-center justify-center gap-2 rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-sm font-bold text-orange-700">
+              <Home size={16} /> Room Details
+            </button>
+            <button type="button" onClick={() => navigate('/admin-complaints')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <MessageSquare size={16} /> Complaints
+            </button>
+            <button type="button" onClick={() => navigate('/admin-payments')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <CreditCard size={16} /> Payments
+            </button>
+            <button type="button" onClick={() => navigate('/admin-notices')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <Bell size={16} /> Notices
+            </button>
+            <button type="button" onClick={() => navigate('/admin-food-order')} className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              <UtensilsCrossed size={16} /> Food Order
+            </button>
+          </div>
+          <div className="mt-3">
+            <button type="button" onClick={handleLogout} className="inline-flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-100">
+              <LogOut size={16} /> Logout
+            </button>
+          </div>
+        </div>
+
         <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">

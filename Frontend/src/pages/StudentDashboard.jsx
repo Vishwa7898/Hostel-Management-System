@@ -162,7 +162,10 @@ export default function StudentDashboard() {
               <span>Dashboard</span>
               <ChevronDown size={18} />
             </div>
-            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+              <div
+                onClick={() => navigate('/student-dashboard')}
+                className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+              >
               <LayoutDashboard size={20} />
               <span>Dashboard</span>
             </div>

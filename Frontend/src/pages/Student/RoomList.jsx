@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import {
+  LogOut,
+  LayoutDashboard,
+  User,
+  Calendar,
+  Home,
+  MessageSquare,
+  CreditCard,
+  Bell,
+  UtensilsCrossed,
+} from 'lucide-react';
 
 const RoomList = () => {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const token = localStorage.getItem('token');
+
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [checkInDate, setCheckInDate] = useState('');
@@ -10,8 +26,15 @@ const RoomList = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (!token) return navigate('/student-login');
+    if (['Admin', 'Warden', 'Accountant'].includes(user.role)) return navigate('/admin-dashboard');
     fetchAvailableRooms();
   }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
 
   const fetchAvailableRooms = async () => {
     try {
@@ -74,8 +97,94 @@ const RoomList = () => {
   };
 
   return (
-    <section className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-10">
-      <div className="mx-auto max-w-6xl">
+    <div className="min-h-screen flex bg-slate-50 font-sans">
+      <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-6 pb-6 px-4">
+        <div className="flex items-center space-x-2 font-bold text-2xl mb-8 px-2 text-slate-800">
+          <div className="w-8 h-8 bg-teal-600 rounded flex justify-center items-center text-white">
+            <Home size={18} />
+          </div>
+          <span>Student</span>
+        </div>
+
+        <div className="flex-1 space-y-2">
+          <div
+            onClick={() => navigate('/student-dashboard')}
+            className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <LayoutDashboard size={20} />
+            <span>Dashboard</span>
+          </div>
+
+          <div
+            onClick={() => navigate('/student-profile')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <User size={20} />
+            <span>Profile</span>
+          </div>
+
+          <div
+            onClick={() => navigate('/student-attendance')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <Calendar size={20} />
+            <span>Attendance</span>
+          </div>
+
+          <div
+            onClick={() => navigate('/student-rooms')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <Home size={20} />
+            <span>Room Details</span>
+          </div>
+
+          <div
+            onClick={() => navigate('/student-complaints')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <MessageSquare size={20} />
+            <span>Complaints</span>
+          </div>
+
+          <div
+            onClick={() => navigate('/student-payments')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <CreditCard size={20} />
+            <span>Payments</span>
+          </div>
+
+          <div
+            onClick={() => navigate('/student-notices')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <Bell size={20} />
+            <span>Notices</span>
+          </div>
+
+          <div
+            onClick={() => navigate(['Admin', 'Warden', 'Accountant'].includes(user.role) ? '/admin-food-order' : '/student-food-order')}
+            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <UtensilsCrossed size={20} />
+            <span>Food Order</span>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-slate-100 pt-4">
+          <div
+            onClick={handleLogout}
+            className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium"
+          >
+            <LogOut size={20} />
+            <span>Logout</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto">
+        <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
@@ -245,7 +354,8 @@ const RoomList = () => {
           </div>
         </div>
       )}
-    </section>
+      </div>
+    </div>
   );
 };
 
