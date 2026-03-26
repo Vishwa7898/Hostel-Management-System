@@ -127,7 +127,7 @@ export default function StudentHome() {
             Manage your hostel life in one place.
           </h2>
           <p className="mb-6 max-w-xl text-lg text-slate-600">
-            පහළට scroll කරද්දී ඔයාගේ recent food orders සහ room booking details බලන්න පුළුවන්.
+            You can view your recent food orders and room booking details as you scroll down.
           </p>
 
           <div className="flex flex-wrap gap-3">
