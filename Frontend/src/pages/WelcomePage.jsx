@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, BedDouble, Building2, ShieldCheck } from 'lucide-react';
 import staySphereLogo from '../assets/staysphere logo.png';
-import sliitCampusImage from '../assets/sliit-campus.jpg';
+import sliitCampusImage from '../assets/hostel_bg.png';
 import hostelRoomImage from '../assets/hostel-room.jpg';
 import studyImage from '../assets/study.avif';
 
@@ -40,7 +40,7 @@ export default function WelcomePage() {
 
       <section id="home" className="mx-auto grid w-full max-w-7xl gap-8 px-5 pb-12 pt-8 md:grid-cols-2 md:px-8 md:pt-12">
         <div className="flex flex-col justify-center">
-          <p className="mb-3 inline-block w-fit rounded-full bg-[#4BB580]/15 px-3 py-1 text-sm font-bold text-[#2f8657]">
+          <p className="mb-3 inline-block w-fit rounded-full bg-[#4BB580]/15 px-3 py-1 text-lg font-bold text-[#2f8657]">
             Welcome to SLIIT Hostel Community
           </p>
           <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
