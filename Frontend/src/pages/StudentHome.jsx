@@ -80,7 +80,7 @@ export default function StudentHome() {
             <img src={staySphereLogo} alt="StaySphere logo" className="h-20 w-auto object-contain" />
             <div>
               <p className="text-lg font-semibold text-cyan-100">SLIIT Hostel Management</p>
-              <h1 className="text-4xl font-extrabold text-white">StaySphere</h1>
+              <h1 className="text-4xl md:text-5xl font-black text-white">Stay<span className="text-yellow-200">Sphere</span></h1>
             </div>
           </div>
 
@@ -100,14 +100,14 @@ export default function StudentHome() {
             <button
               type="button"
               onClick={() => navigate('/student-dashboard')}
-              className="rounded-lg bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-cyan-300"
+              className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-500 px-6 py-3 text-base font-extrabold text-white shadow-lg shadow-cyan-400/40 transition hover:scale-105"
             >
               Student Dashboard
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="rounded-lg border border-red-200 bg-white px-3 py-2 text-sm font-bold text-red-600 transition hover:bg-red-50"
+              className="rounded-xl border border-red-300 bg-white px-6 py-3 text-base font-extrabold text-red-600 transition hover:bg-red-50 hover:scale-105"
             >
               <span className="inline-flex items-center gap-2">
                 <LogOut size={16} />
@@ -124,7 +124,7 @@ export default function StudentHome() {
             Welcome, {user.name || 'Student'}
           </p>
           <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
-            Manage your hostel life in one place.
+            - Manage your hostel life in one place -
           </h2>
           <p className="mb-6 max-w-xl text-lg text-slate-600">
             You can view your recent food orders and room booking details as you scroll down.
