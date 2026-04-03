@@ -23,11 +23,11 @@ export default function WelcomePage() {
             </div>
           </div>
 
-          <div className="hidden items-center gap-15 text-lg font-bold text-white md:flex">
-            <a href="#home" className="transition text-white hover:text-cyan-200">Home</a>
-            <a href="#facilities" className="transition text-white hover:text-cyan-200">Facilities</a>
-            <a href="#about" className="transition text-white hover:text-cyan-200">About</a>
-            <a href="#contact" className="transition text-white hover:text-cyan-200">Contact</a>
+          <div className="hidden items-center gap-7 text-xl font-bold text-black md:flex">
+            <a href="#home" className="transition text-bl hover:text-cyan-200">Home</a>
+            <a href="#facilities" className="transition text-black hover:text-cyan-200">Facilities</a>
+            <a href="#about" className="transition text-black hover:text-cyan-200">About</a>
+            <a href="#contact" className="transition text-black hover:text-cyan-200">Contact</a>
           </div>
 
           <button
@@ -46,25 +46,25 @@ export default function WelcomePage() {
             Welcome to SLIIT Hostel Community
           </p>
           <h2 className="mb-4 text-5xl md:text-7xl font-extrabold leading-tight font-serif bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            "Your Home , Away From Home "
+            " Your Home , Away From Home "
           </h2>
-          <p className="mb-6 text-xl font-bold text-black">
-            Easy room booking, quick hostel notices, and safer student life in one simple platform.
+          <p className="mb-12 text-xl font-bold text-black" style={{fontFamily: 'Trebuchet MS'}}>
+            Smart hostel management for SLIIIT students. Easy room booking, real-time notices, mess management & safer campus life in one colorful platform.
           </p>
 
           <div className="flex flex-wrap gap-3">
             <button
               type="button"
               onClick={() => navigate('/student-login')}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 font-bold text-white shadow-lg transition hover:from-blue-600 hover:to-blue-700 hover:shadow-xl"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:from-blue-600 hover:to-blue-700 hover:shadow-xl"
             >
               Student Login
-              <ArrowRight size={18} />
+              <ArrowRight size={20} />
             </button>
             <button
               type="button"
               onClick={() => navigate('/admin-login')}
-              className="rounded-xl bg-gradient-to-r from-orange-300 to-orange-400 px-6 py-3 font-bold text-white shadow-lg transition hover:from-orange-400 hover:to-orange-500 hover:shadow-xl border-0"
+              className="rounded-xl bg-gradient-to-r from-orange-300 to-orange-400 px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:from-orange-400 hover:to-orange-500 hover:shadow-xl border-0"
             >
               Admin Login
             </button>
