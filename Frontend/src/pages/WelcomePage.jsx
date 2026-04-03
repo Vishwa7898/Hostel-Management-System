@@ -7,6 +7,7 @@ import hostelRoomImage from '../assets/hostel-room.jpg';
 import studyImage from '../assets/study.avif';
 import studentDiningImage from '../assets/student_dining.jpg';
 
+
 export default function WelcomePage() {
   const navigate = useNavigate();
 
@@ -41,13 +42,13 @@ export default function WelcomePage() {
 
       <section id="home" className="mx-auto grid w-full max-w-7xl gap-8 px-5 pb-12 pt-8 md:grid-cols-2 md:px-8 md:pt-12">
         <div className="flex flex-col justify-center">
-          <p className="mb-3 inline-block w-fit rounded-full bg-gradient-to-r from-cyan-400 to-blue-400 px-3 py-1 text-lg font-bold text-white shadow-md">
+          <p className="mb-3 inline-block w-fit rounded-full bg-gradient-to-r from-cyan-400 to-blue-400 px-5 py-2 text-xl font-bold text-white shadow-md">
             Welcome to SLIIT Hostel Community
           </p>
-          <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h2 className="mb-4 text-5xl md:text-7xl font-extrabold leading-tight font-serif bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
             "Your Home , Away From Home "
           </h2>
-          <p className="mb-6 text-lg text-slate-700">
+          <p className="mb-6 text-xl font-bold text-black">
             Easy room booking, quick hostel notices, and safer student life in one simple platform.
           </p>
 
@@ -74,7 +75,7 @@ export default function WelcomePage() {
           <img
             src={sliitCampusImage}
             alt="SLIIT campus"
-            className="h-full min-h-[320px] w-full object-cover"
+            className="h-full min-h-[500px] w-full object-cover"
           />
         </div>
       </section>
