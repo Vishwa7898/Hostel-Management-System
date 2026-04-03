@@ -31,7 +31,7 @@ export default function WelcomePage() {
           <button
             type="button"
             onClick={() => navigate('/student-register')}
-            className="rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-8 py-4 text-lg font-bold text-white transition hover:from-cyan-400 hover:to-blue-400"
+            className="rounded-lg bg-gradient-to-r from-cyan-500 to-green-500 px-8 py-4 text-lg font-bold text-white transition hover:from-cyan-400 hover:to-blue-400"
           >
             New Student Register
           </button>
@@ -79,7 +79,7 @@ export default function WelcomePage() {
       </section>
 
       <section id="facilities" className="mx-auto w-full max-w-7xl px-5 pb-14 md:px-8">
-        <h3 className="mb-6 text-2xl font-extrabold text-slate-900">Hostel Facilities</h3>
+        <h3 className="mb-6 text-4xl font-extrabold text-cyan-600">Hostel Facilities</h3>
         <div className="grid gap-6 md:grid-cols-2">
           <article className="overflow-hidden rounded-2xl bg-white shadow-md">
             <img src={hostelRoomImage} alt="Comfortable hostel room" className="h-56 w-full object-cover" />
