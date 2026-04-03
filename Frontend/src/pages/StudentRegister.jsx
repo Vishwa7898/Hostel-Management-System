@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Camera, Eye, EyeOff } from 'lucide-react';
+import { Camera, Eye, EyeOff, Upload, User } from 'lucide-react';
+import hostelBackground from '../assets/hostel_bg.png';
 
 export default function StudentRegister() {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ export default function StudentRegister() {
     if (!profilePhoto) return setError('Please upload a profile photo');
     if (!nicFront) return setError('Please upload ID Card Front');
     if (!nicBack) return setError('Please upload ID Card Back');
-    if (!agreedToTerms) return setError('Please accept the Terms and Conditions to continue');
+    if (!agreedToTerms) return setError('Please accept the Terms and Conditions');
 
     const submitData = new FormData();
     Object.keys(formData).forEach(key => submitData.append(key, formData[key]));
@@ -45,7 +46,6 @@ export default function StudentRegister() {
     try {
       const res = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
-        // Note: When using FormData, do NOT set Content-Type manually. Fetch sets it automatically with the boundary.
         body: submitData
       });
       const data = await res.json();
@@ -54,142 +54,256 @@ export default function StudentRegister() {
         localStorage.setItem('user', JSON.stringify(data));
         navigate('/student-dashboard');
       } else {
-        setError(data.message || 'Error occurred during registration');
+        setError(data.message || 'Registration failed');
       }
     } catch (err) {
-      setError('Server error while connecting to backend');
+      setError('Server error. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center hostel-bg-student p-6 font-sans">
-      <div className="bg-white/80 backdrop-blur-lg border border-teal-100/50 w-full max-w-4xl rounded-[40px] shadow-2xl overflow-hidden p-8 md:p-12 relative flex flex-col items-center">
+    <div
+      className="min-h-screen flex items-center justify-center p-6 font-sans overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(rgba(14, 180, 200, 0.2), rgba(39, 175, 108, 0.2)), url(${hostelBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Background Decorative Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.2),transparent)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent)]"></div>
 
-        <div className="text-center mb-8 font-outfit">
-          <h1 className="text-5xl font-extrabold tracking-tight mb-2 drop-shadow-md">
-            <span className="text-slate-500">Stay</span>
-            <span className="text-[#4BB580]">Sphere</span>
-          </h1>
-          <h2 className="text-3xl font-extrabold text-[#8b4513] mt-1">Student Registration</h2>
+      <div className="bg-white/95 backdrop-blur-xl w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden relative z-10">
+        
+        {/* Header */}
+        <div className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 px-10 py-8 text-white text-center">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
+              <User size={28} />
+            </div>
+            <h1 className="text-5xl font-bold tracking-tighter">StaySphere</h1>
+          </div>
+          <p className="text-2xl font-medium opacity-90">Student Registration</p>
+          <p className="mt-1 text-white/80">Join the best student hostel community!</p>
         </div>
 
-        <form onSubmit={handleRegister} className="w-full flex flex-col items-center">
+        <div className="p-10 md:p-12">
+          <form onSubmit={handleRegister} className="space-y-10">
 
-          {/* Profile Photo Circular Upload */}
-          <div className="mb-10 relative cursor-pointer group" onClick={() => profileInputRef.current.click()}>
-            <div className={`w-36 h-36 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-md transition-all ${profilePhoto ? '' : 'bg-slate-200 group-hover:bg-slate-300'}`}>
-              {profilePhoto ? (
-                <img src={URL.createObjectURL(profilePhoto)} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <Camera size={48} className="text-slate-500 opacity-60" />
-              )}
-            </div>
-            <input type="file" required ref={profileInputRef} onChange={handlePhotoUpload} accept="image/*" className="hidden" />
-          </div>
-
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-
-            {/* Left Column Text Fields */}
-            <div className="space-y-4">
-              <input type="text" name="name" required placeholder="Full Name" value={formData.name} onChange={handleInputChange}
-                className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-500 outline-none text-slate-800" />
-
-              <input type="text" name="address" required placeholder="Address" value={formData.address} onChange={handleInputChange}
-                className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-500 outline-none text-slate-800" />
-
-              <input type="text" name="city" required placeholder="City" value={formData.city} onChange={handleInputChange}
-                className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-500 outline-none text-slate-800" />
-
-              <input type="text" name="studentPhone" required placeholder="Student Phone Number" value={formData.studentPhone} onChange={handleInputChange}
-                className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-500 outline-none text-slate-800" />
-
-              <input type="email" name="email" required placeholder="Email Address" value={formData.email} onChange={handleInputChange}
-                className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-500 outline-none text-slate-800" />
-
-              <div className="relative">
-                <input type={showPassword ? 'text' : 'password'} name="password" required placeholder="Password" value={formData.password} onChange={handleInputChange}
-                  className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-500 outline-none text-slate-800" />
-                <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
+            {/* Profile Photo */}
+            <div className="flex justify-center">
+              <div 
+                onClick={() => profileInputRef.current.click()}
+                className="group relative cursor-pointer"
+              >
+                <div className={`w-40 h-40 rounded-full border-8 border-white shadow-xl overflow-hidden bg-gradient-to-br from-pink-400 to-violet-400 transition-all duration-300 ${profilePhoto ? '' : 'hover:scale-105'}`}>
+                  {profilePhoto ? (
+                    <img 
+                      src={URL.createObjectURL(profilePhoto)} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-white">
+                      <Camera size={48} className="mb-2 opacity-80" />
+                      <p className="text-sm font-medium">Add Photo</p>
+                    </div>
+                  )}
+                </div>
+                <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-lg border-2 border-violet-500">
+                  <Upload size={20} className="text-violet-600" />
+                </div>
+                <input 
+                  type="file" 
+                  required 
+                  ref={profileInputRef} 
+                  onChange={handlePhotoUpload} 
+                  accept="image/*" 
+                  className="hidden" 
+                />
               </div>
             </div>
 
-            {/* Right Column File Uploads */}
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Left Column */}
+              <div className="space-y-6">
+                <input 
+                  type="text" name="name" required placeholder="Full Name" 
+                  value={formData.name} onChange={handleInputChange}
+                  className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+                />
 
-              <div className="bg-slate-200/50 p-4 rounded-2xl relative">
-                <p className="font-semibold text-slate-800 mb-2">ID Card Front <span className="text-red-500">*</span></p>
-                <div className="flex bg-slate-300 w-full h-24 rounded-xl items-center justify-center relative overflow-hidden border-2 border-dashed border-slate-400">
-                  {nicFront ? (
-                    <img src={URL.createObjectURL(nicFront)} className="w-full h-full object-cover opacity-80" />
-                  ) : (
-                    <div className="opacity-50">Upload Front</div>
-                  )}
-                  <input type="file" required accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={e => setNicFront(e.target.files[0])} />
+                <input 
+                  type="text" name="address" required placeholder="Address" 
+                  value={formData.address} onChange={handleInputChange}
+                  className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+                />
+
+                <input 
+                  type="text" name="city" required placeholder="City" 
+                  value={formData.city} onChange={handleInputChange}
+                  className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+                />
+
+                <input 
+                  type="tel" name="studentPhone" required placeholder="Student Phone Number" 
+                  value={formData.studentPhone} onChange={handleInputChange}
+                  className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+                />
+
+                <input 
+                  type="email" name="email" required placeholder="Email Address" 
+                  value={formData.email} onChange={handleInputChange}
+                  className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+                />
+
+                <div className="relative">
+                  <input 
+                    type={showPassword ? 'text' : 'password'} 
+                    name="password" required placeholder="Create Password" 
+                    value={formData.password} onChange={handleInputChange}
+                    className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 hover:text-violet-600"
+                  >
+                    {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                  </button>
                 </div>
               </div>
 
-              <div className="bg-slate-200/50 p-4 rounded-2xl relative">
-                <p className="font-semibold text-slate-800 mb-2">ID Card Back <span className="text-red-500">*</span></p>
-                <div className="flex bg-slate-300 w-full h-24 rounded-xl items-center justify-center relative overflow-hidden border-2 border-dashed border-slate-400">
-                  {nicBack ? (
-                    <img src={URL.createObjectURL(nicBack)} className="w-full h-full object-cover opacity-80" />
-                  ) : (
-                    <div className="opacity-50">Upload Back</div>
-                  )}
-                  <input type="file" required accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={e => setNicBack(e.target.files[0])} />
+              {/* Right Column - ID Uploads */}
+              <div className="space-y-6">
+                <div>
+                  <p className="font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                    ID Card Front <span className="text-red-500 text-xl">*</span>
+                  </p>
+                  <div className="border-2 border-dashed border-violet-300 hover:border-violet-500 rounded-3xl h-52 flex flex-col items-center justify-center bg-gradient-to-br from-violet-50 to-fuchsia-50 transition-all overflow-hidden group relative">
+                    {nicFront ? (
+                      <img src={URL.createObjectURL(nicFront)} className="w-full h-full object-cover" alt="ID Front" />
+                    ) : (
+                      <div className="text-center">
+                        <Upload size={40} className="mx-auto text-violet-400 mb-3" />
+                        <p className="font-medium text-violet-700">Upload Front Side</p>
+                        <p className="text-sm text-slate-500 mt-1">Click or drag image</p>
+                      </div>
+                    )}
+                    <input 
+                      type="file" 
+                      required 
+                      accept="image/*" 
+                      className="absolute inset-0 opacity-0 cursor-pointer" 
+                      onChange={e => setNicFront(e.target.files[0])} 
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <p className="font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                    ID Card Back <span className="text-red-500 text-xl">*</span>
+                  </p>
+                  <div className="border-2 border-dashed border-violet-300 hover:border-violet-500 rounded-3xl h-52 flex flex-col items-center justify-center bg-gradient-to-br from-violet-50 to-fuchsia-50 transition-all overflow-hidden group relative">
+                    {nicBack ? (
+                      <img src={URL.createObjectURL(nicBack)} className="w-full h-full object-cover" alt="ID Back" />
+                    ) : (
+                      <div className="text-center">
+                        <Upload size={40} className="mx-auto text-violet-400 mb-3" />
+                        <p className="font-medium text-violet-700">Upload Back Side</p>
+                        <p className="text-sm text-slate-500 mt-1">Click or drag image</p>
+                      </div>
+                    )}
+                    <input 
+                      type="file" 
+                      required 
+                      accept="image/*" 
+                      className="absolute inset-0 opacity-0 cursor-pointer" 
+                      onChange={e => setNicBack(e.target.files[0])} 
+                    />
+                  </div>
                 </div>
               </div>
-
             </div>
-          </div>
 
-          {/* Bottom Row */}
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-            <input type="text" name="guardianName" required placeholder="Guardian Name" value={formData.guardianName} onChange={handleInputChange}
-              className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-400 outline-none text-slate-800" />
-
-            <input type="text" name="contactNumber" required placeholder="Guardian Phone Number" value={formData.contactNumber} onChange={handleInputChange}
-              className="w-full p-4 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-teal-400 outline-none text-slate-800" />
-          </div>
-
-          <div className="w-full mt-8 bg-slate-100/80 border border-slate-200 rounded-2xl p-5">
-            <h3 className="text-lg font-bold text-red-700 mb-3">Terms & Conditions</h3>
-            <ul className="list-disc pl-5 space-y-2 text-red-600 text-sm">
-              <li>Students are required to check in and check out daily using the system.</li>
-              <li>The use or possession of alcohol or illegal drugs within the hostel premises is strictly prohibited.</li>
-              <li>Any form of fighting, harassment, or disturbance to other residents is not permitted.</li>
-              <li>Students must treat fellow residents and hostel staff with respect at all times.</li>
-              <li>Students must ensure that the guardian details provided are accurate and accessible in case of an emergency.</li>
-              <li>All students are required to comply with the safety and security guidelines established by hostel management.</li>
-              <li>Students are expected to maintain proper discipline and conduct within the hostel environment.</li>
-              <li>Engagement in any illegal, harmful, or unethical activities within the hostel premises is strictly forbidden.</li>
-            </ul>
-
-            <label className="mt-4 flex items-start gap-3 text-slate-800 font-medium cursor-pointer">
-              <input
-                type="checkbox"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                required
-                className="mt-1 h-4 w-4 accent-teal-600"
+            {/* Guardian Details */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <input 
+                type="text" name="guardianName" required placeholder="Guardian Name" 
+                value={formData.guardianName} onChange={handleInputChange}
+                className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
               />
-              <span>I have read and agree to the Terms and Conditions</span>
-            </label>
-          </div>
+              <input 
+                type="tel" name="contactNumber" required placeholder="Guardian Phone Number" 
+                value={formData.contactNumber} onChange={handleInputChange}
+                className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
+              />
+            </div>
 
-          {error && <p className="text-red-600 font-semibold mt-4 bg-red-100 px-4 py-2 rounded-lg">{error}</p>}
+            {/* Terms & Conditions */}
+            <div className="bg-gradient-to-br from-rose-50 to-amber-50 border border-rose-200 rounded-3xl p-8">
+              <h3 className="text-xl font-bold text-rose-700 mb-4 flex items-center gap-2">
+                📋 Terms & Conditions
+              </h3>
+              <ul className="space-y-3 text-rose-700 text-[15px]">
+                {[
+                  "Daily check-in & check-out is mandatory using the system",
+                  "Alcohol and illegal drugs are strictly prohibited",
+                  "No fighting, harassment or disturbances allowed",
+                  "Respect all residents and hostel staff at all times",
+                  "Guardian details must be accurate for emergencies",
+                  "Follow all safety & security guidelines",
+                  "Maintain discipline and good conduct",
+                  "Any illegal or unethical activity is strictly forbidden"
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-rose-400 mt-1">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
 
-          <button type="submit" className="w-full bg-[#4BB580] hover:bg-[#3d9e6d] text-white font-bold text-xl py-4 rounded-xl mt-8 shadow-lg hover:shadow-xl transition-all active:scale-[0.98]">
-            Register Student
-          </button>
+              <label className="mt-6 flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  className="mt-1.5 h-5 w-5 accent-violet-600 rounded"
+                  required
+                />
+                <span className="text-slate-700 font-medium">
+                  I have read and agree to the Terms and Conditions
+                </span>
+              </label>
+            </div>
 
-          <Link to="/student-login" className="text-teal-600 hover:text-teal-800 font-medium mt-6 transition-colors">
-            Return to Login
-          </Link>
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-3 rounded-2xl text-center font-medium">
+                {error}
+              </div>
+            )}
 
-        </form>
+            <button 
+              type="submit"
+              className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white font-bold text-xl py-5 rounded-2xl shadow-lg hover:shadow-2xl transition-all active:scale-[0.985] flex items-center justify-center gap-3"
+            >
+              Register Student
+              <span className="text-2xl">🚀</span>
+            </button>
+
+            <div className="text-center">
+              <Link 
+                to="/student-login" 
+                className="text-violet-600 hover:text-violet-800 font-semibold transition-colors"
+              >
+                Already have an account? Return to Login
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
