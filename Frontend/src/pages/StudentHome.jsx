@@ -96,7 +96,7 @@ export default function StudentHome() {
             <a href="#contact" className="transition hover:text-cyan-200">Contact</a>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => navigate('/student-dashboard')}
@@ -109,7 +109,7 @@ export default function StudentHome() {
               onClick={handleLogout}
               className="rounded-xl border border-red-300 bg-white px-6 py-3 text-base font-extrabold text-red-600 transition hover:bg-red-50 hover:scale-105"
             >
-              <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-1">
                 <LogOut size={16} />
                 Logout
               </span>
@@ -333,12 +333,25 @@ export default function StudentHome() {
             <h4 className="text-lg font-bold text-white">StaySphere</h4>
             <p className="mt-2 text-sm text-slate-400">Hostel Management System - SLIIT Campus</p>
           </div>
-          <div className="text-sm text-slate-300">
-            <p>Email: hostels@sliit.lk</p>
+          <div className="text-xl text-slate-400">
+            <p>Email: <span className="text-cyan-400">hostels@sliit.lk</span></p>
             <p>Phone: +94 11 754 4801</p>
             <p>Location: SLIIT Malabe Campus, Sri Lanka</p>
           </div>
-        </div>
+          </div>
+
+  {/* Google Map */}
+  <div className="w-full h-[250px] rounded-xl overflow-hidden border border-slate-700 shadow-lg">
+    <iframe
+      src="https://www.google.com/maps?q=SLIIT%20Malabe%20Campus&output=embed"
+      width="100%"
+      height="100%"
+      style={{ border: 0 }}
+      allowFullScreen=""
+      loading="lazy"
+      title="SLIIT Location"
+    ></iframe>
+  </div>
         <div className="mx-auto mt-6 w-full max-w-7xl border-t border-slate-700 pt-4 text-xs text-slate-400">
           © {new Date().getFullYear()} StaySphere. All rights reserved.
         </div>
