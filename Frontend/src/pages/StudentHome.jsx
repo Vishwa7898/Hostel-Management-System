@@ -120,13 +120,13 @@ export default function StudentHome() {
 
       <section id="home" className="mx-auto grid w-full max-w-7xl gap-8 px-5 pb-10 pt-8 md:grid-cols-2 md:px-8 md:pt-12">
         <div className="flex flex-col justify-center">
-          <p className="mb-3 inline-block w-fit rounded-full bg-cyan-500/20 px-3 py-1 text-sm font-bold text-cyan-700">
+          <p className="mb-3 inline-block w-fit rounded-full bg-cyan-500/20 px-3 py-1 text-base font-bold text-cyan-700">
             Welcome, {user.name || 'Student'}
           </p>
-          <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
+          <h2 className="mb-4 text-6xl font-extrabold leading-tight md:text-7xl">
             - Manage your hostel life in one place -
           </h2>
-          <p className="mb-6 max-w-xl text-lg text-slate-600">
+          <p className="mb-7 max-w-xl text-lg text-Times New Roman-500">
             You can view your recent food orders and room booking details as you scroll down.
           </p>
 
@@ -220,6 +220,7 @@ export default function StudentHome() {
                 >
                   Order Food
                 </button>
+                
               </div>
             </div>
           </article>
