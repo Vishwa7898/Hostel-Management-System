@@ -32,7 +32,7 @@ export default function WelcomePage() {
             </div>
           </div>
 
-          <div className="hidden items-center gap-8 text-lg font-bold text-white md:flex">
+          <div className="hidden items-center gap-9 text-xl font-bold text-white md:flex">
             {['Home', 'Facilities', 'About', 'Contact'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} className="transition hover:text-cyan-100 relative group">
                 {item}
