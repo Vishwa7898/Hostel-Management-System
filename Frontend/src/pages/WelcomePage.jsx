@@ -27,12 +27,12 @@ export default function WelcomePage() {
           <div className="flex items-center gap-3">
             <img src={staySphereLogo} alt="StaySphere logo" className="h-20 w-auto object-contain" />
             <div className="hidden sm:block">
-              <p className="text-xs uppercase tracking-widest font-bold text-white">SLIIT Hostel Management</p>
+              <p className="text-sm uppercase tracking-widest font-bold text-white">SLIIT Hostel Management</p>
               <h1 className="text-4xl md:text-5xl font-black text-white">Stay<span className="text-yellow-200">Sphere</span></h1>
             </div>
           </div>
 
-          <div className="hidden items-center gap-9 text-xl font-bold text-white md:flex">
+          <div className="hidden items-center gap-9 text-2xl font-bold text-white md:flex">
             {['Home', 'Facilities', 'About', 'Contact'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} className="transition hover:text-cyan-100 relative group">
                 {item}
@@ -166,8 +166,8 @@ export default function WelcomePage() {
       {/* --- Keep Original About & Footer --- */}
       <section id="about" className="bg-slate-900 py-16">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 md:px-8">
-          <p className="flex items-center gap-2 text-xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent"><ShieldCheck size={22} className="text-cyan-300" /> Safe and Smart Hostel Life</p>
-          <p className="max-w-4xl text-slate-300 leading-relaxed">
+          <p className="flex items-center gap-2 text-3xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent"><ShieldCheck size={28} className="text-cyan-300" /> Safe and Smart Hostel Life</p>
+          <p className="max-w-4xl text-slate-300 leading-relaxed text-xl">
             StaySphere helps students and administrators manage hostel operations with better communication,
             digital records, and organized room systems built for SLIIT students.
           </p>
@@ -177,16 +177,34 @@ export default function WelcomePage() {
       <footer id="contact" className="bg-slate-900 px-5 py-8 text-slate-200 border-t border-slate-800 md:px-8">
         <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-6 md:flex-row">
           <div>
-            <h4 className="text-lg font-bold text-white">StaySphere</h4>
-            <p className="mt-2 text-base text-slate-400">Hostel Management System - SLIIT Campus</p>
+            <h4 className="text-3xl font-bold text-white">StaySphere</h4>
+            <p className="mt-2 text-xl text-slate-400">Hostel Management System - SLIIT Campus</p>
           </div>
-          <div className="text-base text-slate-400">
-            <p>Email: <span className="text-cyan-400">hostels@sliit.lk</span></p>
-            <p>Phone: +94 11 754 4801</p>
-            <p>Location: SLIIT Malabe Campus, Sri Lanka</p>
-          </div>
+          <div className="grid md:grid-cols-2 gap-6 w-full">
+  
+  {/* Contact Details */}
+  <div className="text-xl text-slate-400">
+    <p>Email: <span className="text-cyan-400">hostels@sliit.lk</span></p>
+    <p>Phone: +94 11 754 4801</p>
+    <p>Location: SLIIT Malabe Campus, Sri Lanka</p>
+  </div>
+
+  {/* Google Map */}
+  <div className="w-full h-[250px] rounded-xl overflow-hidden border border-slate-700 shadow-lg">
+    <iframe
+      src="https://www.google.com/maps?q=SLIIT%20Malabe%20Campus&output=embed"
+      width="100%"
+      height="100%"
+      style={{ border: 0 }}
+      allowFullScreen=""
+      loading="lazy"
+      title="SLIIT Location"
+    ></iframe>
+  </div>
+
+</div>
         </div>
-        <div className="mx-auto mt-6 w-full max-w-7xl border-t border-slate-800 pt-4 text-xs text-slate-500 text-center">
+        <div className="mx-auto mt-6 w-full max-w-7xl border-t border-slate-800 pt-4 text-base text-slate-500 text-center">
           © {new Date().getFullYear()} StaySphere. All rights reserved.
         </div>
       </footer>
