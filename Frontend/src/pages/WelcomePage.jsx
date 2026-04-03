@@ -117,15 +117,15 @@ export default function WelcomePage() {
         <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-6 md:flex-row">
           <div>
             <h4 className="text-lg font-bold text-white">StaySphere</h4>
-            <p className="mt-2 text-sm text-slate-400">Hostel Management System - SLIIT Campus</p>
+            <p className="mt-2 text-base text-slate-400">Hostel Management System - SLIIT Campus</p>
           </div>
-          <div className="text-sm text-slate-300">
+          <div className="text-base text-slate-300">
             <p>Email: hostels@sliit.lk</p>
             <p>Phone: +94 11 754 4801</p>
             <p>Location: SLIIT Malabe Campus, Sri Lanka</p>
           </div>
         </div>
-        <div className="mx-auto mt-6 w-full max-w-7xl border-t border-slate-700 pt-4 text-xs text-slate-400">
+        <div className="mx-auto mt-6 w-full max-w-7xl border-t border-slate-700 pt-4 text-sm text-slate-400">
           © {new Date().getFullYear()} StaySphere. All rights reserved.
         </div>
       </footer>
