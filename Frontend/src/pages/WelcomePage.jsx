@@ -23,7 +23,7 @@ export default function WelcomePage() {
             </div>
           </div>
 
-          <div className="hidden items-center gap-7 text-lg font-bold text-white md:flex">
+          <div className="hidden items-center gap-15 text-lg font-bold text-white md:flex">
             <a href="#home" className="transition text-white hover:text-cyan-200">Home</a>
             <a href="#facilities" className="transition text-white hover:text-cyan-200">Facilities</a>
             <a href="#about" className="transition text-white hover:text-cyan-200">About</a>
