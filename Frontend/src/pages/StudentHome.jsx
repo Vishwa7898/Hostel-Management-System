@@ -75,16 +75,16 @@ export default function StudentHome() {
   return (
     <div className="min-h-screen bg-green-50 text-slate-800">
       <nav className="sticky top-0 z-40 border-b border-cyan-600/40 bg-gradient-to-r from-cyan-500/90 to-blue-700/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 md:px-8">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-8 md:px-8">
           <div className="flex items-center gap-3">
             <img src={staySphereLogo} alt="StaySphere logo" className="h-20 w-auto object-contain" />
             <div>
-              <p className="text-base font-semibold text-cyan-100">SLIIT Hostel Management</p>
-              <h1 className="text-2xl font-extrabold text-white">StaySphere</h1>
+              <p className="text-lg font-semibold text-cyan-100">SLIIT Hostel Management</p>
+              <h1 className="text-4xl font-extrabold text-white">StaySphere</h1>
             </div>
           </div>
 
-          <div className="hidden items-center gap-7 text-lg font-semibold text-white md:flex">
+          <div className="hidden items-center gap-7 text-2xl font-bold text-white md:flex">
             <a href="#home" className="transition hover:text-cyan-200">Home</a>
             <a
               href="#facilities"
