@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, BedDouble, Building2, ShieldCheck } from 'lucide-react';
+import { ArrowRight, BedDouble, Building2, ShieldCheck, UtensilsCrossed } from 'lucide-react';
 import staySphereLogo from '../assets/staysphere logo.png';
 import sliitCampusImage from '../assets/hostel_bg.png';
 import hostelRoomImage from '../assets/hostel-room.jpg';
 import studyImage from '../assets/study.avif';
+import studentDiningImage from '../assets/student_dining.jpg';
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ export default function WelcomePage() {
 
       <section id="facilities" className="mx-auto w-full max-w-7xl px-5 pb-14 md:px-8">
         <h3 className="mb-6 text-4xl font-extrabold text-cyan-600">Hostel Facilities</h3>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-3">
           <article className="overflow-hidden rounded-2xl bg-white shadow-md">
             <img src={hostelRoomImage} alt="Comfortable hostel room" className="h-56 w-full object-cover" />
             <div className="p-5">
@@ -97,6 +98,16 @@ export default function WelcomePage() {
               <p className="mb-2 flex items-center gap-2 text-lg font-bold"><Building2 size={20} /> Shared Living Spaces</p>
               <p className="text-slate-600">
                 Friendly common areas for reading, meeting friends, and relaxing after lectures.
+              </p>
+            </div>
+          </article>
+
+          <article className="overflow-hidden rounded-2xl bg-white shadow-md">
+            <img src={studentDiningImage} alt="Hygienic Mess" className="h-56 w-full object-cover" />
+            <div className="p-5">
+              <p className="mb-2 flex items-center gap-2 text-lg font-bold"><UtensilsCrossed size={20} /> Hygienic Mess</p>
+              <p className="text-slate-700">
+                Nutritious meals prepared daily with menu transparency and special dietary options.
               </p>
             </div>
           </article>

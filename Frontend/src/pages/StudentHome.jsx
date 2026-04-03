@@ -10,7 +10,7 @@ import {
   UtensilsCrossed,
 } from 'lucide-react';
 import staySphereLogo from '../assets/staysphere logo.png';
-import sliitCampusImage from '../assets/sliit-campus.jpg';
+import sliitCampusImage from '../assets/hostel_bg.png';
 import hostelRoomImage from '../assets/hostel-room.jpg';
 import hostelCommonAreaImage from '../assets/hostel-common-area.jpg';
 
@@ -73,34 +73,34 @@ export default function StudentHome() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
-      <nav className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-3 md:px-8">
+    <div className="min-h-screen bg-green-50 text-slate-800">
+      <nav className="sticky top-0 z-40 border-b border-cyan-600/40 bg-gradient-to-r from-cyan-500/90 to-blue-700/90 backdrop-blur">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 md:px-8">
           <div className="flex items-center gap-3">
-            <img src={staySphereLogo} alt="StaySphere logo" className="h-11 w-auto object-contain" />
+            <img src={staySphereLogo} alt="StaySphere logo" className="h-20 w-auto object-contain" />
             <div>
-              <p className="text-sm font-semibold text-slate-500">SLIIT Hostel Management</p>
-              <h1 className="text-xl font-extrabold text-slate-800">StaySphere</h1>
+              <p className="text-base font-semibold text-cyan-100">SLIIT Hostel Management</p>
+              <h1 className="text-2xl font-extrabold text-white">StaySphere</h1>
             </div>
           </div>
 
-          <div className="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
-            <a href="#home" className="transition hover:text-[#4BB580]">Home</a>
+          <div className="hidden items-center gap-7 text-lg font-semibold text-white md:flex">
+            <a href="#home" className="transition hover:text-cyan-200">Home</a>
             <a
               href="#facilities"
-              className="transition hover:text-[#4BB580]"
+              className="transition hover:text-cyan-200"
             >
               Facilities
             </a>
-            <a href="#about" className="transition hover:text-[#4BB580]">About</a>
-            <a href="#contact" className="transition hover:text-[#4BB580]">Contact</a>
+            <a href="#about" className="transition hover:text-cyan-200">About</a>
+            <a href="#contact" className="transition hover:text-cyan-200">Contact</a>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => navigate('/student-dashboard')}
-              className="rounded-lg bg-[#4BB580] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#3d9e6d]"
+              className="rounded-lg bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-cyan-300"
             >
               Student Dashboard
             </button>
@@ -120,7 +120,7 @@ export default function StudentHome() {
 
       <section id="home" className="mx-auto grid w-full max-w-7xl gap-8 px-5 pb-10 pt-8 md:grid-cols-2 md:px-8 md:pt-12">
         <div className="flex flex-col justify-center">
-          <p className="mb-3 inline-block w-fit rounded-full bg-[#4BB580]/15 px-3 py-1 text-sm font-bold text-[#2f8657]">
+          <p className="mb-3 inline-block w-fit rounded-full bg-cyan-500/20 px-3 py-1 text-sm font-bold text-cyan-700">
             Welcome, {user.name || 'Student'}
           </p>
           <h2 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
@@ -134,7 +134,7 @@ export default function StudentHome() {
             <button
               type="button"
               onClick={() => navigate('/student-food-order')}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#4BB580] px-6 py-3 font-bold text-white shadow transition hover:bg-[#3d9e6d]"
+              className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 font-bold text-white shadow transition hover:bg-cyan-600"
             >
               Food Order
               <ArrowRight size={18} />
