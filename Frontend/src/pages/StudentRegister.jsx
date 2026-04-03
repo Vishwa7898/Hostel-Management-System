@@ -78,20 +78,14 @@ export default function StudentRegister() {
 
       <div className="bg-white/95 backdrop-blur-xl w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden relative z-10">
         
-        {/* Header */}
-        <div className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 px-10 py-8 text-white text-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
-              <User size={28} />
-            </div>
-            <h1 className="text-5xl font-bold tracking-tighter">StaySphere</h1>
-          </div>
-          <p className="text-2xl font-medium opacity-90">Student Registration</p>
-          <p className="mt-1 text-white/80">Join the best student hostel community!</p>
-        </div>
-
         <div className="p-10 md:p-12">
           <form onSubmit={handleRegister} className="space-y-10">
+            
+            {/* Title Section */}
+            <div className="text-center mb-8">
+              <h1 className="text-5xl font-bold tracking-tighter bg-gradient-to-r from-green-600 to-gray-600 bg-clip-text text-transparent mb-2">StaySphere</h1>
+              <p className="text-3xl font-bold text-gray-800">Student Registration</p>
+            </div>
 
             {/* Profile Photo */}
             <div className="flex justify-center">
