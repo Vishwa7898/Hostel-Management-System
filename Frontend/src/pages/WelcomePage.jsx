@@ -81,7 +81,7 @@ export default function WelcomePage() {
       </section>
 
       <section id="facilities" className="mx-auto w-full max-w-7xl px-5 pb-14 md:px-8">
-        <h3 className="mb-6 text-4xl font-extrabold text-cyan-600">Hostel Facilities</h3>
+        <h3 className="mb-6 text-4xl text-cyan-600" style={{ fontFamily: '"Britannic Bold", Times, serif' }}>Hostel Facilities</h3>
         <div className="grid gap-6 md:grid-cols-3">
           <article className="overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-lg border-l-4 border-blue-500">
             <img src={hostelRoomImage} alt="Comfortable hostel room" className="h-56 w-full object-cover" />
