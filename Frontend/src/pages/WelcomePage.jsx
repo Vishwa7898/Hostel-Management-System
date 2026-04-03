@@ -30,10 +30,10 @@ export default function WelcomePage() {
 
           <button
             type="button"
-            onClick={() => navigate('/student-login')}
+            onClick={() => navigate('/student-register')}
             className="rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-8 py-4 text-lg font-bold text-white transition hover:from-cyan-400 hover:to-blue-400"
           >
-            Student Login
+            New Student Register
           </button>
         </div>
       </nav>
@@ -53,10 +53,10 @@ export default function WelcomePage() {
           <div className="flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={() => navigate('/student-register')}
+              onClick={() => navigate('/student-login')}
               className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 font-bold text-white shadow transition hover:bg-cyan-600"
             >
-              Register Now
+              Student Login
               <ArrowRight size={18} />
             </button>
             <button
