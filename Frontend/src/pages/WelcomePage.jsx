@@ -71,7 +71,7 @@ export default function WelcomePage() {
 
         <div className="relative z-10 grid w-full gap-12 md:grid-cols-2 items-center">
           <div className="flex flex-col justify-center text-center md:text-left">
-            <div className="mb-6 inline-flex self-center md:self-start items-center rounded-full bg-cyan-50 px-4 py-1.5 text-xs font-bold text-cyan-600 border border-cyan-100 shadow-sm">
+            <div className="mb-6 inline-flex self-center md:self-start items-center rounded-full bg-cyan-50 px-6 py-3 text-base font-bold text-cyan-600 border border-cyan-100 shadow-md">
               Welcome to SLIIT Hostel Community
             </div>
             
@@ -136,7 +136,7 @@ export default function WelcomePage() {
       {/* --- FACILITIES SECTION (Modified for Consistency) --- */}
       <section id="facilities" className="mx-auto w-full max-w-7xl px-5 py-24 md:px-8">
         <div className="flex flex-col items-center mb-16 text-center">
-            <h3 className="text-4xl font-black text-slate-800 mb-4">Hostel Facilities</h3>
+            <h3 className="text-4xl font-black font-Britannic Boldtext-slate-800 mb-4">Hostel Facilities</h3>
             <div className="h-1.5 w-20 bg-cyan-500 rounded-full"></div>
         </div>
         
