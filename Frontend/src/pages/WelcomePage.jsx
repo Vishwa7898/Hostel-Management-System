@@ -22,7 +22,7 @@ export default function WelcomePage() {
       `}</style>
 
       {/* --- NAVIGATION BAR --- */}
-      <nav className="sticky top-0 z-50 border-b border-cyan-400/30 bg-gradient-to-r from-cyan-400 to-blue-600 shadow-lg">
+      <nav className="sticky top-0 z-50 border-b border-cyan-900 bg-[#008B8B] shadow-lg">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 md:px-8">
           <div className="flex items-center gap-3">
             <img src={staySphereLogo} alt="StaySphere logo" className="h-20 w-auto object-contain" />
@@ -32,9 +32,9 @@ export default function WelcomePage() {
             </div>
           </div>
 
-          <div className="hidden items-center gap-9 text-2xl font-bold text-white md:flex">
+          <div className="hidden items-center gap-9 text-2xl font-bold text-slate-200 md:flex">
             {['Home', 'Facilities', 'About', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="transition hover:text-cyan-100 relative group">
+              <a key={item} href={`#${item.toLowerCase()}`} className="transition hover:text-cyan-400 relative group">
                 {item}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover:w-full"></span>
               </a>
