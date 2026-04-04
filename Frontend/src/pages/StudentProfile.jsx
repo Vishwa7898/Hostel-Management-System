@@ -212,7 +212,7 @@ export default function StudentProfile() {
 
         {/* Main Content */}
         <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto">
-          <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8 relative">My Profile</h1>
+          <h1 className="text-6xl font-bold font-Bodoni MT Black Bold text-[#5D4037] mb-7 relative"><u>My Profile</u></h1>
 
           <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 max-w-3xl">
             {message && <div className="mb-6 bg-teal-50 text-teal-700 px-4 py-3 rounded-lg font-medium">{message}</div>}
