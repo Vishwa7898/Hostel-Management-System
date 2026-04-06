@@ -58,6 +58,9 @@ export default function AdminComplaint() {
   };
 
   const filteredComplaints = complaints.filter(c => statusFilter === 'All' || c.status === statusFilter);
+  const totalCount = complaints.length;
+  const pendingCount = complaints.filter(c => c.status === 'Pending').length;
+  const resolvedCount = complaints.filter(c => c.status === 'Done').length;
 
   const handleLogout = () => {
     localStorage.clear();
@@ -68,7 +71,7 @@ export default function AdminComplaint() {
     <div className="min-h-screen flex bg-slate-50 font-sans">
       <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
         <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800 cursor-pointer" onClick={() => navigate('/admin-dashboard')}>
-          <div className="w-8 h-8 bg-orange-500 rounded flex justify-center items-center text-white">
+          <div className="w-8 h-8 bg-cyan-600 rounded flex justify-center items-center text-white">
             <Home size={18} />
           </div>
           <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
@@ -91,7 +94,7 @@ export default function AdminComplaint() {
             <Home size={20} />
             <span>Room Details</span>
           </div>
-          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 bg-cyan-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <MessageSquare size={20} />
             <span>Complaints</span>
           </div>
@@ -112,34 +115,49 @@ export default function AdminComplaint() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center z-0">
-          <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">Admin <span className="text-orange-500">Complaints</span></h1>
-          <div className="flex items-center space-x-4 ml-auto">
-            <div className="hidden sm:flex flex-col text-right">
-              <span className="font-bold text-sm text-slate-800 leading-none">{user.name}</span>
-              <span className="text-xs text-slate-500">{user.role || 'Admin'}</span>
+      <div className="flex-1 flex flex-col min-w-0 px-8 py-8">
+        <header className="rounded-[32px] bg-gradient-to-br from-cyan-700 via-slate-950 to-violet-700 text-white shadow-[0_32px_100px_rgba(15,23,42,0.25)] border border-white/10 p-8 mb-10 overflow-hidden relative">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"></div>
+          <div className="absolute left-0 top-20 h-32 w-32 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+          <div className="relative grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:items-center">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-cyan-200 font-semibold">Admin Complaints</p>
+              <h1 className="mt-3 text-4xl font-bold tracking-tight">Complaints & Maintenance Management</h1>
+              <p className="mt-4 max-w-2xl text-cyan-100/90">Track, assign, and resolve student issues with clear oversight and friendly action tools.</p>
             </div>
-            <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg">
-              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[24px] bg-white/10 border border-white/10 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-cyan-100 font-semibold">Total</p>
+                <p className="mt-3 text-3xl font-bold">{totalCount}</p>
+              </div>
+              <div className="rounded-[24px] bg-cyan-500/10 border border-cyan-200 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-cyan-100 font-semibold">Pending</p>
+                <p className="mt-3 text-3xl font-bold">{pendingCount}</p>
+              </div>
+              <div className="rounded-[24px] bg-violet-500/10 border border-violet-200 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-violet-100 font-semibold">Resolved</p>
+                <p className="mt-3 text-3xl font-bold">{resolvedCount}</p>
+              </div>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 p-8 overflow-x-hidden">
-          <div className="flex justify-between items-end mb-6">
+        <main className="flex-1 overflow-x-hidden">
+          <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-slate-800 mb-1 flex items-center space-x-2">
-                <AlertCircle size={24} className="text-orange-500" />
-                <span>Complaints & Maintenance Management</span>
+              <h2 className="text-2xl font-bold text-slate-900 mb-1 flex items-center gap-2">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 shadow-sm">
+                  <AlertCircle size={20} />
+                </span>
+                Complaints & Maintenance Management
               </h2>
-              <p className="text-slate-500">Track, assign, and resolve student issues.</p>
+              <p className="text-slate-500 max-w-2xl">Track, assign, and resolve student issues with confidence.</p>
             </div>
-            <div className="flex space-x-3 items-center">
+            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <div className="flex flex-col">
-                <label className="text-xs font-semibold text-slate-500 uppercase mb-1 flex items-center gap-1"><Filter size={14}/> Filter Status</label>
+                <label className="text-xs font-semibold text-slate-500 uppercase mb-2 flex items-center gap-1"><Filter size={14}/> Filter Status</label>
                 <select 
-                  className="border border-slate-300 rounded-lg px-3 py-2 text-slate-700 outline-none focus:border-orange-500 bg-white shadow-sm"
+                  className="border border-slate-300 rounded-3xl px-4 py-3 text-slate-700 outline-none focus:border-cyan-500 bg-white shadow-sm"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -150,17 +168,17 @@ export default function AdminComplaint() {
               </div>
               <button 
                 onClick={fetchComplaints}
-                className="mt-5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 px-3 py-2 rounded-lg flex items-center space-x-1 transition-colors shadow-sm text-sm font-medium"
+                className="mt-2 sm:mt-0 inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-cyan-600 to-violet-600 text-white px-4 py-3 font-semibold shadow-lg transition hover:from-cyan-700 hover:to-violet-700"
               >
                 <RefreshCw size={16} className={loading ? 'animate-spin' : ''} /> <span>Refresh</span>
               </button>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-white/95 rounded-[32px] shadow-[0_30px_80px_rgba(59,130,246,0.15)] border border-slate-200 overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-100/50 text-slate-600 text-sm uppercase tracking-wider">
+                <tr className="bg-gradient-to-r from-cyan-100 to-violet-100 text-slate-600 text-sm uppercase tracking-wider">
                   <th className="p-4 border-b font-bold w-1/4">Student & Details</th>
                   <th className="p-4 border-b font-bold w-1/3">Issue description</th>
                   <th className="p-4 border-b font-bold">Category</th>
@@ -170,42 +188,42 @@ export default function AdminComplaint() {
               </thead>
               <tbody>
                 {filteredComplaints.map(complaint => (
-                  <tr key={complaint._id} className="hover:bg-slate-50/80 border-b border-slate-100 last:border-0 transition-colors group">
+                  <tr key={complaint._id} className="transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-50 group border-b border-slate-200 last:border-0">
                     <td className="p-4 align-top">
-                      <div className="font-bold text-slate-800 text-base">{complaint.anonymous ? 'Anonymous Student' : complaint.displayName}</div>
-                      <div className="flex items-center gap-1 mt-1.5 whitespace-nowrap">
-                        <Home size={14} className="text-slate-400" />
-                        <span className="text-sm font-medium text-slate-600">
+                      <div className="font-semibold text-slate-900 text-base">{complaint.anonymous ? 'Anonymous Student' : complaint.displayName}</div>
+                      <div className="flex items-center gap-1 mt-2 whitespace-nowrap text-sm text-slate-600">
+                        <Home size={14} className="text-cyan-500" />
+                        <span>
                           {complaint.locationType === 'room' ? `Room ${complaint.roomNumber}` : 'General Area'}
                         </span>
                       </div>
-                      <div className="text-xs text-slate-400 mt-1 font-medium bg-slate-100 inline-block px-2 py-0.5 rounded">
-                        {new Date(complaint.createdAt).toLocaleString()}
+                      <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500">
+                        <span>{new Date(complaint.createdAt).toLocaleString()}</span>
                       </div>
                     </td>
                     
                     <td className="p-4 align-top max-w-sm">
-                      <h3 className="font-bold text-slate-800 mb-1 leading-snug">{complaint.title}</h3>
-                      <p className="text-sm text-slate-600 leading-relaxed max-h-20 flex-1">{complaint.description}</p>
+                      <h3 className="font-semibold text-slate-900 mb-2 leading-snug">{complaint.title}</h3>
+                      <p className="text-sm text-slate-600 leading-relaxed max-h-28 overflow-hidden">{complaint.description}</p>
                     </td>
 
                     <td className="p-4 align-top">
-                      <span className="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wide bg-slate-100 text-slate-600 border border-slate-200">
+                      <span className="inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-700 px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-sm">
                         {complaint.category}
                       </span>
                     </td>
 
                     <td className="p-4 align-top">
                       <div className="space-y-2">
-                        <div className="flex flex-col relative w-full">
+                        <div className="relative w-full">
                           <input 
                             type="text" 
                             placeholder="Assign Worker"
                             value={assignWorkers[complaint._id] !== undefined ? assignWorkers[complaint._id] : complaint.assignedWorker || ''}
                             onChange={(e) => setAssignWorkers({ ...assignWorkers, [complaint._id]: e.target.value })}
-                            className="border border-slate-300 rounded-lg px-8 py-2 text-sm text-slate-700 outline-none focus:border-orange-500 bg-white shadow-sm w-full"
+                            className="w-full border border-slate-300 rounded-full px-10 py-2 text-sm text-slate-700 outline-none focus:border-cyan-500 bg-white shadow-sm"
                           />
-                          <UserPlus size={14} className="absolute left-2.5 top-2.5 text-slate-400" />
+                          <UserPlus size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                         </div>
                         {assignWorkers[complaint._id] !== undefined && assignWorkers[complaint._id] !== (complaint.assignedWorker || '') && (
                           <button 
@@ -215,7 +233,7 @@ export default function AdminComplaint() {
                               delete newVals[complaint._id];
                               setAssignWorkers(newVals);
                             }}
-                            className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded w-full transition-colors"
+                            className="w-full rounded-full bg-cyan-500 text-white text-xs font-bold uppercase tracking-wide py-2 transition hover:bg-cyan-600"
                           >
                             Save assignment
                           </button>
@@ -224,15 +242,15 @@ export default function AdminComplaint() {
                     </td>
 
                     <td className="p-4 align-top text-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <span className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide w-full text-center ${complaint.status === 'Done' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200'}`}>
+                      <div className="flex flex-col items-center gap-3">
+                        <span className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide w-full text-center ${complaint.status === 'Done' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-cyan-100 text-cyan-700 border border-cyan-200'}`}>
                           {complaint.status}
                         </span>
                         
                         {complaint.status === 'Pending' && (
                           <button 
                             onClick={() => handleUpdate(complaint._id, 'Done')}
-                            className="flex items-center justify-center gap-1.5 w-full bg-[#18181b] hover:bg-[#3f3f46] text-white px-2 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm"
+                            className="inline-flex items-center justify-center gap-2 w-full rounded-full bg-slate-900 text-white px-3 py-2 text-xs font-semibold transition hover:bg-slate-800 shadow-sm"
                           >
                             <CheckCircle size={14} /> Mark Done
                           </button>

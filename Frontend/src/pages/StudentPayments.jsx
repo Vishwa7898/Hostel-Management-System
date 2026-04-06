@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, LogOut, LayoutDashboard, User, CreditCard, UtensilsCrossed, ArrowRight, CheckCircle, Clock } from 'lucide-react';
+import { Home, LogOut, LayoutDashboard, User, CreditCard, UtensilsCrossed, ArrowRight, CheckCircle, Clock, Calendar } from 'lucide-react';
 
 const MEAL_LABELS = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', tea: 'Tea' };
 
@@ -51,7 +51,7 @@ export default function StudentPayments() {
           <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
         </div>
         <div className="flex-1 space-y-2">
-          <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+          <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <LayoutDashboard size={20} />
             <span>Dashboard</span>
           </div>
@@ -59,13 +59,25 @@ export default function StudentPayments() {
             <User size={20} />
             <span>Profile</span>
           </div>
-          <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <UtensilsCrossed size={20} />
-            <span>Food Order</span>
+          <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Calendar size={20} />
+            <span>Attendance</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Home size={20} />
+            <span>Room Details</span>
+          </div>
+          <div onClick={() => navigate('/student-file-complaint')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <MessageSquare size={20} />
+            <span>Complaints</span>
           </div>
           <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium">
             <CreditCard size={20} />
             <span>Payments</span>
+          </div>
+          <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <UtensilsCrossed size={20} />
+            <span>Food Order</span>
           </div>
         </div>
         <div className="mt-8 border-t border-slate-100 pt-4">
