@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import hostelImage from '../assets/hostel_bg.png';
 import { LogOut, LayoutDashboard, ChevronDown, CheckCircle, Clock, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, AlertCircle, RefreshCw } from 'lucide-react';
 
 export default function StudentComplaint() {
@@ -174,6 +175,9 @@ export default function StudentComplaint() {
                     ✨ Fast support
                   </div>
                   <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900">File a New Complaint</h2>
+                  <div className="mt-5 overflow-hidden rounded-[28px] border border-slate-200 bg-white/80 shadow-sm">
+                    <img src={hostelImage} alt="Hostel accommodation" className="w-full h-44 object-cover" />
+                  </div>
                   <p className="mt-4 text-sm leading-7 text-slate-600">Share your issue clearly and we’ll route it to the right team quickly. The more details you provide, the faster it gets resolved.</p>
                   <div className="mt-6 grid gap-4">
                     <div className="rounded-3xl bg-white p-4 border border-cyan-100 shadow-sm">
