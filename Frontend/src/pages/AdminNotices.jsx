@@ -114,11 +114,11 @@ export default function AdminNotices() {
   };
 
   return (
-    <div className="min-h-screen flex bg-slate-50 font-sans selection:bg-orange-100 selection:text-orange-900">
+    <div className="min-h-screen flex bg-slate-50 font-sans selection:bg-teal-100 selection:text-teal-900">
       {/* Sidebar Focus on modern clean look */}
       <div className="w-64 bg-white/70 backdrop-blur-2xl border-r border-slate-200/50 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-[4px_0_24px_rgba(0,0,0,0.01)] z-20">
         <div className="flex items-center space-x-3 font-black text-2xl mb-10 px-2 cursor-pointer group transition-all" onClick={() => navigate('/admin-dashboard')}>
-          <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex justify-center items-center text-white shadow-lg shadow-orange-500/30 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
+          <div className="w-9 h-9 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex justify-center items-center text-white shadow-lg shadow-cyan-500/30 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
             <Home size={18} strokeWidth={2.5} />
           </div>
           <span className="tracking-tight text-slate-800 hover:opacity-80 transition-opacity">Stay<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Sphere</span></span>
@@ -149,9 +149,9 @@ export default function AdminNotices() {
             <CreditCard size={20} />
             <span>Payments</span>
           </div>
-          <div className="flex items-center space-x-3 px-4 py-3 bg-gradient-to-r from-orange-50 to-orange-100/50 text-orange-700 rounded-xl cursor-pointer transition-all font-bold shadow-sm border border-orange-100/50 relative overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-r-md"></div>
-            <Bell size={20} className="text-orange-500" />
+          <div className="flex items-center space-x-3 px-4 py-3 bg-gradient-to-r from-teal-50 to-cyan-50 text-teal-700 rounded-xl cursor-pointer transition-all font-bold shadow-sm border border-teal-100/50 relative overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-teal-500 rounded-r-md"></div>
+            <Bell size={20} className="text-teal-600" />
             <span>Notices</span>
           </div>
           <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
@@ -170,19 +170,19 @@ export default function AdminNotices() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 relative">
         {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-300/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-300/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] bg-teal-300/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         <header className="bg-white/70 backdrop-blur-xl border-b border-slate-200/60 p-5 sticky top-0 z-10 flex items-center justify-between shadow-sm">
           <h1 className="text-xl font-black tracking-tight text-slate-800 hidden sm:block flex items-center gap-2">
-            Maintenance <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">Notices</span>
+            Maintenance <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500">Notices</span>
           </h1>
           <div className="flex items-center space-x-4 ml-auto">
             <div className="hidden sm:flex flex-col text-right">
               <span className="font-bold text-sm text-slate-800 leading-none">{user.name}</span>
               <span className="text-xs text-slate-500 mt-1 font-medium">{user.role || 'Admin'}</span>
             </div>
-            <div className="w-11 h-11 bg-gradient-to-tr from-orange-100 to-orange-50 text-orange-600 border border-orange-200 rounded-full flex items-center justify-center font-bold text-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <div className="w-11 h-11 bg-gradient-to-tr from-teal-100 to-cyan-100 text-teal-700 border border-teal-200 rounded-full flex items-center justify-center font-bold text-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
               {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
             </div>
           </div>
@@ -193,8 +193,8 @@ export default function AdminNotices() {
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 gap-5">
               <div>
                 <h2 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-                  <div className="p-2 bg-orange-100 rounded-xl">
-                    <Bell size={28} className="text-orange-500" strokeWidth={2.5} />
+                  <div className="p-2 bg-teal-100 rounded-xl">
+                    <Bell size={28} className="text-teal-600" strokeWidth={2.5} />
                   </div>
                   Manage Notices
                 </h2>
@@ -202,10 +202,10 @@ export default function AdminNotices() {
               </div>
               <div className="flex gap-3 w-full md:w-auto mt-4 md:mt-0">
                 <button onClick={fetchNotices} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl hover:border-slate-300 hover:bg-slate-50 font-bold transition-all shadow-sm active:scale-95">
-                  <RefreshCw size={18} className={`${loading ? 'animate-spin text-orange-500' : 'text-slate-500'}`} /> 
+                  <RefreshCw size={18} className={`${loading ? 'animate-spin text-teal-500' : 'text-slate-500'}`} /> 
                   <span className="hidden sm:inline">Refresh</span>
                 </button>
-                <button onClick={() => handleOpenModal()} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl hover:from-orange-600 hover:to-amber-600 font-bold transition-all shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 active:scale-95 border border-orange-500">
+                <button onClick={() => handleOpenModal()} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl hover:from-teal-600 hover:to-cyan-600 font-bold transition-all shadow-lg hover:shadow-teal-500/30 hover:-translate-y-0.5 active:scale-95 border border-teal-500">
                   <Plus size={20} strokeWidth={2.5} /> New Notice
                 </button>
               </div>
@@ -221,17 +221,17 @@ export default function AdminNotices() {
             <div className="grid gap-5">
               {loading && notices.length === 0 ? (
                 <div className="text-center py-20 bg-white/50 backdrop-blur-sm rounded-3xl border border-slate-200/60 shadow-sm">
-                  <RefreshCw size={44} className="mx-auto mb-4 text-orange-400 animate-spin" />
+                  <RefreshCw size={44} className="mx-auto mb-4 text-teal-400 animate-spin" />
                   <p className="text-lg font-medium text-slate-500">Loading notices...</p>
                 </div>
               ) : notices.length === 0 ? (
                 <div className="bg-white/70 backdrop-blur-md rounded-3xl p-16 text-center border border-slate-200/60 shadow-sm">
-                  <div className="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Bell size={48} className="text-orange-300" strokeWidth={1.5} />
+                  <div className="w-24 h-24 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Bell size={48} className="text-teal-300" strokeWidth={1.5} />
                   </div>
                   <h3 className="text-2xl font-black text-slate-800 mb-2">No Notices Yet</h3>
                   <p className="text-slate-500 text-lg mb-8 max-w-sm mx-auto">Create your first maintenance notice to keep the students informed.</p>
-                  <button onClick={() => handleOpenModal()} className="px-6 py-3 bg-gradient-to-r from-orange-50 to-orange-100 text-orange-700 font-bold rounded-xl hover:bg-orange-200 transition-colors shadow-sm border border-orange-200">
+                  <button onClick={() => handleOpenModal()} className="px-6 py-3 bg-gradient-to-r from-teal-100 to-cyan-100 text-teal-700 font-bold rounded-xl hover:bg-teal-200 transition-colors shadow-sm border border-teal-200">
                     Create Notice
                   </button>
                 </div>
@@ -282,7 +282,7 @@ export default function AdminNotices() {
           <div className="bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-lg overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-white/50 animate-in zoom-in-[0.97] duration-300">
             <div className="px-7 py-5 border-b border-slate-200/60 flex justify-between items-center bg-slate-50/50">
               <h3 className="text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                {editingNotice ? <Edit2 size={24} className="text-orange-500" /> : <Plus size={24} className="text-orange-500" />}
+                {editingNotice ? <Edit2 size={24} className="text-teal-600" /> : <Plus size={24} className="text-teal-600" />}
                 {editingNotice ? 'Edit Notice' : 'Create New Notice'}
               </h3>
               <button 
@@ -307,7 +307,7 @@ export default function AdminNotices() {
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-5 py-3.5 rounded-xl border border-slate-200/80 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-slate-800 placeholder:text-slate-400"
+                    className="w-full px-5 py-3.5 rounded-xl border border-slate-200/80 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 transition-all font-medium text-slate-800 placeholder:text-slate-400"
                     placeholder="e.g. Water Supply Interruption"
                     required
                   />
@@ -318,7 +318,7 @@ export default function AdminNotices() {
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-5 py-3.5 rounded-xl border border-slate-200/80 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all min-h-[140px] resize-y font-medium text-slate-800 placeholder:text-slate-400"
+                    className="w-full px-5 py-3.5 rounded-xl border border-slate-200/80 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 transition-all min-h-[140px] resize-y font-medium text-slate-800 placeholder:text-slate-400"
                     placeholder="Provide full details about the maintenance..."
                     required
                   />
@@ -336,7 +336,7 @@ export default function AdminNotices() {
                 <button 
                   type="submit" 
                   disabled={submitLoading}
-                  className="px-7 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold hover:from-orange-600 hover:to-amber-600 shadow-lg hover:shadow-orange-500/30 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 border border-orange-500"
+                  className="px-7 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold hover:from-teal-600 hover:to-cyan-600 shadow-lg hover:shadow-teal-500/30 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 border border-teal-500"
                 >
                   {submitLoading ? <RefreshCw size={20} className="animate-spin" /> : <CheckCircle size={20} />}
                   {submitLoading ? 'Saving...' : 'Save Notice'}

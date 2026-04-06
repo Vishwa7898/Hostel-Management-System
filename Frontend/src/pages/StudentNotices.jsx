@@ -187,14 +187,14 @@ export default function StudentNotices() {
               
               <div className="flex justify-between items-center mb-8 border-b border-slate-100 pb-5">
                 <div className="flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
+                    <span className="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center">
                     <Bell size={18} strokeWidth={3} />
                   </span>
                   <h2 className="text-2xl font-black text-slate-800">Recent Updates</h2>
                 </div>
-                <div className="flex items-center gap-2 bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100 animate-pulse">
-                  <span className="w-2 h-2 rounded-full bg-orange-500"></span>
-                  <span className="text-[12px] font-black uppercase tracking-widest text-orange-700">{unreadCount} unread</span>
+                <div className="flex items-center gap-2 bg-emerald-50/90 px-3 py-1.5 rounded-lg border border-emerald-100 animate-pulse">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span className="text-[12px] font-black uppercase tracking-widest text-emerald-700">{unreadCount} unread</span>
                 </div>
               </div>
 
@@ -236,7 +236,7 @@ export default function StudentNotices() {
                               {n.title}
                             </h3>
                             {!readMap[n.id] && (
-                              <span className="text-[10px] tracking-widest uppercase font-black px-2.5 py-1 rounded bg-orange-100 text-orange-600 border border-orange-200 shadow-sm animate-pulse flex items-center gap-1">
+                              <span className="text-[10px] tracking-widest uppercase font-black px-2.5 py-1 rounded bg-emerald-100 text-emerald-700 border border-emerald-200 shadow-sm animate-pulse flex items-center gap-1">
                                 NEW
                               </span>
                             )}
