@@ -149,8 +149,8 @@ export default function StudentProfile() {
     >
       <div className="bg-slate-50 w-full max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl flex relative">
         {/* Top Header */}
-        <div className="absolute top-0 left-0 right-0 h-[70px] bg-[#FEF08A] text-slate-800 flex justify-between items-center px-8 z-20 rounded-t-3xl border-b border-yellow-300">
-          <div className="font-black text-4xl tracking-tight flex items-center space-x-3">
+        <div className="absolute top-0 left-0 right-0 h-[90px] bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400 text-slate-800 flex justify-between items-center px-10 z-20 rounded-t-3xl border-b border-yellow-400 shadow-md">
+          <div className="font-black text-5xl tracking-tight flex items-center space-x-3">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
             <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
           </div>
