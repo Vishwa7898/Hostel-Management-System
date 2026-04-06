@@ -22,6 +22,22 @@ router.get(
   complaintController.getStudentComplaints
 );
 
+// student update own complaint
+router.put(
+  "/:id",
+  authMiddleware,
+  roleMiddleware("student"),
+  complaintController.updateComplaint
+);
+
+// student delete own complaint
+router.delete(
+  "/:id",
+  authMiddleware,
+  roleMiddleware("student"),
+  complaintController.deleteComplaint
+);
+
 // admin view all complaints
 router.get(
   "/",

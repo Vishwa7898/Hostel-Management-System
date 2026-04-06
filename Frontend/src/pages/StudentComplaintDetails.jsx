@@ -9,6 +9,15 @@ export default function StudentComplaintDetails() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [sortOrder, setSortOrder] = useState('');
 
+  // Edit state
+  const [editingComplaint, setEditingComplaint] = useState(null);
+  const [editCategory, setEditCategory] = useState('');
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editLocationType, setEditLocationType] = useState('room');
+  const [editRoomNumber, setEditRoomNumber] = useState('');
+  const [editAnonymous, setEditAnonymous] = useState(false);
+
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const token = localStorage.getItem('token');
@@ -27,6 +36,97 @@ export default function StudentComplaintDetails() {
       setComplaints([]);
     }
   }, [token]);
+
+  const handleEdit = (complaint) => {
+    setEditingComplaint(complaint._id);
+    setEditCategory(complaint.category);
+    setEditTitle(complaint.title);
+    setEditDescription(complaint.description);
+    setEditLocationType(complaint.locationType);
+    setEditRoomNumber(complaint.roomNumber);
+    setEditAnonymous(complaint.anonymous);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingComplaint(null);
+    setEditCategory('');
+    setEditTitle('');
+    setEditDescription('');
+    setEditLocationType('room');
+    setEditRoomNumber('');
+    setEditAnonymous(false);
+  };
+
+  const handleUpdateComplaint = async (complaintId) => {
+    if (!editCategory || !editTitle || !editDescription || !editLocationType) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    
+    if (editLocationType === 'room' && !editRoomNumber) {
+      setError('Room number is required for room complaints.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`http://localhost:5000/api/complaints/${complaintId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          category: editCategory,
+          title: editTitle,
+          description: editDescription,
+          locationType: editLocationType,
+          roomNumber: editLocationType === 'room' ? editRoomNumber : '',
+          anonymous: editAnonymous
+        })
+      });
+
+      const data = await res.json();
+      
+      if (res.ok) {
+        setEditingComplaint(null);
+        fetchComplaints(); // Refresh the list
+      } else {
+        setError(data.message || 'Error updating complaint');
+      }
+    } catch {
+      setError('Server error connection failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteComplaint = async (complaintId) => {
+    if (!window.confirm('Are you sure you want to delete this complaint?')) return;
+
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`http://localhost:5000/api/complaints/${complaintId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.ok) {
+        fetchComplaints(); // Refresh the list
+      } else {
+        const data = await res.json();
+        setError(data.message || 'Error deleting complaint');
+      }
+    } catch {
+      setError('Server error connection failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!token) return navigate('/');
@@ -119,6 +219,11 @@ export default function StudentComplaintDetails() {
         </div>
 
         <div className="flex-1 pt-28 px-6 pb-10 overflow-y-auto w-full">
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-700">
+              {error}
+            </div>
+          )}
           <div className="mb-10 grid gap-8">
             <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
               <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.32)]">
@@ -238,25 +343,136 @@ export default function StudentComplaintDetails() {
                             </span>
                             <span className="text-xs text-slate-600 font-semibold bg-slate-100 border border-slate-200 px-3 py-2 rounded-full">{complaint.category}</span>
                           </div>
-                          <span className="text-xs text-slate-400 font-semibold">{new Date(complaint.createdAt).toLocaleDateString()}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-400 font-semibold">{new Date(complaint.createdAt).toLocaleDateString()}</span>
+                            {complaint.status === 'Pending' && (
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => handleEdit(complaint)}
+                                  className="text-xs bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition-colors"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteComplaint(complaint._id)}
+                                  className="text-xs bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition-colors"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <h3 className="text-3xl font-bold text-slate-900 mb-4">{complaint.title}</h3>
-                        <p className="text-sm text-slate-600 leading-8 mb-6">{complaint.description}</p>
-                        <div className="grid gap-3 sm:grid-cols-2 bg-slate-50 p-5 rounded-[28px] border border-slate-200 text-sm text-slate-600">
-                          <div className="flex items-center gap-2 font-medium text-slate-700">
-                            <Home size={18} className="text-cyan-500" />
-                            <span>{complaint.locationType === 'room' ? `Room ${complaint.roomNumber}` : 'General Area'}</span>
-                          </div>
-                          <div className="flex items-center gap-2 font-medium text-slate-700">
-                            <User size={18} className="text-indigo-500" />
-                            <span>{complaint.assignedWorker ? `Assigned to ${complaint.assignedWorker}` : 'No assignment yet'}</span>
-                          </div>
-                          {complaint.anonymous && (
-                            <div className="col-span-full rounded-full bg-slate-100 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold inline-flex items-center gap-2">
-                              <span className="h-2 w-2 rounded-full bg-slate-400" /> Ghost Mode
+                        {editingComplaint === complaint._id ? (
+                          <div className="space-y-4">
+                            <div className="grid gap-4 sm:grid-cols-2">
+                              <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Category</label>
+                                <select
+                                  value={editCategory}
+                                  onChange={(e) => setEditCategory(e.target.value)}
+                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                >
+                                  <option value="">Select Category</option>
+                                  <option value="Electrical">Electrical</option>
+                                  <option value="Plumbing">Plumbing</option>
+                                  <option value="Cleaning">Cleaning</option>
+                                  <option value="Maintenance">Maintenance</option>
+                                  <option value="Security">Security</option>
+                                  <option value="Other">Other</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Location Type</label>
+                                <select
+                                  value={editLocationType}
+                                  onChange={(e) => setEditLocationType(e.target.value)}
+                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                >
+                                  <option value="room">Room</option>
+                                  <option value="general">General Area</option>
+                                </select>
+                              </div>
                             </div>
-                          )}
-                        </div>
+                            {editLocationType === 'room' && (
+                              <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Room Number</label>
+                                <input
+                                  type="text"
+                                  value={editRoomNumber}
+                                  onChange={(e) => setEditRoomNumber(e.target.value)}
+                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                  placeholder="Enter room number"
+                                />
+                              </div>
+                            )}
+                            <div>
+                              <label className="block text-sm font-medium text-slate-700 mb-2">Title</label>
+                              <input
+                                type="text"
+                                value={editTitle}
+                                onChange={(e) => setEditTitle(e.target.value)}
+                                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                placeholder="Brief title of the issue"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
+                              <textarea
+                                value={editDescription}
+                                onChange={(e) => setEditDescription(e.target.value)}
+                                rows={4}
+                                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                placeholder="Detailed description of the issue"
+                              />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                id={`anonymous-${complaint._id}`}
+                                checked={editAnonymous}
+                                onChange={(e) => setEditAnonymous(e.target.checked)}
+                                className="rounded"
+                              />
+                              <label htmlFor={`anonymous-${complaint._id}`} className="text-sm text-slate-700">Submit anonymously</label>
+                            </div>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => handleUpdateComplaint(complaint._id)}
+                                disabled={loading}
+                                className="bg-green-500 text-white px-4 py-2 rounded-2xl hover:bg-green-600 transition-colors disabled:opacity-50"
+                              >
+                                {loading ? 'Updating...' : 'Update'}
+                              </button>
+                              <button
+                                onClick={handleCancelEdit}
+                                className="bg-gray-500 text-white px-4 py-2 rounded-2xl hover:bg-gray-600 transition-colors"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <h3 className="text-3xl font-bold text-slate-900 mb-4">{complaint.title}</h3>
+                            <p className="text-sm text-slate-600 leading-8 mb-6">{complaint.description}</p>
+                            <div className="grid gap-3 sm:grid-cols-2 bg-slate-50 p-5 rounded-[28px] border border-slate-200 text-sm text-slate-600">
+                              <div className="flex items-center gap-2 font-medium text-slate-700">
+                                <Home size={18} className="text-cyan-500" />
+                                <span>{complaint.locationType === 'room' ? `Room ${complaint.roomNumber}` : 'General Area'}</span>
+                              </div>
+                              <div className="flex items-center gap-2 font-medium text-slate-700">
+                                <User size={18} className="text-indigo-500" />
+                                <span>{complaint.assignedWorker ? `Assigned to ${complaint.assignedWorker}` : 'No assignment yet'}</span>
+                              </div>
+                              {complaint.anonymous && (
+                                <div className="col-span-full rounded-full bg-slate-100 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold inline-flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-slate-400" /> Ghost Mode
+                                </div>
+                              )}
+                            </div>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
