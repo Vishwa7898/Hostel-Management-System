@@ -104,8 +104,8 @@ export default function StudentAttendance() {
     >
       <div className="bg-slate-50 w-full max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl flex relative">
         {/* Top Header */}
-        <div className="absolute top-0 left-0 right-0 h-[70px] bg-[#FEF08A] text-slate-800 flex justify-between items-center px-8 z-20 rounded-t-3xl border-b border-yellow-300">
-          <div className="font-black text-4xl tracking-tight flex items-center space-x-3">
+        <div className="absolute top-0 left-0 right-0 h-[90px] bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400 text-slate-800 flex justify-between items-center px-10 z-20 rounded-t-3xl border-b border-yellow-400 shadow-md">
+          <div className="font-black text-5xl tracking-tight flex items-center space-x-3">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
             <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
           </div>
@@ -167,12 +167,12 @@ export default function StudentAttendance() {
 
         {/* Main Content */}
         <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto">
-          <h1 className="text-3xl font-bold text-slate-800 mb-8">My Attendance History</h1>
+          <h1 className="text-4xl font-bold text-orange-800 mb-7">My Attendance History</h1>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-gradient-to-br from-white to-orange-50 rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-100 text-slate-600 text-sm uppercase tracking-wider">
+                <tr className="bg-gradient-to-r from-yellow-400 to-green-500 text-white text-sm uppercase tracking-wider">
                   <th className="p-4 border-b font-semibold">Date</th>
                   <th className="p-4 border-b font-semibold">Check Out Time</th>
                   <th className="p-4 border-b font-semibold">Check In Time</th>
@@ -181,16 +181,22 @@ export default function StudentAttendance() {
                 </tr>
               </thead>
               <tbody>
-                {records.map(record => (
-                  <tr key={record._id} className="hover:bg-slate-50 border-b last:border-0 transition-colors">
+                {records.map((record, index) => (
+                <tr key={record._id} className={`${ index % 2 === 0 ? 'bg-white' : 'bg-orange-50'} 
+                  hover:bg-orange-100 border-b last:border-0 transition-all duration-200`}>
                     <td className="p-4 text-slate-600 font-medium">{record.date}</td>
-                    <td className="p-4 text-slate-600">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
-                    <td className="p-4 text-slate-600">{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 rounded text-xs font-bold uppercase tracking-wide ${record.status === 'Inside' ? 'bg-teal-100 text-teal-700' : 'bg-orange-100 text-orange-700'}`}>
-                        {record.status}
+                      <span className="px-3 py-1 rounded-full bg-orange-100 text-orange-700 font-semibold text-sm shadow-sm">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
                       </span>
                     </td>
+
+                    <td className="p-4"><span className="px-3 py-1 rounded-full bg-orange-100 text-orange-700 font-semibold text-sm shadow-sm">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
+                     </span>
+                    </td>
+                    <td className="p-4"><span className="px-3 py-1 rounded-full bg-teal-100 text-teal-700 font-semibold text-sm shadow-sm">{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
+                    </span>
+                    </td>
+
                     <td className="p-4 flex gap-3">
                       <button onClick={() => openEditModal(record)} className="text-blue-500 hover:text-blue-700 transition">
                         <Edit size={18} />
@@ -199,6 +205,7 @@ export default function StudentAttendance() {
                         <Trash2 size={18} />
                       </button>
                     </td>
+
                   </tr>
                 ))}
                 {records.length === 0 && (

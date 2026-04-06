@@ -145,12 +145,12 @@ export default function StudentDashboard() {
       <div className="bg-slate-50 w-full max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl flex relative">
 
         {/* Top Header Bar inside the card */}
-        <div className="absolute top-0 left-0 right-0 h-[70px] bg-[#FEF08A] text-slate-800 flex justify-between items-center px-8 z-20 rounded-t-3xl border-b border-yellow-300">
-          <div className="font-black text-4xl tracking-tight flex items-center space-x-3">
+        <div className="absolute top-0 left-0 right-0 h-[90px] bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400 text-slate-800 flex justify-between items-center px-10 z-20 rounded-t-3xl border-b border-yellow-400 shadow-md">
+          <div className="font-black text-5xl tracking-tight flex items-center space-x-3">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
             <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
           </div>
-          <div className="flex items-center space-x-6 text-sm font-bold">
+          <div className="flex items-center space-x-6 text-base font-bold">
             <span>Welcome, {user.name} (Student ID: {user.studentId || `STU${(user._id || "000").substring(0,6)}`})</span>
           </div>
         </div>
@@ -257,7 +257,7 @@ export default function StudentDashboard() {
 
               {/* Form Box */}
               {status === 'Inside' && (
-                <div className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 relative">
+                <div className="bg-gradient-to-br from-white to-orange-50 rounded-3xl p-6 md:p-8 shadow-xl border border-orange-100 relative">
                   {error && (
                     <div className="absolute top-6 right-8 bg-red-50 text-red-600 px-4 py-2 rounded-lg font-medium text-sm">
                       {error}
@@ -281,7 +281,7 @@ export default function StudentDashboard() {
                         <label className="block text-sm font-bold text-slate-800 mb-2">Expected Return <span className="text-red-500">*</span></label>
                         <div className="flex border border-slate-200 rounded-lg overflow-hidden bg-slate-50 focus-within:border-teal-500 transition-colors">
                           <input type="time" required value={expectedTime} onChange={e => setExpectedTime(e.target.value)} className="w-1/2 p-3 bg-transparent outline-none border-r border-slate-200 text-slate-700" />
-                          <input type="date" required value={expectedDate} onChange={e => setExpectedDate(e.target.value)} className="w-1/2 p-3 bg-transparent outline-none text-slate-700" />
+                          <input type="date" required min={getLocalDateString()} value={expectedDate} onChange={e => setExpectedDate(e.target.value)} className="w-1/2 p-3 bg-transparent outline-none text-slate-700" />
                         </div>
                       </div>
                     </div>
@@ -289,7 +289,7 @@ export default function StudentDashboard() {
                     {/* Purpose Dropdown */}
                     <div>
                       <label className="block text-sm font-bold text-slate-800 mb-2">Purpose</label>
-                      <select value={purpose} onChange={e => setPurpose(e.target.value)} className="w-full md:w-1/2 p-3 border border-slate-200 rounded-lg bg-slate-50 focus:border-teal-500 outline-none uppercase text-sm font-semibold text-slate-600 tracking-wide">
+                      <select value={purpose} onChange={e => setPurpose(e.target.value)} className="w-full md:w-1/2 p-3 border border-orange-200 rounded-xl bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none uppercase text-sm font-semibold text-slate-700 tracking-wide">
                         <option value="Home">Home</option>
                         <option value="Shopping">Shopping</option>
                         <option value="Medical">Medical</option>
@@ -300,10 +300,11 @@ export default function StudentDashboard() {
                     {/* Description Details */}
                     <div>
                       <label className="block text-sm font-bold text-slate-800 mb-2">Description (Optional)</label>
-                      <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Note for the warden (if any)..." className="w-full p-3 border border-slate-200 rounded-lg bg-slate-50 focus:border-teal-500 outline-none text-sm font-semibold text-slate-600 resize-none h-24"></textarea>
+                      <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Note for the warden (if any)..." 
+                      className="w-full p-3 border border-orange-200 rounded-xl bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm font-medium text-slate-700 resize-none h-24"></textarea>
                     </div>
 
-                    <button type="submit" className="w-full bg-[#369567] hover:bg-[#2b7953] text-white py-4 rounded-xl font-bold text-lg shadow-md hover:shadow-lg transition-all active:scale-[0.99] mt-4">
+                    <button type="submit" className="w-full bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-[0.98] mt-4">
                       Confirm Check-Out
                     </button>
                   </form>
