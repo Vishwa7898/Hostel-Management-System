@@ -96,15 +96,21 @@ export default function AdminNotices() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this notice?')) return;
     
+    // Optimistically remove the notice from the UI
+    setNotices(prevNotices => prevNotices.filter(notice => notice._id !== id));
+    
     try {
       const res = await fetch(`http://localhost:5000/api/notices/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Failed to delete notice');
+      // Refresh to ensure consistency
       await fetchNotices();
     } catch (err) {
+      // If delete failed, restore the notice and show error
       alert(err.message || 'Error deleting notice');
+      await fetchNotices(); // Refresh to restore the notice
     }
   };
 
