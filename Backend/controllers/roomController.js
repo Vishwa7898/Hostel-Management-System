@@ -49,6 +49,26 @@ exports.createBooking = async (req, res) => {
     const { roomId, checkInDate } = req.body;
     const studentId = req.user.id; // from auth middleware
 
+    if (!checkInDate) {
+      return res.status(400).json({ message: 'Check-in date is required' });
+    }
+
+    const checkIn = new Date(checkInDate);
+    if (Number.isNaN(checkIn.getTime())) {
+      return res.status(400).json({ message: 'Invalid check-in date' });
+    }
+
+    const now = new Date();
+    const todayStartUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    const checkInStartUtc = Date.UTC(
+      checkIn.getUTCFullYear(),
+      checkIn.getUTCMonth(),
+      checkIn.getUTCDate()
+    );
+    if (checkInStartUtc < todayStartUtc) {
+      return res.status(400).json({ message: 'Check-in date cannot be in the past' });
+    }
+
     const room = await Room.findById(roomId);
     if (!room || room.status !== 'available') {
       return res.status(400).json({ message: 'Room not available' });

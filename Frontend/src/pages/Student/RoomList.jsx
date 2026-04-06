@@ -48,9 +48,23 @@ const RoomList = () => {
     return candidates[0];
   };
 
+  const getTodayLocalDateString = () => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
+
   const handleBookRoom = async () => {
     if (!checkInDate) {
       setError('Please select a check-in date.');
+      return;
+    }
+
+    const today = getTodayLocalDateString();
+    if (checkInDate < today) {
+      setError('Check-in date cannot be in the past.');
       return;
     }
 
@@ -217,6 +231,7 @@ const RoomList = () => {
                   <input
                     id="checkin-date"
                     type="date"
+                    min={getTodayLocalDateString()}
                     value={checkInDate}
                     onChange={(e) => setCheckInDate(e.target.value)}
                     className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
