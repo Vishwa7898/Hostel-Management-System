@@ -69,12 +69,9 @@ export default function StudentAttendance() {
     e.preventDefault();
     if (!editingRecord) return;
     const body = {
-      purpose: editForm.purpose,
-      description: editForm.description,
-      expectedReturn: editForm.expectedReturnDate && editForm.expectedReturnTime 
-        ? `${editForm.expectedReturnDate}T${editForm.expectedReturnTime}:00` 
-        : null
-    };
+  purpose: editForm.purpose,
+  description: editForm.description
+};
 
     try {
       const res = await fetch(`http://localhost:5000/api/attendance/${editingRecord._id}`, {
@@ -166,7 +163,7 @@ export default function StudentAttendance() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto">
+        <div className="flex-1 pt-32 px-8 pb-8 overflow-y-auto">
           <h1 className="text-4xl font-bold text-orange-800 mb-7">My Attendance History</h1>
 
           <div className="bg-gradient-to-br from-white to-orange-50 rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
@@ -244,11 +241,20 @@ export default function StudentAttendance() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-800 mb-2">Expected Date</label>
-                  <input type="date" value={editForm.expectedReturnDate} onChange={e => setEditForm({...editForm, expectedReturnDate: e.target.value})} className="w-full p-3 border border-slate-200 rounded-lg bg-slate-50 focus:border-teal-500 outline-none" />
+                  <input 
+                        type="date" 
+                        value={editForm.expectedReturnDate} 
+                        disabled 
+                        className="w-full p-3 border border-slate-200 rounded-lg bg-slate-100 text-slate-400 cursor-not-allowed" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-800 mb-2">Expected Time</label>
-                  <input type="time" value={editForm.expectedReturnTime} onChange={e => setEditForm({...editForm, expectedReturnTime: e.target.value})} className="w-full p-3 border border-slate-200 rounded-lg bg-slate-50 focus:border-teal-500 outline-none" />
+                  <input 
+  type="time" 
+  value={editForm.expectedReturnTime} 
+  disabled 
+  className="w-full p-3 border border-slate-200 rounded-lg bg-slate-100 text-slate-400 cursor-not-allowed" 
+/>
                 </div>
               </div>
               <button type="submit" className="w-full bg-[#369567] hover:bg-[#2b7953] text-white py-3 rounded-xl font-bold text-lg mt-4 shadow-sm transition-all">

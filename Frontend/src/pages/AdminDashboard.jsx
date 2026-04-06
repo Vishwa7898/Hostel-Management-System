@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Download, Users, Calendar, FileText, LayoutDashboard, User, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell } from 'lucide-react';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function AdminDashboard() {
   const [records, setRecords] = useState([]);
@@ -48,47 +49,65 @@ export default function AdminDashboard() {
   };
 
   const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    
-    doc.setFontSize(18);
-    doc.setTextColor(236, 136, 36);
-    const title = dateFilter 
-      ? `Attendance Report - ${dateFilter}` 
-      : 'Complete Attendance Report';
-    doc.text(title, 14, 22);
-    
-    const tableColumn = ["Student ID", "Student Name", "Date", "Check Out", "Check In", "Status"];
-    const tableRows = [];
-    
-    records.forEach(record => {
-      const recordData = [
-        record.user?.studentId || 'N/A',
-        record.user?.name || 'N/A',
-        record.date,
-        record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-',
-        record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-',
-        record.status
-      ];
-      tableRows.push(recordData);
-    });
-    
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 30,
-      theme: 'grid',
-      styles: { fontSize: 10, cellPadding: 3 },
-      headStyles: { fillColor: [236, 136, 36], textColor: [255, 255, 255] },
-      alternateRowStyles: { fillColor: [248, 250, 252] }
-    });
-    
-    doc.save(`attendance_report${dateFilter ? '_' + dateFilter : ''}.pdf`);
-  };
+  const doc = new jsPDF();
+
+  const title = dateFilter 
+    ? `Attendance Report - ${dateFilter}` 
+    : 'Complete Attendance Report';
+
+  doc.setFontSize(18);
+  doc.setTextColor(40, 40, 40);
+  doc.text(title, 14, 20);
+
+  const tableColumn = [
+    "Student ID",
+    "Student Name",
+    "Date",
+    "Check Out",
+    "Check In",
+    "Status"
+  ];
+
+  const tableRows = records.map(record => [
+    record.user?.studentId || 'N/A',
+    record.user?.name || 'N/A',
+    record.date,
+    record.checkOutTime 
+      ? new Date(record.checkOutTime).toLocaleTimeString() 
+      : '-',
+    record.checkInTime 
+      ? new Date(record.checkInTime).toLocaleTimeString() 
+      : '-',
+    record.status
+  ]);
+
+  autoTable(doc, {
+    head: [tableColumn],
+    body: tableRows,
+    startY: 30,
+    theme: 'grid',
+    styles: { fontSize: 10 },
+    headStyles: { fillColor: [59, 130, 246] }, // blue
+    alternateRowStyles: { fillColor: [240, 249, 255] }
+  });
+
+  doc.save(`attendance_report${dateFilter ? '_' + dateFilter : ''}.pdf`);
+};
 
   const handleLogout = () => {
     localStorage.clear();
     navigate('/admin-login');
   };
+
+  const insideCount = records.filter(r => r.status === 'Inside').length;
+  const outsideCount = records.filter(r => r.status === 'Outside').length;
+
+  const chartData = [
+  { name: 'Inside', value: insideCount },
+  { name: 'Outside', value: outsideCount }
+];
+
+const COLORS = ['#14b8a6', '#f97316']; // teal & orange
 
   return (
     <div className="min-h-screen flex bg-slate-50 font-sans">
@@ -160,7 +179,7 @@ export default function AdminDashboard() {
         <main className="flex-1 p-8 overflow-x-hidden">
         <div className="flex justify-between items-end mb-6">
           <div>
-            <h2 className="text-3xl font-extrabold text-slate-800 mb-1 flex items-center space-x-2">
+            <h2 className="text-2xl font-bold text-slate-800 mb-1 flex items-center space-x-2">
               <Users size={24} className="text-orange-500" />
               <span>Attendance Management</span>
             </h2>
@@ -194,6 +213,52 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+
+  {/* INSIDE CARD */}
+  <div className="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-teal-500 hover:scale-105 transition-all duration-300">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm font-semibold text-gray-500 uppercase">Inside Students</p>
+        <h2 className="text-4xl font-extrabold text-teal-600 mt-2">
+          {insideCount}
+        </h2>
+      </div>
+
+      <div className="bg-teal-100 p-4 rounded-full">
+        🟢
+      </div>
+    </div>
+
+    <div className="mt-4 text-sm text-gray-400">
+      Currently inside hostel
+    </div>
+  </div>
+
+
+  {/* OUTSIDE CARD */}
+  <div className="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-orange-500 hover:scale-105 transition-all duration-300">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm font-semibold text-gray-500 uppercase">Outside Students</p>
+        <h2 className="text-4xl font-extrabold text-orange-500 mt-2">
+          {outsideCount}
+        </h2>
+      </div>
+
+      <div className="bg-orange-100 p-4 rounded-full">
+        🟠
+      </div>
+    </div>
+
+    <div className="mt-4 text-sm text-gray-400">
+      Currently outside hostel
+    </div>
+  </div>
+
+</div>
+
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gradient-to-r from-orange-400 to-orange-500 text-white text-sm uppercase tracking-wider">
@@ -225,6 +290,45 @@ export default function AdminDashboard() {
               )}
             </tbody>
           </table>
+          <div className="mt-10 p-6 rounded-2xl shadow-md border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-teal-50">
+           <h3 className="text-3xl font-extrabold text-blue-600 mb-6 text-center tracking-wide">
+  📊 Attendance Distribution</h3>
+
+          <ResponsiveContainer width="100%" height={320}>
+  <PieChart>
+    
+    <Pie
+      data={chartData}
+      cx="50%"
+      cy="50%"
+      innerRadius={60}   // 🔥 donut style
+      outerRadius={110}
+      paddingAngle={5}   // space between slices
+      dataKey="value"
+      label={({ name, percent }) =>
+        `${name} ${(percent * 100).toFixed(0)}%`
+      }
+    >
+      {chartData.map((entry, index) => (
+        <Cell 
+          key={index} 
+          fill={index === 0 ? "#14b8a6" : "#f97316"} 
+        />
+      ))}
+    </Pie>
+
+    <Tooltip 
+      contentStyle={{ borderRadius: '10px', border: 'none' }}
+    />
+
+    <Legend 
+      verticalAlign="bottom"
+      iconType="circle"
+    />
+
+  </PieChart>
+</ResponsiveContainer>
+</div>
         </div>
       </main>
       </div>

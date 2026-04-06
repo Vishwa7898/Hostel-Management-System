@@ -210,7 +210,7 @@ export default function StudentDashboard() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto">
+        <div className="flex-1 pt-32 px-8 pb-8 overflow-y-auto">
 
           <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8 relative">
             My Attendance

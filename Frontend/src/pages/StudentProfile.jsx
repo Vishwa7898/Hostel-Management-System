@@ -211,10 +211,10 @@ export default function StudentProfile() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto">
+        <div className="flex-1 pt-32 px-8 pb-8 overflow-y-auto">
           <h1 className="text-6xl font-bold font-Bodoni MT Black Bold text-[#5D4037] mb-7 relative"><u>My Profile</u></h1>
 
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 max-w-3xl">
+          <div className="bg-gradient-to-br from-white via-orange-50 to-yellow-50 rounded-3xl p-8 shadow-xl border border-orange-100 max-w-3xl">
             {message && <div className="mb-6 bg-teal-50 text-teal-700 px-4 py-3 rounded-lg font-medium">{message}</div>}
             {error && <div className="mb-6 bg-red-50 text-red-600 px-4 py-3 rounded-lg font-medium">{error}</div>}
 
@@ -222,23 +222,23 @@ export default function StudentProfile() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none" required />
+                  <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-orange-200 bg-white focus:ring-2 focus:ring-orange-300 focus:border-orange-400 outline-none shadow-sm transition-all" required />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none" required />
+                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-orange-200 bg-white focus:ring-2 focus:ring-orange-300 focus:border-orange-400 outline-none shadow-sm transition-all" required />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Contact Number</label>
-                  <input type="text" name="contactNumber" value={formData.contactNumber} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none" required />
+                  <input type="text" name="contactNumber" value={formData.contactNumber} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-orange-200 bg-white focus:ring-2 focus:ring-orange-300 focus:border-orange-400 outline-none shadow-sm transition-all" required />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Address</label>
-                  <input type="text" name="address" value={formData.address} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none" required />
+                  <input type="text" name="address" value={formData.address} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-orange-200 bg-white focus:ring-2 focus:ring-orange-300 focus:border-orange-400 outline-none shadow-sm transition-all" required />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">City</label>
-                  <select name="city" value={formData.city} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none bg-white">
+                  <select name="city" value={formData.city} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-orange-200 bg-white focus:ring-2 focus:ring-orange-300 focus:border-orange-400 outline-none shadow-sm transition-all">
                     <option value="Colombo">Colombo</option>
                     <option value="Kandy">Kandy</option>
                     <option value="Galle">Galle</option>
@@ -250,7 +250,7 @@ export default function StudentProfile() {
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Guardian Name</label>
-                  <input type="text" name="guardianName" value={formData.guardianName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none" required />
+                  <input type="text" name="guardianName" value={formData.guardianName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-orange-200 bg-white focus:ring-2 focus:ring-orange-300 focus:border-orange-400 outline-none shadow-sm transition-all" required />
                 </div>
               </div>
 
