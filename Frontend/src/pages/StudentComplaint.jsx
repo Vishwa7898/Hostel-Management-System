@@ -301,6 +301,8 @@ export default function StudentComplaint() {
               </div>
             </div>
           </div>
-    </StudentShell>
+        </div>
+      </div>
+    </div>
   );
 }
