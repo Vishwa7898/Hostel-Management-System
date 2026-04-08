@@ -10,9 +10,15 @@ const MEAL_LABELS = { breakfast: '🌅 Breakfast', lunch: '☀️ Lunch', dinner
 
 function FoodIcon({ imageUrl }) {
   if (!imageUrl) return <span className="text-2xl">🍽️</span>;
-  if (imageUrl.startsWith('/')) {
+  const isImageSource =
+    imageUrl.startsWith('/') ||
+    imageUrl.startsWith('http://') ||
+    imageUrl.startsWith('https://') ||
+    imageUrl.startsWith('data:image/');
+  if (isImageSource) {
+    const src = imageUrl.startsWith('/') ? `${API_BASE}${imageUrl}` : imageUrl;
     return (
-      <img src={`${API_BASE}${imageUrl}`} alt="" className="w-10 h-10 rounded-lg object-cover" />
+      <img src={src} alt="" className="w-10 h-10 rounded-lg object-cover" />
     );
   }
   return <span className="text-2xl">{imageUrl}</span>;
@@ -490,8 +496,17 @@ export default function AdminFoodOrder() {
                   <div className="w-16 h-16 rounded-lg border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center">
                     {imageFile ? (
                       <img src={URL.createObjectURL(imageFile)} alt="" className="w-full h-full object-cover" />
-                    ) : formData.imageUrl?.startsWith('/') ? (
-                      <img src={`${API_BASE}${formData.imageUrl}`} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      formData.imageUrl?.startsWith('/') ||
+                      formData.imageUrl?.startsWith('http://') ||
+                      formData.imageUrl?.startsWith('https://') ||
+                      formData.imageUrl?.startsWith('data:image/')
+                    ) ? (
+                      <img
+                        src={formData.imageUrl.startsWith('/') ? `${API_BASE}${formData.imageUrl}` : formData.imageUrl}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <span className="text-3xl">{formData.imageUrl || '🍽️'}</span>
                     )}

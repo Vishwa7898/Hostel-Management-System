@@ -12,8 +12,15 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 
 
 function FoodImage({ imageUrl }) {
   if (!imageUrl) return <span className="text-5xl">🍽️</span>;
-  if (imageUrl.startsWith('/'))
-    return <img src={`${API_BASE}${imageUrl}`} alt="" className="w-full h-full object-cover" />;
+  const isImageSource =
+    imageUrl.startsWith('/') ||
+    imageUrl.startsWith('http://') ||
+    imageUrl.startsWith('https://') ||
+    imageUrl.startsWith('data:image/');
+  if (isImageSource) {
+    const src = imageUrl.startsWith('/') ? `${API_BASE}${imageUrl}` : imageUrl;
+    return <img src={src} alt="" className="w-full h-full object-cover" />;
+  }
   return <span className="text-5xl">{imageUrl}</span>;
 }
 

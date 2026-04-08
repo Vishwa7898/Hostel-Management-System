@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const FoodItem = require('../models/FoodItem');
 const Order = require('../models/Order');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
-const foodUploadDir = path.join(__dirname, '../uploads/food');
-if (!fs.existsSync(foodUploadDir)) fs.mkdirSync(foodUploadDir, { recursive: true });
-
-const foodStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/food/'),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'))
+const uploadFood = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype || !file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image files are allowed'));
+    }
+    cb(null, true);
+  },
 });
-const uploadFood = multer({ storage: foodStorage });
 
 const protect = async (req, res, next) => {
   let token;
@@ -55,6 +55,9 @@ router.get('/menu', async (req, res) => {
     const items = await FoodItem.find(filter).lean();
     res.json(items);
   } catch (error) {
+    if (error instanceof multer.MulterError) {
+      return res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: error.message });
   }
 });
@@ -167,7 +170,9 @@ router.post('/items', protect, adminOnly, uploadFood.single('image'), async (req
     if (!name || !price || !mealTime) {
       return res.status(400).json({ message: 'Name, price and mealTime are required' });
     }
-    const imgUrl = req.file ? '/uploads/food/' + req.file.filename : (imageUrl || '🍽️');
+    const imgUrl = req.file
+      ? `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`
+      : (imageUrl || '🍽️');
     const item = await FoodItem.create({
       name,
       description: description || '',
@@ -192,7 +197,9 @@ router.put('/items/:id', protect, adminOnly, uploadFood.single('image'), async (
     if (price !== undefined) updates.price = parseFloat(price);
     if (mealTime !== undefined) updates.mealTime = mealTime;
     if (isVegetarian !== undefined) updates.isVegetarian = isVegetarian === 'true' || isVegetarian === true;
-    if (req.file) updates.imageUrl = '/uploads/food/' + req.file.filename;
+    if (req.file) {
+      updates.imageUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    }
     else if (imageUrl !== undefined) updates.imageUrl = imageUrl;
 
     const item = await FoodItem.findByIdAndUpdate(
@@ -203,6 +210,9 @@ router.put('/items/:id', protect, adminOnly, uploadFood.single('image'), async (
     if (!item) return res.status(404).json({ message: 'Food item not found' });
     res.json(item);
   } catch (error) {
+    if (error instanceof multer.MulterError) {
+      return res.status(400).json({ message: error.message });
+    }
     res.status(500).json({ message: error.message });
   }
 });
