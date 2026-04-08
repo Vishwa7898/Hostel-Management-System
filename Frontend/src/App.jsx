@@ -19,7 +19,7 @@ import AdminComplaint from './pages/AdminComplaint';
 import StudentNotices from './pages/StudentNotices';
 import AdminNotices from './pages/AdminNotices';
 import RoomList from './pages/Student/RoomList.jsx';
-import RoomManagement from './pages/Admin/RoomManagement.jsx';
+import RoomManagement from './pages/Admin/RoomManagement';
 import StudentHome from './pages/StudentHome';
 import './index.css';
 
@@ -48,6 +48,7 @@ function App() {
         <Route path="/admin-notices" element={<AdminNotices />} />
         <Route path="/admin-complaints" element={<AdminComplaint />} />
         <Route path="/student-complaints" element={<StudentComplaint />} />
+        <Route path="/admin-rooms" element={<RoomManagement />} />
         {/* Redirect unknown routes */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
