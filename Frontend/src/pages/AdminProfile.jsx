@@ -150,7 +150,7 @@ export default function AdminProfile() {
           </div>
           <div onClick={() => navigate('/admin-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <Bell size={20} />
-            <span>Maintenance Notices</span>
+            <span>Notices</span>
           </div>
           <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
             <UtensilsCrossed size={20} />

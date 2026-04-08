@@ -84,10 +84,6 @@ export default function StudentPayments() {
               <MessageSquare size={20} />
               <span>Complaints</span>
             </div>
-            <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <UtensilsCrossed size={20} />
-              <span>Food Order</span>
-            </div>
             <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-teal-700 font-bold rounded-lg cursor-pointer transition-colors">
               <CreditCard size={20} />
               <span>Payments</span>
@@ -96,7 +92,12 @@ export default function StudentPayments() {
               <Bell size={20} />
               <span>Notices</span>
             </div>
+            <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+              <UtensilsCrossed size={20} />
+              <span>Food Order</span>
+            </div>
           </div>
+            
           <div className="mt-8">
             <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
               <LogOut size={20} />

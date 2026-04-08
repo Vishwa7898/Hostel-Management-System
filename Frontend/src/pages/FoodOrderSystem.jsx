@@ -331,10 +331,6 @@ function App() {
                 <MessageSquare size={20} />
                 <span>Complaints</span>
               </div>
-              <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-teal-700 font-bold rounded-lg cursor-pointer transition-colors">
-                <UtensilsCrossed size={20} />
-                <span>Food Order</span>
-              </div>
               <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
                 <CreditCard size={20} />
                 <span>Payments</span>
@@ -342,6 +338,10 @@ function App() {
               <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
                 <Bell size={20} />
                 <span>Notices</span>
+              </div>
+                            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-teal-700 font-bold rounded-lg cursor-pointer transition-colors">
+                <UtensilsCrossed size={20} />
+                <span>Food Order</span>
               </div>
             </div>
             <div className="mt-8">
