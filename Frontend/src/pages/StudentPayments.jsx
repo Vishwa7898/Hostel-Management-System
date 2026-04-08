@@ -56,54 +56,47 @@ export default function StudentPayments() {
             <span>Welcome, {user.name} (Student ID: {user.studentId || `STU${(user._id || "000").substring(0,6)}`})</span>
           </div>
         </div>
-
-        {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer font-bold mb-4">
-              <span>Payments</span>
-              <span className="text-xs text-slate-500 font-bold">Menu</span>
-            </div>
-            <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <LayoutDashboard size={20} />
-              <span>Dashboard</span>
-            </div>
-            <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <User size={20} />
-              <span>Profile</span>
-            </div>
-            <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Calendar size={20} />
-              <span>Attendance</span>
-            </div>
-            <div onClick={() => navigate('/student-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Home size={20} />
-              <span>Room Details</span>
-            </div>
-            <div onClick={() => navigate('/student-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <MessageSquare size={20} />
-              <span>Complaints</span>
-            </div>
-            <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <UtensilsCrossed size={20} />
-              <span>Food Order</span>
-            </div>
-            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-teal-700 font-bold rounded-lg cursor-pointer transition-colors">
-              <CreditCard size={20} />
-              <span>Payments</span>
-            </div>
-            <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+        <div className="flex-1 space-y-2">
+          <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <LayoutDashboard size={20} />
+            <span>Dashboard</span>
+          </div>
+          <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <User size={20} />
+            <span>Profile</span>
+          </div>
+          <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Calendar size={20} />
+            <span>Attendance</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <Home size={20} />
+            <span>Room Details</span>
+          </div>
+          <div onClick={() => navigate('/student-file-complaint')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <MessageSquare size={20} />
+            <span>Complaints</span>
+          </div>
+          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium">
+            <CreditCard size={20} />
+            <span>Payments</span>
+          </div>
+                      <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <Bell size={20} />
               <span>Notices</span>
-            </div>
           </div>
-          <div className="mt-8">
-            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-              <LogOut size={20} />
-              <span>Logout</span>
-            </div>
+          <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+            <UtensilsCrossed size={20} />
+            <span>Food Order</span>
           </div>
         </div>
+        <div className="mt-8 border-t border-slate-100 pt-4">
+          <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
+            <LogOut size={20} />
+            <span>Logout</span>
+          </div>
+        </div>
+      </div>
 
         {/* Main Content */}
         <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto min-w-0">

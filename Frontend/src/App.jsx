@@ -14,6 +14,7 @@ import AdminPayments from './pages/AdminPayments';
 import FoodOrderSystem from './pages/FoodOrderSystem';
 import StudentPayments from './pages/StudentPayments';
 import StudentComplaint from './pages/StudentComplaint';
+import StudentComplaintDetails from './pages/StudentComplaintDetails';
 import AdminComplaint from './pages/AdminComplaint';
 import StudentNotices from './pages/StudentNotices';
 import AdminNotices from './pages/AdminNotices';
@@ -38,13 +39,14 @@ function App() {
         <Route path="/student-payments" element={<StudentPayments />} />
         <Route path="/student-notices" element={<StudentNotices />} />
         <Route path="/student-rooms" element={<RoomList />} />
+        <Route path="/student-file-complaint" element={<StudentComplaint />} />
+        <Route path="/student-complaints" element={<StudentComplaintDetails />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/admin-food-order" element={<AdminFoodOrder />} />
         <Route path="/admin-payments" element={<AdminPayments />} />
         <Route path="/admin-notices" element={<AdminNotices />} />
         <Route path="/admin-complaints" element={<AdminComplaint />} />
-        <Route path="/admin-rooms" element={<RoomManagement />} />
         <Route path="/student-complaints" element={<StudentComplaint />} />
         {/* Redirect unknown routes */}
         <Route path="*" element={<Navigate to="/" />} />

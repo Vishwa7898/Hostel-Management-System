@@ -114,9 +114,9 @@ export default function StudentAttendance() {
         {/* Sidebar */}
         <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
           <div className="flex-1 space-y-2">
-            <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer font-bold mb-4">
-              <span>Dashboard</span>
-              <ChevronDown size={18} />
+            <div onClick={() => navigate('/student-file-complaint')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
+              <MessageSquare size={20} />
+              <span>Complaints</span>
             </div>
             <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
               <LayoutDashboard size={20} />
