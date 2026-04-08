@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell, CheckCircle, RefreshCw, AlertCircle } from 'lucide-react';
+import { User, Calendar, Bell, CheckCircle, RefreshCw, AlertCircle } from 'lucide-react';
+import StudentShell from '../components/layout/StudentShell';
 
 export default function StudentNotices() {
   const [notices, setNotices] = useState([]);
@@ -80,85 +81,9 @@ export default function StudentNotices() {
     localStorage.setItem('studentNoticesReadMap', JSON.stringify(updated));
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
-  const badgeClasses = {
-    info: 'bg-teal-100 text-teal-800 border border-teal-200'
-  };
-
   return (
-    <div
-      className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed selection:bg-teal-200 selection:text-teal-900"
-      style={{ backgroundImage: "linear-gradient(to bottom right, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2000&auto=format&fit=crop')" }}
-    >
-      <div className="bg-white/95 backdrop-blur-3xl w-full max-w-[1400px] mx-auto rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)] border border-white/20 flex relative">
-        {/* Top Navbar */}
-        <div className="absolute top-0 left-0 right-0 h-[76px] bg-gradient-to-r from-teal-500 to-emerald-500 text-white flex justify-between items-center px-8 z-30 rounded-t-[2rem] shadow-sm">
-          <div className="font-black text-3xl tracking-tight flex items-center space-x-3 cursor-pointer group" onClick={() => navigate('/student-dashboard')}>
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md group-hover:scale-105 transition-all">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-white"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
-            </div>
-            <span>Stay<span className="text-teal-100">Sphere</span></span>
-          </div>
-          <div className="flex items-center space-x-6 text-sm font-bold bg-white/10 px-4 py-2 rounded-xl backdrop-blur-md border border-white/10">
-            <span>Welcome, {user.name}</span>
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="w-72 bg-slate-50/50 border-r border-slate-200/50 flex flex-col pt-28 pb-8 px-5 relative z-20 hidden md:flex backdrop-blur-xl">
-          <div className="flex-1 space-y-1.5">
-            <div className="flex items-center justify-between px-4 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-black mb-6 shadow-sm">
-              <span>Student Portal</span>
-              <ChevronDown size={18} className="text-slate-400" />
-            </div>
-            <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <LayoutDashboard size={20} />
-              <span>Dashboard</span>
-            </div>
-            <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <User size={20} />
-              <span>Profile</span>
-            </div>
-            <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <Calendar size={20} />
-              <span>Attendance</span>
-            </div>
-            <div className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <Home size={20} />
-              <span>Room Details</span>
-            </div>
-            <div onClick={() => navigate('/student-complaints')} className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <MessageSquare size={20} />
-              <span>Complaints</span>
-            </div>
-            <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <CreditCard size={20} />
-              <span>Payments</span>
-            </div>
-            <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3.5 bg-gradient-to-r from-teal-50 to-emerald-50/50 text-teal-700 rounded-xl cursor-pointer transition-all font-bold shadow-sm border border-teal-100/50 relative overflow-hidden group">
-              <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-teal-500 rounded-r-md"></div>
-              <Bell size={20} className="text-teal-600 group-hover:scale-110 transition-transform" />
-              <span>Notices</span>
-            </div>
-            <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3.5 hover:bg-white/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-semibold">
-              <UtensilsCrossed size={20} />
-              <span>Food Order</span>
-            </div>
-          </div>
-          <div className="mt-8 pt-4 border-t border-slate-200/50">
-            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3.5 text-red-500 hover:bg-red-50/80 hover:text-red-600 rounded-xl cursor-pointer transition-all font-bold">
-              <LogOut size={20} />
-              <span>Logout</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 pt-28 px-6 md:px-10 pb-10 overflow-y-auto w-full relative z-10 bg-slate-50/30">
+    <StudentShell activeKey="notices" title="Maintenance Notices">
+      <div className="flex-1 w-full">
           <div className="max-w-4xl mx-auto">
             <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
@@ -264,8 +189,7 @@ export default function StudentNotices() {
               )}
             </div>
           </div>
-        </div>
       </div>
-    </div>
+    </StudentShell>
   );
 }

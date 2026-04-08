@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, CheckCircle, Clock, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, AlertCircle, RefreshCw } from 'lucide-react';
+import { CheckCircle, User, Home, MessageSquare, UtensilsCrossed } from 'lucide-react';
+import StudentShell from '../components/layout/StudentShell';
 
 export default function StudentComplaintDetails() {
   const [complaints, setComplaints] = useState([]);
@@ -151,74 +152,9 @@ export default function StudentComplaintDetails() {
     return list;
   }, [complaints, filterStatus, sortOrder]);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
   return (
-    <div
-      className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "linear-gradient(to bottom right, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2000&auto=format&fit=crop')" }}
-    >
-      <div className="bg-white/90 w-full max-w-[1440px] mx-auto rounded-[36px] overflow-hidden shadow-[0_34px_80px_rgba(15,23,42,0.18)] flex relative border border-white/60 backdrop-blur-xl">
-
-        <div className="absolute top-0 left-0 right-0 h-[88px] bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 text-slate-900 flex justify-between items-center px-8 z-20 rounded-t-[36px] border-b border-amber-200/70">
-          <div className="font-black text-4xl tracking-tight flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/student-dashboard')}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
-            <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-          </div>
-          <div className="flex items-center space-x-6 text-sm font-bold text-slate-700">
-            <span>Welcome, {user.name} (Student ID: {user.studentId || `STU${(user._id || "000").substring(0,6)}`})</span>
-          </div>
-        </div>
-
-        <div className="w-64 bg-white/95 border-r border-slate-200/80 flex flex-col pt-28 pb-6 px-6 relative z-10 hidden md:flex">
-          <div className="flex-1 space-y-4">
-            <div className="rounded-3xl bg-gradient-to-r from-teal-500/15 to-slate-100 p-4 border border-teal-100 shadow-sm">
-              <div className="text-slate-500 uppercase tracking-[0.24em] text-xs font-semibold">Student Menu</div>
-              <p className="mt-3 text-slate-900 font-semibold">Quick access to your campus essentials.</p>
-            </div>
-            <div className="space-y-2">
-              <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <LayoutDashboard size={20} />
-                <span>Dashboard</span>
-              </div>
-              <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <User size={20} />
-                <span>Profile</span>
-              </div>
-              <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <Calendar size={20} />
-                <span>Attendance</span>
-              </div>
-              <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <Home size={20} />
-                <span>Room Details</span>
-              </div>
-              <div onClick={() => navigate('/student-file-complaint')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <MessageSquare size={20} />
-                <span>Complaints</span>
-              </div>
-              <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <CreditCard size={20} />
-                <span>Payments</span>
-              </div>
-              <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <UtensilsCrossed size={20} />
-                <span>Food Order</span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8">
-            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-2xl cursor-pointer transition-colors font-medium">
-              <LogOut size={20} />
-              <span>Logout</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 pt-28 px-6 pb-10 overflow-y-auto w-full">
+    <StudentShell activeKey="complaints" title="My Complaints Details">
+      <div className="flex-1 w-full">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-700">
               {error}
@@ -480,8 +416,7 @@ export default function StudentComplaintDetails() {
               </div>
             </div>
           </div>
-        </div>
       </div>
-    </div>
+    </StudentShell>
   );
 }

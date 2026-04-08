@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, CheckCircle, Clock, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, ArrowRight, Bell } from 'lucide-react';
+import { CheckCircle, Clock, UtensilsCrossed, ArrowRight } from 'lucide-react';
+import StudentShell from '../components/layout/StudentShell';
 
 const MEAL_LABELS = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', tea: 'Tea' };
 
@@ -121,11 +122,6 @@ export default function StudentDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
   const getCurrentDateTimeString = () => {
     const now = new Date();
     return `${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}, ${now.getDate()} ${now.toLocaleString('default', { month: 'short' })} ${now.getFullYear()}`;
@@ -136,87 +132,8 @@ export default function StudentDashboard() {
   const latestTodayRecord = todayRecords.length > 0 ? todayRecords[0] : null;
 
   return (
-    <div 
-      className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "linear-gradient(to bottom right, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2000&auto=format&fit=crop')" }}
-    >
-
-      {/* Outer wrapper to mimic browser/card window from screenshot */}
-      <div className="bg-slate-50 w-full max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl flex relative">
-
-        {/* Top Header Bar inside the card */}
-        <div className="absolute top-0 left-0 right-0 h-[90px] bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400 text-slate-800 flex justify-between items-center px-10 z-20 rounded-t-3xl border-b border-yellow-400 shadow-md">
-          <div className="font-black text-5xl tracking-tight flex items-center space-x-3">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
-            <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-          </div>
-          <div className="flex items-center space-x-6 text-base font-bold">
-            <span>Welcome, {user.name} (Student ID: {user.studentId || `STU${(user._id || "000").substring(0,6)}`})</span>
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer font-bold mb-4">
-              <span>Dashboard</span>
-              <ChevronDown size={18} />
-            </div>
-              <div
-                onClick={() => navigate('/student-dashboard')}
-                className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
-              >
-              <LayoutDashboard size={20} />
-              <span>Dashboard</span>
-            </div>
-            <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <User size={20} />
-              <span>Profile</span>
-            </div>
-            <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Calendar size={20} />
-              <span>Attendance</span>
-            </div>
-            <div onClick={() => navigate('/student-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Home size={20} />
-              <span>Room Details</span>
-            </div>
-            <div onClick={() => navigate('/student-file-complaint')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <MessageSquare size={20} />
-              <span>Complaints</span>
-            </div>
-            <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <CreditCard size={20} />
-              <span>Payments</span>
-            </div>
-            <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Bell size={20} />
-              <span>Notices</span>
-            </div>
-            <div
-              onClick={() => navigate(['Admin', 'Warden', 'Accountant'].includes(user.role) ? '/admin-food-order' : '/student-food-order')}
-              className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
-            >
-              <UtensilsCrossed size={20} />
-              <span>Food Order</span>
-            </div>
-          </div>
-          <div className="mt-8">
-            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-              <LogOut size={20} />
-              <span>Logout</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content Area */}
-        <div className="flex-1 pt-32 px-8 pb-8 overflow-y-auto">
-
-          <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8 relative">
-            My Attendance
-          </h1>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <StudentShell activeKey="dashboard" title="My Attendance">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {/* Left Column (Cards + Form) */}
             <div className="lg:col-span-2 space-y-6">
@@ -428,8 +345,6 @@ export default function StudentDashboard() {
             </div>
 
           </div>
-        </div>
-      </div>
-    </div>
+    </StudentShell>
   );
 }

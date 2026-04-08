@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { Home, LogOut, LayoutDashboard, User, UtensilsCrossed, CreditCard, History, Calendar, MessageSquare, Bell } from 'lucide-react';
+import { UtensilsCrossed, History } from 'lucide-react';
 import PaymentForm from '../components/PaymentForm';
+import StudentShell from '../components/layout/StudentShell';
 import '../index.css';
 
 const API_BASE = 'http://localhost:5000';
@@ -279,84 +280,9 @@ function App() {
     setShowPayment(false);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
   return (
     <Elements stripe={stripePromise}>
-      <div
-        className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
-        style={{ backgroundImage: "linear-gradient(to bottom right, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2000&auto=format&fit=crop')" }}
-      >
-        <div className="bg-slate-50 w-full max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl flex relative">
-          {/* Top Header Bar */}
-          <div className="absolute top-0 left-0 right-0 h-[70px] bg-[#FEF08A] text-slate-800 flex justify-between items-center px-8 z-20 rounded-t-3xl border-b border-yellow-300">
-            <div className="font-black text-4xl tracking-tight flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/student-dashboard')}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
-              <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-            </div>
-            <div className="flex items-center space-x-6 text-sm font-bold">
-              <span>
-                Welcome, {studentDetails.name} (Student ID: {studentDetails.regNumber})
-              </span>
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
-            <div className="flex-1 space-y-2">
-              <div className="flex items-center justify-between px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer font-bold mb-4">
-                <span>Food Order</span>
-                <span className="text-xs text-slate-500 font-bold">Menu</span>
-              </div>
-              <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <LayoutDashboard size={20} />
-                <span>Dashboard</span>
-              </div>
-              <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <User size={20} />
-                <span>Profile</span>
-              </div>
-              <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <Calendar size={20} />
-                <span>Attendance</span>
-              </div>
-              <div onClick={() => navigate('/student-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <Home size={20} />
-                <span>Room Details</span>
-              </div>
-              <div onClick={() => navigate('/student-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <MessageSquare size={20} />
-                <span>Complaints</span>
-              </div>
-              <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <CreditCard size={20} />
-                <span>Payments</span>
-              </div>
-              <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-                <Bell size={20} />
-                <span>Notices</span>
-              </div>
-                            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-teal-700 font-bold rounded-lg cursor-pointer transition-colors">
-                <UtensilsCrossed size={20} />
-                <span>Food Order</span>
-              </div>
-            </div>
-            <div className="mt-8">
-              <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-                <LogOut size={20} />
-                <span>Logout</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Main */}
-          <div className="flex-1 pt-24 px-8 pb-8 overflow-y-auto min-w-0">
-            <h1 className="text-5xl font-bold font-outfit text-[#5D4037] mb-8">
-              Food Order <span className="text-emerald-700">Menu</span>
-            </h1>
+      <StudentShell activeKey="food" title="Food Order Menu">
           {/* View Tabs */}
           <div className="flex gap-2 mb-6">
             <button
@@ -602,7 +528,7 @@ function App() {
               {orderMessage}
             </div>
           )}
-          </div>
+      </StudentShell>
 
         {/* Confirmation Modal */}
         {showConfirmation && (
@@ -721,8 +647,6 @@ function App() {
             </div>
           </div>
         )}
-        </div>
-      </div>
     </Elements>
   );
 }

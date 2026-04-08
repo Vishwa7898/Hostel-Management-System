@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import hostelImage from '../assets/hostel_bg.png';
-import { LogOut, LayoutDashboard, ChevronDown, CheckCircle, Clock, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, AlertCircle, RefreshCw } from 'lucide-react';
+import { CheckCircle, MessageSquare, AlertCircle, RefreshCw } from 'lucide-react';
+import StudentShell from '../components/layout/StudentShell';
 
 export default function StudentComplaint() {
   const [category, setCategory] = useState('');
@@ -74,73 +75,9 @@ export default function StudentComplaint() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
   return (
-    <div 
-      className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8"
-    >
-      <div className="bg-white/90 w-full max-w-[1440px] mx-auto rounded-[36px] overflow-hidden shadow-[0_34px_80px_rgba(15,23,42,0.18)] flex relative border border-white/60 backdrop-blur-xl">
-
-        <div className="absolute top-0 left-0 right-0 h-[88px] bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 text-slate-900 flex justify-between items-center px-8 z-20 rounded-t-[36px] border-b border-amber-200/70">
-          <div className="font-black text-4xl tracking-tight flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/student-dashboard')}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
-            <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-          </div>
-          <div className="flex items-center space-x-6 text-sm font-bold text-slate-700">
-            <span>Welcome, {user.name} (Student ID: {user.studentId || `STU${(user._id || "000").substring(0,6)}`})</span>
-          </div>
-        </div>
-
-        <div className="w-64 bg-white/95 border-r border-slate-200/80 flex flex-col pt-28 pb-6 px-6 relative z-10 hidden md:flex">
-          <div className="flex-1 space-y-4">
-            <div className="rounded-3xl bg-gradient-to-r from-teal-500/15 to-slate-100 p-4 border border-teal-100 shadow-sm">
-              <div className="text-slate-500 uppercase tracking-[0.24em] text-xs font-semibold">Student Menu</div>
-              <p className="mt-3 text-slate-900 font-semibold">Quick access to your campus essentials.</p>
-            </div>
-            <div className="space-y-2">
-              <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <LayoutDashboard size={20} />
-                <span>Dashboard</span>
-              </div>
-              <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <User size={20} />
-                <span>Profile</span>
-              </div>
-              <div onClick={() => navigate('/student-attendance')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <Calendar size={20} />
-                <span>Attendance</span>
-              </div>
-              <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <Home size={20} />
-                <span>Room Details</span>
-              </div>
-              <div onClick={() => navigate('/student-file-complaint')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <MessageSquare size={20} />
-                <span>Complaints</span>
-              </div>
-              <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <CreditCard size={20} />
-                <span>Payments</span>
-              </div>
-              <div onClick={() => navigate('/student-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100 rounded-2xl cursor-pointer transition-colors font-medium text-slate-700">
-                <UtensilsCrossed size={20} />
-                <span>Food Order</span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8">
-            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-2xl cursor-pointer transition-colors font-medium">
-              <LogOut size={20} />
-              <span>Logout</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 pt-28 px-6 pb-10 overflow-y-auto w-full">
+    <StudentShell activeKey="complaints" title="Submit Complaint">
+      <div className="flex-1 w-full">
           <div className="mb-10 grid gap-8">
             <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
               <div className="rounded-[32px] border border-slate-200/70 bg-slate-950/95 p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.32)] overflow-hidden">
@@ -301,8 +238,7 @@ export default function StudentComplaint() {
               </div>
             </div>
           </div>
-        </div>
       </div>
-    </div>
+    </StudentShell>
   );
 }

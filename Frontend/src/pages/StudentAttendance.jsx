@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, ChevronDown, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell, Edit, Trash2, X } from 'lucide-react';
+import { Edit, Trash2, X } from 'lucide-react';
+import StudentShell from '../components/layout/StudentShell';
 
 export default function StudentAttendance() {
   const [records, setRecords] = useState([]);
@@ -28,11 +29,6 @@ export default function StudentAttendance() {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
   };
 
   const handleDelete = async (id) => {
@@ -95,73 +91,8 @@ export default function StudentAttendance() {
   };
 
   return (
-    <div 
-      className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "linear-gradient(to bottom right, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2000&auto=format&fit=crop')" }}
-    >
-      <div className="bg-slate-50 w-full max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl flex relative">
-        {/* Top Header */}
-        <div className="absolute top-0 left-0 right-0 h-[90px] bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-400 text-slate-800 flex justify-between items-center px-10 z-20 rounded-t-3xl border-b border-yellow-400 shadow-md">
-          <div className="font-black text-5xl tracking-tight flex items-center space-x-3">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 14a4 4 0 110-8 4 4 0 010 8z" /></svg>
-            <span><span className="text-slate-700">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-          </div>
-          <div className="flex items-center space-x-6 text-sm font-bold">
-            <span>Welcome, {user.name}</span>
-          </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-slate-100 flex flex-col pt-24 pb-6 px-6 relative z-10 hidden md:flex">
-          <div className="flex-1 space-y-2">
-            <div onClick={() => navigate('/student-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <LayoutDashboard size={20} />
-              <span>Dashboard</span>
-            </div>
-            <div onClick={() => navigate('/student-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <User size={20} />
-              <span>Profile</span>
-            </div>
-            <div className="flex items-center space-x-3 px-4 py-3 bg-teal-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Calendar size={20} />
-              <span>Attendance</span>
-            </div>
-            <div onClick={() => navigate('/student-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Home size={20} />
-              <span>Room Details</span>
-            </div>
-            <div onClick={() => navigate('/student-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <MessageSquare size={20} />
-              <span>Complaints</span>
-            </div>
-            <div onClick={() => navigate('/student-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <CreditCard size={20} />
-              <span>Payments</span>
-            </div>
-            <div onClick={() => navigate('/student-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-              <Bell size={20} />
-              <span>Notices</span>
-            </div>
-            <div
-              onClick={() => navigate(['Admin', 'Warden', 'Accountant'].includes(user.role) ? '/admin-food-order' : '/student-food-order')}
-              className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium"
-            >
-              <UtensilsCrossed size={20} />
-              <span>Food Order</span>
-            </div>
-          </div>
-          <div className="mt-8 border-t border-slate-100 pt-4">
-            <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-              <LogOut size={20} />
-              <span>Logout</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 pt-32 px-8 pb-8 overflow-y-auto">
-          <h1 className="text-4xl font-bold text-orange-800 mb-7">My Attendance History</h1>
-
+    <div>
+      <StudentShell activeKey="attendance" title="My Attendance History">
           <div className="bg-gradient-to-br from-white to-orange-50 rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -207,8 +138,7 @@ export default function StudentAttendance() {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
+      </StudentShell>
 
       {/* Edit Modal */}
       {editingRecord && (
