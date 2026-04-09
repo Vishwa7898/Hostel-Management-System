@@ -74,7 +74,7 @@ export default function StudentHome() {
 
   return (
     <div className="min-h-screen bg-green-50 text-slate-800">
-      <nav className="sticky top-0 z-40 border-b border-cyan-600/40 bg-gradient-to-r from-cyan-500/90 to-blue-700/90 backdrop-blur">
+      <nav className="sticky top-0 z-50 border-b border-cyan-900 bg-[#008B8B] shadow-lg">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-8 md:px-8">
           <div className="flex items-center gap-3">
             <img src={staySphereLogo} alt="StaySphere logo" className="h-20 w-auto object-contain" />
