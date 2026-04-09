@@ -10,7 +10,29 @@ import '../index.css';
 const API_BASE = 'http://localhost:5000';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder');
 
-function FoodImage({ imageUrl }) {
+const localFoodImages = import.meta.glob('../assets/food/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+
+function getLocalImage(name) {
+  if (!name) return null;
+  const normalizedName = name.toLowerCase().replace(/\s+/g, '-');
+  
+  for (const path in localFoodImages) {
+    const filename = path.split('/').pop();
+    const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.')).toLowerCase();
+    
+    if (nameWithoutExt === normalizedName || nameWithoutExt === name.toLowerCase()) {
+      return localFoodImages[path];
+    }
+  }
+  return null;
+}
+
+function FoodImage({ imageUrl, name }) {
+  const localImgSrc = getLocalImage(name);
+  if (localImgSrc) {
+    return <img src={localImgSrc} alt={name || ""} className="w-full h-full object-cover" />;
+  }
+
   if (!imageUrl) return <span className="text-5xl">🍽️</span>;
   const isImageSource =
     imageUrl.startsWith('/') ||
@@ -19,7 +41,7 @@ function FoodImage({ imageUrl }) {
     imageUrl.startsWith('data:image/');
   if (isImageSource) {
     const src = imageUrl.startsWith('/') ? `${API_BASE}${imageUrl}` : imageUrl;
-    return <img src={src} alt="" className="w-full h-full object-cover" />;
+    return <img src={src} alt={name || ""} className="w-full h-full object-cover" />;
   }
   return <span className="text-5xl">{imageUrl}</span>;
 }
@@ -444,7 +466,7 @@ function App() {
                 {!menuLoading && filteredMenu.map((item) => (
                   <div key={item.id || item._id} className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
                     <div className="relative h-40 bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center overflow-hidden">
-                      <FoodImage imageUrl={item.imageUrl} />
+                      <FoodImage imageUrl={item.imageUrl} name={item.name} />
                       {item.isVegetarian && (
                         <span className="absolute top-2 right-2 px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">🌱 Veg</span>
                       )}
