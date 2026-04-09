@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell, RefreshCw, Plus, Edit2, Trash2, X, Clock, AlertCircle, CheckCircle } from 'lucide-react';
+import { User, Bell, RefreshCw, Plus, Edit2, Trash2, X, Clock, AlertCircle, CheckCircle } from 'lucide-react';
+import AdminShell from '../components/layout/AdminShell';
 
 export default function AdminNotices() {
   const [notices, setNotices] = useState([]);
@@ -114,87 +115,14 @@ export default function AdminNotices() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/admin-login');
-  };
-
   return (
-    <div className="min-h-screen flex bg-slate-50 font-sans selection:bg-teal-100 selection:text-teal-900">
-      {/* Sidebar Focus on modern clean look */}
-      <div className="w-64 bg-white/70 backdrop-blur-2xl border-r border-slate-200/50 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-[4px_0_24px_rgba(0,0,0,0.01)] z-20">
-        <div className="flex items-center space-x-3 font-black text-2xl mb-10 px-2 cursor-pointer group transition-all" onClick={() => navigate('/admin-dashboard')}>
-          <div className="w-9 h-9 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex justify-center items-center text-white shadow-lg shadow-cyan-500/30 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
-            <Home size={18} strokeWidth={2.5} />
-          </div>
-          <span className="tracking-tight text-slate-800 hover:opacity-80 transition-opacity">Stay<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Sphere</span></span>
-        </div>
-        
-        <div className="flex-1 space-y-1.5">
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <LayoutDashboard size={20} />
-            <span>Dashboard</span>
-          </div>
-          <div onClick={() => navigate('/admin-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <User size={20} />
-            <span>Profile</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <Calendar size={20} />
-            <span>Attendance</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <Home size={20} />
-            <span>Room Details</span>
-          </div>
-          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <MessageSquare size={20} />
-            <span>Complaints</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <CreditCard size={20} />
-            <span>Payments</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 bg-gradient-to-r from-teal-50 to-cyan-50 text-teal-700 rounded-xl cursor-pointer transition-all font-bold shadow-sm border border-teal-100/50 relative overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-teal-500 rounded-r-md"></div>
-            <Bell size={20} className="text-teal-600" />
-            <span>Notices</span>
-          </div>
-          <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-100/80 text-slate-600 hover:text-slate-900 rounded-xl cursor-pointer transition-all font-medium">
-            <UtensilsCrossed size={20} />
-            <span>Food Order</span>
-          </div>
-        </div>
-        <div className="mt-8 border-t border-slate-200/50 pt-4">
-          <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 hover:text-red-600 rounded-xl cursor-pointer transition-all font-medium">
-            <LogOut size={20} />
-            <span>Logout</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 relative">
+    <AdminShell activeKey="notices" title="Maintenance Notices">
+      <div className="flex-1 min-w-0 relative">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-300/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] bg-teal-300/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <header className="bg-white/70 backdrop-blur-xl border-b border-slate-200/60 p-5 sticky top-0 z-10 flex items-center justify-between shadow-sm">
-          <h1 className="text-xl font-black tracking-tight text-slate-800 hidden sm:block flex items-center gap-2">
-            Maintenance <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500">Notices</span>
-          </h1>
-          <div className="flex items-center space-x-4 ml-auto">
-            <div className="hidden sm:flex flex-col text-right">
-              <span className="font-bold text-sm text-slate-800 leading-none">{user.name}</span>
-              <span className="text-xs text-slate-500 mt-1 font-medium">{user.role || 'Admin'}</span>
-            </div>
-            <div className="w-11 h-11 bg-gradient-to-tr from-teal-100 to-cyan-100 text-teal-700 border border-teal-200 rounded-full flex items-center justify-center font-bold text-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-            </div>
-          </div>
-        </header>
-
-        <main className="flex-1 p-8 overflow-x-hidden relative z-0">
+        <main className="flex-1 overflow-x-hidden relative z-0">
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 gap-5">
               <div>
@@ -352,6 +280,6 @@ export default function AdminNotices() {
           </div>
         </div>
       )}
-    </div>
+    </AdminShell>
   );
 }

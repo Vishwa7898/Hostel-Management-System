@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AdminShell from '../../components/layout/AdminShell';
 
 const formatRs = (n) =>
   typeof n === 'number' ? `Rs. ${n.toLocaleString()}` : `Rs. ${n}`;
@@ -121,11 +122,6 @@ const RoomManagement = () => {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/admin-login');
-  };
 
   useEffect(() => {
     fetchAdminData();
@@ -398,18 +394,13 @@ const RoomManagement = () => {
     ) : null;
 
   return (
-    <section className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-10">
+    <AdminShell
+      activeKey="rooms"
+      title="Room Management"
+      subtitle="Add rooms, upload images, manage availability and approve bookings."
+    >
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
-              Room <span className="text-orange-500">Management</span>
-            </h1>
-            <p className="mt-1 text-slate-500">
-              Add rooms, upload images, manage availability and approve bookings.
-            </p>
-          </div>
-
+        <div className="mb-6 flex justify-end">
           <button
             type="button"
             onClick={fetchAdminData}
@@ -923,7 +914,7 @@ const RoomManagement = () => {
           </div>
         </div>
       </div>
-    </section>
+    </AdminShell>
   );
 };
 

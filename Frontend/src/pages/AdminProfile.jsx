@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  LogOut, LayoutDashboard, User, Home, MessageSquare, CreditCard, Calendar,
-  UtensilsCrossed, Bell, Key, X
+  Key, X
 } from 'lucide-react';
+import AdminShell from '../components/layout/AdminShell';
 
 export default function AdminProfile() {
   const [formData, setFormData] = useState({
@@ -108,79 +108,10 @@ export default function AdminProfile() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/admin-login');
-  };
-
   return (
-    <div className="min-h-screen flex bg-slate-50 font-sans">
-      {/* Admin Sidebar */}
-      <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
-        <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800">
-          <div className="w-8 h-8 bg-orange-500 rounded flex justify-center items-center text-white">
-            <Home size={18} />
-          </div>
-          <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-        </div>
-        <div className="flex-1 space-y-2">
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <LayoutDashboard size={20} />
-            <span>Dashboard</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium">
-            <User size={20} />
-            <span>Profile</span>
-          </div>
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Calendar size={20} />
-            <span>Attendance</span>
-          </div>
-          <div onClick={() => navigate('/admin-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Home size={20} />
-            <span>Room Details</span>
-          </div>
-          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <MessageSquare size={20} />
-            <span>Complaints</span>
-          </div>
-          <div onClick={() => navigate('/admin-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <CreditCard size={20} />
-            <span>Payments</span>
-          </div>
-          <div onClick={() => navigate('/admin-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Bell size={20} />
-            <span>Notices</span>
-          </div>
-          <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <UtensilsCrossed size={20} />
-            <span>Food Order</span>
-          </div>
-        </div>
-        <div className="mt-8 border-t border-slate-100 pt-4">
-          <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-            <LogOut size={20} />
-            <span>Logout</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center">
-          <h1 className="text-xl font-bold text-slate-800">My <span className="text-orange-500">Profile</span></h1>
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex flex-col text-right">
-              <span className="font-bold text-sm text-slate-800">{user.name}</span>
-              <span className="text-xs text-slate-500">{user.role || 'Admin'}</span>
-            </div>
-            <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg">
-              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-            </div>
-          </div>
-        </header>
-
-        <main className="flex-1 p-8 overflow-y-auto">
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-slate-200 max-w-3xl">
+    <div>
+      <AdminShell activeKey="profile" title="My Profile">
+        <div className="bg-white rounded-xl p-8 shadow-sm border border-slate-200 max-w-3xl">
             {message && <div className="mb-6 bg-teal-50 text-teal-700 px-4 py-3 rounded-lg font-medium">{message}</div>}
             {error && <div className="mb-6 bg-red-50 text-red-600 px-4 py-3 rounded-lg font-medium">{error}</div>}
 
@@ -231,8 +162,7 @@ export default function AdminProfile() {
               </div>
             </form>
           </div>
-        </main>
-      </div>
+      </AdminShell>
 
       {isPasswordModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">

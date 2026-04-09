@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, User, Calendar, Home, MessageSquare, CreditCard, UtensilsCrossed, Bell, AlertCircle, RefreshCw, CheckCircle, ChevronDown, UserPlus, Filter } from 'lucide-react';
+import { AlertCircle, RefreshCw, CheckCircle, UserPlus, Filter, Home } from 'lucide-react';
+import AdminShell from '../components/layout/AdminShell';
 
 export default function AdminComplaint() {
   const [complaints, setComplaints] = useState([]);
@@ -66,64 +67,9 @@ export default function AdminComplaint() {
   const pendingCount = complaints.filter(c => c.status === 'Pending').length;
   const resolvedCount = complaints.filter(c => c.status === 'Done').length;
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/admin-login');
-  };
-
   return (
-    <div className="min-h-screen flex bg-slate-50 font-sans">
-      <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
-        <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800 cursor-pointer" onClick={() => navigate('/admin-dashboard')}>
-          <div className="w-8 h-8 bg-cyan-600 rounded flex justify-center items-center text-white">
-            <Home size={18} />
-          </div>
-          <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-        </div>
-        
-        <div className="flex-1 space-y-2">
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <LayoutDashboard size={20} />
-            <span>Dashboard</span>
-          </div>
-          <div onClick={() => navigate('/admin-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <User size={20} />
-            <span>Profile</span>
-          </div>
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Calendar size={20} />
-            <span>Attendance</span>
-          </div>
-          <div onClick={() => navigate('/admin-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Home size={20} />
-            <span>Room Details</span>
-          </div>
-          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 bg-cyan-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <MessageSquare size={20} />
-            <span>Complaints</span>
-          </div>
-          <div onClick={() => navigate('/admin-payments')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <CreditCard size={20} />
-            <span>Payments</span>
-          </div>
-          <div onClick={() => navigate('/admin-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Bell size={20} />
-            <span>Notices</span>
-          </div>
-          <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <UtensilsCrossed size={20} />
-            <span>Food Order</span>
-          </div>
-        </div>
-        <div className="mt-8 border-t border-slate-100 pt-4">
-          <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-            <LogOut size={20} />
-            <span>Logout</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col min-w-0 px-8 py-8">
+    <AdminShell activeKey="complaints" title="Complaints & Maintenance Management" subtitle="Track, assign, and resolve student issues with clear oversight.">
+      <div className="flex-1 min-w-0 px-0 py-0">
         <header className="rounded-[32px] bg-gradient-to-br from-cyan-700 via-slate-950 to-violet-700 text-white shadow-[0_32px_100px_rgba(15,23,42,0.25)] border border-white/10 p-8 mb-10 overflow-hidden relative">
           <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"></div>
           <div className="absolute left-0 top-20 h-32 w-32 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
@@ -278,6 +224,6 @@ export default function AdminComplaint() {
           </div>
         </main>
       </div>
-    </div>
+    </AdminShell>
   );
 }

@@ -1,16 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  LogOut,
-  LayoutDashboard,
-  User,
-  Home,
-  MessageSquare,
-  CreditCard,
-  Calendar,
-  UtensilsCrossed,
-  Bell
+  CreditCard
 } from 'lucide-react';
+import AdminShell from '../components/layout/AdminShell';
 
 const PAYMENT_COLORS = {
   paid: 'bg-emerald-100 text-emerald-700',
@@ -52,80 +45,8 @@ export default function AdminPayments() {
     return orders.filter((o) => (o.paymentStatus || 'unpaid') === filterPayment);
   }, [orders, filterPayment]);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/admin-login');
-  };
-
   return (
-    <div className="min-h-screen flex bg-slate-50 font-sans">
-      <div className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex h-screen sticky top-0 py-6 px-4 shadow-sm z-10">
-        <div className="flex items-center space-x-2 font-bold text-2xl mb-10 px-2 text-slate-800 cursor-pointer" onClick={() => navigate('/admin-dashboard')}>
-          <div className="w-8 h-8 bg-orange-500 rounded flex justify-center items-center text-white">
-            <Home size={18} />
-          </div>
-          <span><span className="text-gray-500">Stay</span><span className="text-[#4BB580]">Sphere</span></span>
-        </div>
-
-        <div className="flex-1 space-y-2">
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <LayoutDashboard size={20} />
-            <span>Dashboard</span>
-          </div>
-          <div onClick={() => navigate('/admin-profile')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <User size={20} />
-            <span>Profile</span>
-          </div>
-          <div onClick={() => navigate('/admin-dashboard')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Calendar size={20} />
-            <span>Attendance</span>
-          </div>
-          <div onClick={() => navigate('/admin-rooms')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Home size={20} />
-            <span>Room Details</span>
-          </div>
-          <div onClick={() => navigate('/admin-complaints')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <MessageSquare size={20} />
-            <span>Complaints</span>
-          </div>
-          <div className="flex items-center space-x-3 px-4 py-3 bg-orange-50 text-black rounded-lg font-medium cursor-pointer transition-colors">
-            <CreditCard size={20} />
-            <span>Payments</span>
-          </div>
-          <div onClick={() => navigate('/admin-notices')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <Bell size={20} />
-            <span>Notices</span>
-          </div>
-          <div onClick={() => navigate('/admin-food-order')} className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 text-black rounded-lg cursor-pointer transition-colors font-medium">
-            <UtensilsCrossed size={20} />
-            <span>Food Order</span>
-          </div>
-        </div>
-        <div className="mt-8 border-t border-slate-100 pt-4">
-          <div onClick={handleLogout} className="flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer transition-colors font-medium">
-            <LogOut size={20} />
-            <span>Logout</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="bg-white border-b border-slate-200 p-4 shadow-sm flex justify-between items-center z-0">
-          <h1 className="text-xl font-bold tracking-tight text-slate-800 hidden sm:block">
-            Payments <span className="text-orange-500">Overview</span>
-          </h1>
-          <div className="flex items-center space-x-4 ml-auto">
-            <div className="hidden sm:flex flex-col text-right">
-              <span className="font-bold text-sm text-slate-800 leading-none">{user.name}</span>
-              <span className="text-xs text-slate-500">{user.role || 'Admin'}</span>
-            </div>
-            <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg">
-              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-            </div>
-          </div>
-        </header>
-
-        <main className="flex-1 p-8 overflow-x-hidden">
+    <AdminShell activeKey="payments" title="Payments Overview">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
             <div className="flex flex-wrap gap-3">
               <select
@@ -185,9 +106,7 @@ export default function AdminPayments() {
               </div>
             )}
           </div>
-        </main>
-      </div>
-    </div>
+    </AdminShell>
   );
 }
 
