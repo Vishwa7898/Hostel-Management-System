@@ -157,10 +157,7 @@ export default function StudentComplaintDetails() {
   };
 
   return (
-    <div
-      className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "linear-gradient(to bottom right, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2000&auto=format&fit=crop')" }}
-    >
+    <div className="min-h-screen flex font-sans p-4 sm:p-6 lg:p-8 bg-slate-50">
       <div className="bg-white/90 w-full max-w-[1440px] mx-auto rounded-[36px] overflow-hidden shadow-[0_34px_80px_rgba(15,23,42,0.18)] flex relative border border-white/60 backdrop-blur-xl">
 
         <div className="absolute top-0 left-0 right-0 h-[88px] bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 text-slate-900 flex justify-between items-center px-8 z-20 rounded-t-[36px] border-b border-amber-200/70">
@@ -226,18 +223,18 @@ export default function StudentComplaintDetails() {
           )}
           <div className="mb-10 grid gap-8">
             <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-              <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.32)]">
-                <div className="absolute -right-8 top-12 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"></div>
-                <div className="absolute -left-8 top-24 h-28 w-28 rounded-full bg-emerald-400/10 blur-3xl"></div>
+              <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-white p-8 text-slate-900 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+                <div className="absolute -right-8 top-12 h-40 w-40 rounded-full bg-cyan-100 blur-3xl"></div>
+                <div className="absolute -left-8 top-24 h-28 w-28 rounded-full bg-emerald-100 blur-3xl"></div>
                 <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-cyan-300 font-semibold">Maintenance Hub</p>
-                    <h1 className="mt-4 text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white">Track your requests</h1>
-                    <p className="mt-5 max-w-2xl text-slate-300 leading-8">Monitor the progress of all complaints you've submitted. Our team works diligently to resolve issues promptly.</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-cyan-600 font-semibold">Maintenance Hub</p>
+                    <h1 className="mt-4 text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-slate-900">Track your requests</h1>
+                    <p className="mt-5 max-w-2xl text-slate-600 leading-8">Monitor the progress of all complaints you've submitted. Our team works diligently to resolve issues promptly.</p>
                   </div>
                   <div className="flex flex-col gap-4">
-                    <div className="rounded-[28px] bg-white/10 p-4 flex items-center justify-center w-28 h-28 border border-white/10 shadow-lg">
-                      <MessageSquare className="text-cyan-300" size={36} />
+                    <div className="rounded-[28px] bg-cyan-50 p-4 flex items-center justify-center w-28 h-28 border border-cyan-100 shadow-lg">
+                      <MessageSquare className="text-cyan-600" size={36} />
                     </div>
                     <button 
                       onClick={() => navigate('/student-file-complaint')}
@@ -248,34 +245,34 @@ export default function StudentComplaintDetails() {
                   </div>
                 </div>
                 <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                  <div className="rounded-[28px] bg-slate-950/80 p-6 border border-slate-700 shadow-sm">
-                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400 font-semibold">Total requests</p>
-                    <p className="mt-4 text-3xl font-bold text-white">{complaints.length}</p>
+                  <div className="rounded-[28px] bg-slate-50 p-6 border border-slate-200 shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold">Total requests</p>
+                    <p className="mt-4 text-3xl font-bold text-slate-900">{complaints.length}</p>
                   </div>
-                  <div className="rounded-[28px] bg-cyan-500/10 p-6 border border-cyan-300 shadow-sm backdrop-blur-sm">
-                    <p className="text-xs uppercase tracking-[0.25em] text-cyan-200 font-semibold">Pending issues</p>
-                    <p className="mt-4 text-3xl font-bold text-cyan-100">{pendingCount}</p>
+                  <div className="rounded-[28px] bg-cyan-50 p-6 border border-cyan-200 shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.25em] text-cyan-700 font-semibold">Pending issues</p>
+                    <p className="mt-4 text-3xl font-bold text-cyan-900">{pendingCount}</p>
                   </div>
-                  <div className="rounded-[28px] bg-amber-500/10 p-6 border border-amber-300 shadow-sm backdrop-blur-sm">
-                    <p className="text-xs uppercase tracking-[0.25em] text-amber-200 font-semibold">Resolved</p>
-                    <p className="mt-4 text-3xl font-bold text-amber-100">{resolvedCount}</p>
+                  <div className="rounded-[28px] bg-amber-50 p-6 border border-amber-200 shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.25em] text-amber-700 font-semibold">Resolved</p>
+                    <p className="mt-4 text-3xl font-bold text-amber-900">{resolvedCount}</p>
                   </div>
                 </div>
               </div>
               <div className="grid gap-4">
-                <div className="rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-cyan-500 to-slate-900 p-6 text-white shadow-[0_18px_45px_rgba(15,23,42,0.18)]">
+                <div className="rounded-[32px] border border-slate-200/70 bg-white p-6 text-slate-900 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="rounded-3xl bg-white/10 p-3">
-                      <UtensilsCrossed className="text-white" size={20} />
+                    <div className="rounded-3xl bg-cyan-50 p-3">
+                      <UtensilsCrossed className="text-cyan-600" size={20} />
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Need to file a new complaint?</p>
-                      <p className="mt-2 text-sm leading-6 text-teal-100/90">Use the 'Complaints' menu or the button above to report any issues immediately.</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">Use the 'Complaints' menu or the button above to report any issues immediately.</p>
                     </div>
                   </div>
                   <button
                     onClick={() => navigate('/student-file-complaint')}
-                    className="mt-3 bg-white text-slate-900 font-semibold px-5 py-3 rounded-3xl shadow-[0_18px_45px_rgba(255,255,255,0.12)] hover:bg-slate-100 transition-all"
+                    className="mt-3 bg-cyan-600 text-white font-semibold px-5 py-3 rounded-3xl shadow-[0_18px_45px_rgba(59,130,246,0.18)] hover:bg-cyan-700 transition-all"
                   >
                     File another request
                   </button>
@@ -317,7 +314,7 @@ export default function StudentComplaintDetails() {
                     setSortOrder('recent');
                     setFilterStatus('all');
                   }}
-                  className={`rounded-3xl px-4 py-3 text-sm font-semibold transition-all ${sortOrder === 'recent' ? 'bg-slate-900 text-white border border-slate-900' : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200'}`}
+                  className={`rounded-3xl px-4 py-3 text-sm font-semibold transition-all ${sortOrder === 'recent' ? 'bg-cyan-600 text-white border border-cyan-600' : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200'}`}
                 >
                   Recent first
                 </button>

@@ -116,14 +116,12 @@ export default function AdminComplaint() {
       </div>
 
       <div className="flex-1 flex flex-col min-w-0 px-8 py-8">
-        <header className="rounded-[32px] bg-gradient-to-br from-cyan-700 via-slate-950 to-violet-700 text-white shadow-[0_32px_100px_rgba(15,23,42,0.25)] border border-white/10 p-8 mb-10 overflow-hidden relative">
-          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"></div>
-          <div className="absolute left-0 top-20 h-32 w-32 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+        <header className="rounded-[32px] bg-white border border-slate-200 p-8 mb-10 shadow-sm">
           <div className="relative grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:items-center">
             <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-cyan-200 font-semibold">Admin Complaints</p>
-              <h1 className="mt-3 text-4xl font-bold tracking-tight">Complaints & Maintenance Management</h1>
-              <p className="mt-4 max-w-2xl text-cyan-100/90">Track, assign, and resolve student issues with clear oversight and friendly action tools.</p>
+              <p className="text-sm uppercase tracking-[0.3em] text-cyan-600 font-semibold">Admin Complaints</p>
+              <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-900">Complaints & Maintenance Management</h1>
+              <p className="mt-4 max-w-2xl text-slate-600">Track, assign, and resolve student issues with clear oversight and friendly action tools.</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-[24px] bg-white/10 border border-white/10 p-5 text-center shadow-sm backdrop-blur-sm">
