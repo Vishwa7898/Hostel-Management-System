@@ -117,6 +117,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (backendStatus.includes('Checking')) {
+      return;
+    }
+
     setMenuLoading(true);
     setMenuError('');
     
