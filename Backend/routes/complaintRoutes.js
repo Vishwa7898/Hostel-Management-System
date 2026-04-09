@@ -22,6 +22,13 @@ router.get(
   complaintController.getStudentComplaints
 );
 
+// get complaint by id (student can fetch own complaint; admin/warden/accountant can fetch any complaint)
+router.get(
+  "/:id",
+  authMiddleware,
+  complaintController.getComplaintById
+);
+
 // student update own complaint
 router.put(
   "/:id",
@@ -38,19 +45,19 @@ router.delete(
   complaintController.deleteComplaint
 );
 
-// admin view all complaints
+// admin / warden / accountant view all complaints
 router.get(
   "/",
   authMiddleware,
-  roleMiddleware("admin"),
+  roleMiddleware("admin", "warden", "accountant"),
   complaintController.getAllComplaints
 );
 
-// admin update complaint
+// admin / warden / accountant update complaint status or assignment
 router.put(
-  "/:id",
+  "/admin/:id",
   authMiddleware,
-  roleMiddleware("admin"),
+  roleMiddleware("admin", "warden", "accountant"),
   complaintController.updateComplaintStatus
 );
 

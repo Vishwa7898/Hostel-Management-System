@@ -40,7 +40,7 @@ export default function AdminComplaint() {
       if (status) body.status = status;
       if (assignedWorker !== undefined) body.assignedWorker = assignedWorker;
 
-      const res = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/complaints/admin/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -48,6 +48,10 @@ export default function AdminComplaint() {
         },
         body: JSON.stringify(body)
       });
+
+      if (res.status === 401 || res.status === 403) {
+        return navigate('/admin-login');
+      }
 
       if (res.ok) {
         fetchComplaints();

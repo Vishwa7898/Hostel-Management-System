@@ -49,6 +49,23 @@ exports.getAllComplaints = async (req, res) => {
   }
 };
 
+exports.getComplaintById = async (req, res) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+    if (!complaint) {
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+
+    if (req.user.role === 'Student' && complaint.student.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Forbidden: You can only access your own complaints' });
+    }
+
+    res.json(complaint);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.updateComplaintStatus = async (req, res) => {
   try {
     const { status, assignedWorker } = req.body;
