@@ -11,6 +11,12 @@ const MAX_BEDS = 3;
 const ALLOWED_ROOM_TYPES = ['single', 'double', 'triple'];
 const ALLOWED_ROOM_STATUS = ['available', 'occupied', 'maintenance', 'unavailable'];
 const hasImageData = (v) => typeof v === 'string' && v.trim().length > 0;
+const ROOMS_BY_FLOOR = {
+  1: ['101', '102', '103', '104', '105'],
+  2: ['106', '107', '108', '109', '110'],
+  3: ['111', '112', '113', '114', '115'],
+  4: ['116', '117', '118', '119', '120']
+};
 
 const validateAddRoomForm = (form) => {
   const e = {};
@@ -203,7 +209,10 @@ const RoomManagement = () => {
     setForm((prev) => {
       if (name === 'floor') {
         num = Math.min(MAX_FLOOR, Math.max(1, Math.round(num)));
-        return { ...prev, floor: num };
+        const nextRooms = ROOMS_BY_FLOOR[num] || [];
+        const currentRoom = prev.roomNumber != null ? String(prev.roomNumber) : '';
+        const keepRoom = nextRooms.includes(currentRoom);
+        return { ...prev, floor: num, roomNumber: keepRoom ? currentRoom : '' };
       }
       if (name === 'pricePerMonth') {
         return { ...prev, pricePerMonth: num };
@@ -393,6 +402,12 @@ const RoomManagement = () => {
       </p>
     ) : null;
 
+  const roomNumberOptions = useMemo(() => {
+    const f = Number(form.floor);
+    if (!Number.isFinite(f)) return [];
+    return ROOMS_BY_FLOOR[f] || [];
+  }, [form.floor]);
+
   return (
     <AdminShell
       activeKey="rooms"
@@ -489,15 +504,22 @@ const RoomManagement = () => {
                     <label htmlFor="add-room-number" className="block text-sm font-bold text-slate-700">
                       Room number
                     </label>
-                    <input
+                    <select
                       id="add-room-number"
                       name="roomNumber"
                       value={form.roomNumber}
                       onChange={handleFormChange}
-                      placeholder="e.g. A-101"
-                      autoComplete="off"
                       className={fieldClass('roomNumber')}
-                    />
+                    >
+                      <option value="" disabled>
+                        Select a room…
+                      </option>
+                      {roomNumberOptions.map((roomNo) => (
+                        <option key={roomNo} value={roomNo}>
+                          {roomNo}
+                        </option>
+                      ))}
+                    </select>
                     {fieldHint('roomNumber')}
                   </div>
 
