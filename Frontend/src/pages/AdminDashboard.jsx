@@ -167,25 +167,6 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
 
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
 
-<div className="p-6 border-b border-slate-100 bg-slate-50">
-  <h3 className="text-lg font-bold text-slate-800 mb-3">Overdue Notifications</h3>
-  {notifications.length === 0 ? (
-    <p className="text-sm text-slate-500">No overdue notifications yet.</p>
-  ) : (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-      {notifications.map((note) => (
-        <div key={note._id} className={`rounded-lg p-3 border ${note.isRead ? 'bg-white border-slate-200' : 'bg-red-50 border-red-200'}`}>
-          <p className="text-sm font-semibold text-slate-800">{note.title}</p>
-          <p className="text-xs text-slate-600 mt-1">{note.message}</p>
-          <p className="text-[11px] text-slate-400 mt-2">
-            {note.createdAt ? new Date(note.createdAt).toLocaleString() : ''}
-          </p>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-
 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
 
   {/* INSIDE CARD */}

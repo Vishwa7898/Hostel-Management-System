@@ -18,6 +18,8 @@ import StudentComplaintDetails from './pages/StudentComplaintDetails';
 import AdminComplaint from './pages/AdminComplaint';
 import StudentNotices from './pages/StudentNotices';
 import AdminNotices from './pages/AdminNotices';
+import StudentNotifications from './pages/StudentNotifications';
+import AdminNotifications from './pages/AdminNotifications';
 import RoomList from './pages/Student/RoomList.jsx';
 import RoomManagement from './pages/Admin/RoomManagement';
 import StudentHome from './pages/StudentHome';
@@ -38,6 +40,7 @@ function App() {
         <Route path="/student-food-order" element={<FoodOrderSystem />} />
         <Route path="/student-payments" element={<StudentPayments />} />
         <Route path="/student-notices" element={<StudentNotices />} />
+        <Route path="/student-notifications" element={<StudentNotifications />} />
         <Route path="/student-rooms" element={<RoomList />} />
         <Route path="/student-file-complaint" element={<StudentComplaint />} />
         <Route path="/student-complaints" element={<StudentComplaintDetails />} />
@@ -46,6 +49,7 @@ function App() {
         <Route path="/admin-food-order" element={<AdminFoodOrder />} />
         <Route path="/admin-payments" element={<AdminPayments />} />
         <Route path="/admin-notices" element={<AdminNotices />} />
+        <Route path="/admin-notifications" element={<AdminNotifications />} />
         <Route path="/admin-complaints" element={<AdminComplaint />} />
         <Route path="/student-complaints" element={<StudentComplaint />} />
         <Route path="/admin-rooms" element={<RoomManagement />} />
