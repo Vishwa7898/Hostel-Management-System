@@ -47,8 +47,21 @@ export default function StudentProfile() {
   };
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const { name, value } = e.target;
+
+  // ✅ Contact number → only numbers & max 10 digits
+  if (name === 'contactNumber') {
+    if (!/^[0-9]*$/.test(value)) return;
+    if (value.length > 10) return;
+  }
+
+  // ✅ Guardian name → only letters & spaces
+  if (name === 'guardianName') {
+    if (!/^[A-Za-z\s]*$/.test(value)) return;
+  }
+
+  setFormData({ ...formData, [name]: value });
+};
 
   const handlePasswordChange = (e) => {
     setPasswordForm({ ...passwordForm, [e.target.name]: e.target.value });
