@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import hostelImage from '../assets/hostel_bg.png';
 import { CheckCircle, MessageSquare, AlertCircle, RefreshCw } from 'lucide-react';
 import StudentShell from '../components/layout/StudentShell';
 
@@ -120,31 +119,7 @@ export default function StudentComplaint() {
               </div>
             </div>
             <div className="rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-slate-100 via-white to-cyan-50 p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.1)]">
-              <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-                <div className="rounded-[28px] bg-gradient-to-br from-cyan-500/10 via-slate-50 to-emerald-100 p-6 border border-cyan-200 shadow-sm">
-                  <div className="inline-flex items-center rounded-full bg-white/90 px-4 py-2 text-xs font-semibold tracking-[0.22em] text-cyan-700 shadow-sm">
-                    ✨ Fast support
-                  </div>
-                  <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900">File a New Complaint</h2>
-                  <div className="mt-5 overflow-hidden rounded-[28px] border border-slate-200 bg-white/80 shadow-sm">
-                    <img src={hostelImage} alt="Hostel accommodation" className="w-full h-44 object-cover" />
-                  </div>
-                  <p className="mt-4 text-sm leading-7 text-slate-600">Share your issue clearly and we’ll route it to the right team quickly. The more details you provide, the faster it gets resolved.</p>
-                  <div className="mt-6 grid gap-4">
-                    <div className="rounded-3xl bg-white p-4 border border-cyan-100 shadow-sm">
-                      <p className="text-sm font-semibold text-slate-900">Review speed</p>
-                      <p className="mt-1 text-sm text-slate-500">Complaints are checked by the team every morning.</p>
-                    </div>
-                    <div className="rounded-3xl bg-white p-4 border border-emerald-100 shadow-sm">
-                      <p className="text-sm font-semibold text-slate-900">Trusted process</p>
-                      <p className="mt-1 text-sm text-slate-500">Your request stays visible until it is resolved.</p>
-                    </div>
-                    <div className="rounded-3xl bg-white p-4 border border-orange-100 shadow-sm">
-                      <p className="text-sm font-semibold text-slate-900">Stay informed</p>
-                      <p className="mt-1 text-sm text-slate-500">You can view status updates anytime in My Complaints.</p>
-                    </div>
-                  </div>
-                </div>
+              <div className="max-w-4xl mx-auto w-full">
                 <div className="rounded-[28px] bg-slate-950/95 p-6 md:p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.25)] border border-white/10">
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <div>
