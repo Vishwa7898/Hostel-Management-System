@@ -232,7 +232,7 @@ export default function StudentDashboard() {
 
             {/* Right Column (History) */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 h-full">
+              <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
                 <h3 className="text-xl font-bold text-slate-800 mb-6 font-outfit">Recent History</h3>
 
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">

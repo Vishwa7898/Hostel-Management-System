@@ -17,6 +17,7 @@ const NAV = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, to: '/student-dashboard' },
   { key: 'profile', label: 'Profile', icon: User, to: '/student-profile' },
   { key: 'attendance', label: 'Attendance', icon: Calendar, to: '/student-attendance' },
+  { key: 'notifications', label: 'Notifications', icon: Bell, to: '/student-notifications' },
   { key: 'rooms', label: 'Room Details', icon: Home, to: '/student-rooms' },
   { key: 'complaints', label: 'Complaints', icon: MessageSquare, to: '/student-complaints' },
   { key: 'payments', label: 'Payments', icon: CreditCard, to: '/student-payments' },
@@ -24,7 +25,7 @@ const NAV = [
   { key: 'food', label: 'Food Order', icon: UtensilsCrossed, to: '/student-food-order' }
 ];
 
-export default function StudentSidebar({ activeKey, onLogout }) {
+export default function StudentSidebar({ activeKey, onLogout, unreadNotifications = 0 }) {
   const navigate = useNavigate();
 
   return (
@@ -51,7 +52,14 @@ export default function StudentSidebar({ activeKey, onLogout }) {
               ].join(' ')}
             >
               <Icon size={20} className={active ? 'text-white' : 'text-slate-500'} />
-              <span>{item.label}</span>
+              <span className="flex items-center gap-2">
+                {item.label}
+                {item.key === 'notifications' && unreadNotifications > 0 && (
+                  <span className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[10px] font-bold ${active ? 'bg-white text-teal-700' : 'bg-red-500 text-white'}`}>
+                    {unreadNotifications > 99 ? '99+' : unreadNotifications}
+                  </span>
+                )}
+              </span>
             </button>
           );
         })}
