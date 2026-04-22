@@ -1,6 +1,38 @@
 const Complaint = require("../models/Complaint");
 const User = require("../models/user");
 
+const VALID_ROOMS = {
+  1: ["101", "102", "103", "104", "105"],
+  2: ["106", "107", "108", "109", "110"],
+  3: ["111", "112", "113", "114", "115"],
+  4: ["116", "117", "118", "119", "120"]
+};
+
+const validateRoomNumber = (roomNumber) => {
+  if (!roomNumber) return { isValid: false, message: "Room number is required for room-related complaints" };
+  
+  const roomStr = roomNumber.toString();
+  const floorDigit = roomStr.charAt(0);
+  const floor = parseInt(floorDigit);
+  
+  if (!VALID_ROOMS[floor]) {
+    return { 
+      isValid: false, 
+      message: `Invalid room number. Valid floors are 1-4.` 
+    };
+  }
+  
+  const floorRooms = VALID_ROOMS[floor];
+  if (!floorRooms.includes(roomStr)) {
+    return {
+      isValid: false,
+      message: `Invalid room number. Valid rooms for Floor ${floor} are: ${floorRooms.join(", ")}`
+    };
+  }
+  
+  return { isValid: true };
+};
+
 exports.createComplaint = async (req, res) => {
   try {
     const { anonymous, category, title, description, roomNumber, locationType } = req.body;
@@ -9,8 +41,11 @@ exports.createComplaint = async (req, res) => {
       return res.status(400).json({ message: "Required fields are missing" });
     }
 
-    if (locationType === "room" && !roomNumber) {
-      return res.status(400).json({ message: "Room number is required for room-related complaints" });
+    if (locationType === "room") {
+      const validation = validateRoomNumber(roomNumber);
+      if (!validation.isValid) {
+        return res.status(400).json({ message: validation.message });
+      }
     }
 
     const complaint = await Complaint.create({
@@ -114,8 +149,11 @@ exports.updateComplaint = async (req, res) => {
       return res.status(400).json({ message: "Required fields are missing" });
     }
 
-    if (locationType === "room" && !roomNumber) {
-      return res.status(400).json({ message: "Room number is required for room-related complaints" });
+    if (locationType === "room") {
+      const validation = validateRoomNumber(roomNumber);
+      if (!validation.isValid) {
+        return res.status(400).json({ message: validation.message });
+      }
     }
 
     complaint.anonymous = anonymous;
