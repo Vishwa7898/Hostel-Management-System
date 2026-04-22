@@ -185,13 +185,7 @@ const RoomList = () => {
                     >
                       Book This Room
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedRoom(room)}
-                      className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 active:scale-[0.99]"
-                    >
-                      Details
-                    </button>
+
                   </div>
                 </div>
               </article>
