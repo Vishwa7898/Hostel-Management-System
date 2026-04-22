@@ -80,6 +80,8 @@ export default function AdminDashboard() {
     "Student Name",
     "Date",
     "Check Out",
+    "Expected Return Date",
+    "Expected Return Time",
     "Check In",
     "Status"
   ];
@@ -91,6 +93,8 @@ export default function AdminDashboard() {
     record.checkOutTime 
       ? new Date(record.checkOutTime).toLocaleTimeString() 
       : '-',
+    record.expectedReturn ? new Date(record.expectedReturn).toLocaleDateString() : '-',
+    record.expectedReturn ? new Date(record.expectedReturn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-',
     record.checkInTime 
       ? new Date(record.checkInTime).toLocaleTimeString() 
       : '-',
@@ -234,6 +238,8 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
                 <th className="p-6 border-b font-bold text-sm">Student Name</th>
                 <th className="p-6 border-b font-bold text-sm">Date</th>
                 <th className="p-6 border-b font-bold text-sm">Check Out</th>
+                <th className="p-6 border-b font-bold text-sm">Expected Return Date</th>
+                <th className="p-6 border-b font-bold text-sm">Expected Return Time</th>
                 <th className="p-6 border-b font-bold text-sm">Check In</th>
                 <th className="p-6 border-b font-bold text-sm">Status</th>
               </tr>
@@ -245,6 +251,12 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
                   <td className="p-5 text-slate-700 text-base font-medium">{record.user?.name || 'N/A'}</td>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.date}</td>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-'}</td>
+                  <td className="p-5 text-slate-700 text-base font-medium">
+                    {record.expectedReturn ? new Date(record.expectedReturn).toLocaleDateString() : '-'}
+                  </td>
+                  <td className="p-5 text-slate-700 text-base font-medium">
+                    {record.expectedReturn ? new Date(record.expectedReturn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
+                  </td>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-'}</td>
                   <td className="p-5 text-slate-700 text-base font-medium">
                     <span className={`px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide shadow-sm ${record.status === 'Inside' ? 'bg-teal-100 text-teal-700' : 'bg-orange-100 text-orange-700'}`}>
@@ -254,7 +266,7 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
                 </tr>
               ))}
               {records.length === 0 && (
-                <tr><td colSpan="6" className="p-12 text-center text-slate-500 text-lg">No attendance records found.</td></tr>
+                <tr><td colSpan="8" className="p-12 text-center text-slate-500 text-lg">No attendance records found.</td></tr>
               )}
             </tbody>
           </table>
