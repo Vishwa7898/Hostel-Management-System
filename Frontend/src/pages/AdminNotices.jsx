@@ -12,6 +12,7 @@ export default function AdminNotices() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingNotice, setEditingNotice] = useState(null);
   const [formData, setFormData] = useState({ title: '', description: '' });
+  const [formErrors, setFormErrors] = useState({});
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ export default function AdminNotices() {
       setEditingNotice(null);
       setFormData({ title: '', description: '' });
     }
+    setFormErrors({});
     setError('');
     setIsModalOpen(true);
   };
@@ -56,12 +58,38 @@ export default function AdminNotices() {
     setIsModalOpen(false);
     setEditingNotice(null);
     setFormData({ title: '', description: '' });
+    setFormErrors({});
+  };
+
+  const validateForm = () => {
+    const nextErrors = {};
+    const title = formData.title.trim();
+    const description = formData.description.trim();
+
+    if (!title) {
+      nextErrors.title = 'Title is required.';
+    } else if (title.length < 5) {
+      nextErrors.title = 'Title must be at least 5 characters.';
+    } else if (title.length > 120) {
+      nextErrors.title = 'Title cannot exceed 120 characters.';
+    }
+
+    if (!description) {
+      nextErrors.description = 'Description is required.';
+    } else if (description.length < 15) {
+      nextErrors.description = 'Description must be at least 15 characters.';
+    } else if (description.length > 1000) {
+      nextErrors.description = 'Description cannot exceed 1000 characters.';
+    }
+
+    setFormErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title.trim() || !formData.description.trim()) {
-      setError('Title and description are required.');
+    if (!validateForm()) {
+      setError('Please fix form errors before saving.');
       return;
     }
     setSubmitLoading(true);
@@ -80,7 +108,10 @@ export default function AdminNotices() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          title: formData.title.trim(),
+          description: formData.description.trim()
+        })
       });
 
       if (!res.ok) throw new Error('Failed to save notice');
@@ -236,26 +267,56 @@ export default function AdminNotices() {
               
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-black uppercase tracking-wider text-slate-600 mb-2">Notice Title</label>
+                  <label className="block text-sm font-black uppercase tracking-wider text-slate-600 mb-2">
+                    Notice Title <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-5 py-3.5 rounded-xl border border-slate-200/80 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 transition-all font-medium text-slate-800 placeholder:text-slate-400"
+                    onChange={(e) => {
+                      setFormData({ ...formData, title: e.target.value });
+                      if (formErrors.title) setFormErrors((prev) => ({ ...prev, title: '' }));
+                    }}
+                    className={`w-full px-5 py-3.5 rounded-xl border bg-slate-50/50 focus:bg-white focus:outline-none transition-all font-medium text-slate-800 placeholder:text-slate-400 ${
+                      formErrors.title
+                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10'
+                        : 'border-slate-200/80 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10'
+                    }`}
                     placeholder="e.g. Water Supply Interruption"
                     required
+                    minLength={5}
+                    maxLength={120}
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs">
+                    <span className="text-red-500">{formErrors.title || ''}</span>
+                    <span className="text-slate-400">{formData.title.trim().length}/120</span>
+                  </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-black uppercase tracking-wider text-slate-600 mb-2">Description</label>
+                  <label className="block text-sm font-black uppercase tracking-wider text-slate-600 mb-2">
+                    Description <span className="text-red-500">*</span>
+                  </label>
                   <textarea
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-5 py-3.5 rounded-xl border border-slate-200/80 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 transition-all min-h-[140px] resize-y font-medium text-slate-800 placeholder:text-slate-400"
+                    onChange={(e) => {
+                      setFormData({ ...formData, description: e.target.value });
+                      if (formErrors.description) setFormErrors((prev) => ({ ...prev, description: '' }));
+                    }}
+                    className={`w-full px-5 py-3.5 rounded-xl border bg-slate-50/50 focus:bg-white focus:outline-none transition-all min-h-[140px] resize-y font-medium text-slate-800 placeholder:text-slate-400 ${
+                      formErrors.description
+                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10'
+                        : 'border-slate-200/80 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10'
+                    }`}
                     placeholder="Provide full details about the maintenance..."
                     required
+                    minLength={15}
+                    maxLength={1000}
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs">
+                    <span className="text-red-500">{formErrors.description || ''}</span>
+                    <span className="text-slate-400">{formData.description.trim().length}/1000</span>
+                  </div>
                 </div>
               </div>
 
@@ -269,7 +330,7 @@ export default function AdminNotices() {
                 </button>
                 <button 
                   type="submit" 
-                  disabled={submitLoading}
+                  disabled={submitLoading || !formData.title.trim() || !formData.description.trim()}
                   className="px-7 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold hover:from-teal-600 hover:to-cyan-600 shadow-lg hover:shadow-teal-500/30 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 border border-teal-500"
                 >
                   {submitLoading ? <RefreshCw size={20} className="animate-spin" /> : <CheckCircle size={20} />}
