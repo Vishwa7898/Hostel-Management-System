@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const { createOverdueNotifications } = require('./services/attendanceNotificationService');
 
 dotenv.config();
 
@@ -43,6 +44,16 @@ app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/complaints', require('./routes/complaintRoutes'));
 app.use('/api/notices', require('./routes/noticeRoutes'));
 app.use('/api/rooms', require('./routes/roomRoutes'));
+app.use('/api/notifications', require('./routes/notificationRoutes'));
+
+// Periodically check attendance records and create overdue notifications.
+setInterval(async () => {
+    try {
+        await createOverdueNotifications();
+    } catch (error) {
+        console.error('Overdue notification scheduler error:', error.message);
+    }
+}, 60 * 1000);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

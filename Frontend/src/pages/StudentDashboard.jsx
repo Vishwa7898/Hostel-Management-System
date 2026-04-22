@@ -8,6 +8,7 @@ const MEAL_LABELS = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', 
 export default function StudentDashboard() {
   const [records, setRecords] = useState([]);
   const [myOrders, setMyOrders] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [status, setStatus] = useState('Inside');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [checkOutTime, setCheckOutTime] = useState('');
@@ -33,7 +34,20 @@ export default function StudentDashboard() {
     if (['Admin', 'Warden', 'Accountant'].includes(user.role)) return navigate('/admin-dashboard');
     fetchAttendance();
     fetchMyOrders();
+    fetchNotifications();
   }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/notifications/my', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      setNotifications(Array.isArray(data) ? data.slice(0, 5) : []);
+    } catch {
+      setNotifications([]);
+    }
+  };
 
   const fetchMyOrders = async () => {
     try {
@@ -232,7 +246,7 @@ export default function StudentDashboard() {
 
             {/* Right Column (History) */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 h-full">
+              <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
                 <h3 className="text-xl font-bold text-slate-800 mb-6 font-outfit">Recent History</h3>
 
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
@@ -280,6 +294,25 @@ export default function StudentDashboard() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 mt-6">
+                <h3 className="text-xl font-bold text-slate-800 mb-4 font-outfit">Notifications</h3>
+                {notifications.length === 0 ? (
+                  <p className="text-sm text-slate-400">No notifications yet.</p>
+                ) : (
+                  <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1">
+                    {notifications.map((note) => (
+                      <div key={note._id} className={`rounded-xl p-3 border ${note.isRead ? 'bg-slate-50 border-slate-100' : 'bg-orange-50 border-orange-200'}`}>
+                        <p className="text-sm font-semibold text-slate-800">{note.title}</p>
+                        <p className="text-xs text-slate-600 mt-1">{note.message}</p>
+                        <p className="text-[11px] text-slate-400 mt-2">
+                          {note.createdAt ? new Date(note.createdAt).toLocaleString() : ''}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
