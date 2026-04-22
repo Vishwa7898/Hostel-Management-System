@@ -70,26 +70,26 @@ export default function AdminComplaint() {
   return (
     <AdminShell activeKey="complaints" title="Complaints & Maintenance Management" subtitle="Track, assign, and resolve student issues with clear oversight.">
       <div className="flex-1 min-w-0 px-0 py-0">
-        <header className="rounded-[32px] bg-gradient-to-br from-cyan-700 via-slate-950 to-violet-700 text-white shadow-[0_32px_100px_rgba(15,23,42,0.25)] border border-white/10 p-8 mb-10 overflow-hidden relative">
-          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"></div>
-          <div className="absolute left-0 top-20 h-32 w-32 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+        <header className="rounded-[32px] bg-gradient-to-br from-slate-900 via-cyan-900 to-teal-800 text-white shadow-[0_28px_80px_rgba(15,23,42,0.3)] border border-cyan-700/40 p-8 mb-10 overflow-hidden relative">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-cyan-400/25 blur-3xl"></div>
+          <div className="absolute left-0 top-20 h-32 w-32 rounded-full bg-teal-300/20 blur-3xl"></div>
           <div className="relative grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:items-center">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-cyan-200 font-semibold">Admin Complaints</p>
               <h1 className="mt-3 text-4xl font-bold tracking-tight">Complaints & Maintenance Management</h1>
-              <p className="mt-4 max-w-2xl text-cyan-100/90">Track, assign, and resolve student issues with clear oversight and friendly action tools.</p>
+              <p className="mt-4 max-w-2xl text-cyan-100/90">Track, assign, and resolve student issues with clear oversight and faster action tools.</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[24px] bg-white/10 border border-white/10 p-5 text-center shadow-sm backdrop-blur-sm">
+              <div className="rounded-[24px] bg-white/10 border border-white/20 p-5 text-center shadow-sm backdrop-blur-sm">
                 <p className="text-xs uppercase tracking-[0.24em] text-cyan-100 font-semibold">Total</p>
                 <p className="mt-3 text-3xl font-bold">{totalCount}</p>
               </div>
-              <div className="rounded-[24px] bg-cyan-500/10 border border-cyan-200 p-5 text-center shadow-sm backdrop-blur-sm">
-                <p className="text-xs uppercase tracking-[0.24em] text-cyan-100 font-semibold">Pending</p>
+              <div className="rounded-[24px] bg-amber-500/20 border border-amber-300/60 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-amber-100 font-semibold">Pending</p>
                 <p className="mt-3 text-3xl font-bold">{pendingCount}</p>
               </div>
-              <div className="rounded-[24px] bg-violet-500/10 border border-violet-200 p-5 text-center shadow-sm backdrop-blur-sm">
-                <p className="text-xs uppercase tracking-[0.24em] text-violet-100 font-semibold">Resolved</p>
+              <div className="rounded-[24px] bg-emerald-500/20 border border-emerald-300/60 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-emerald-100 font-semibold">Resolved</p>
                 <p className="mt-3 text-3xl font-bold">{resolvedCount}</p>
               </div>
             </div>
@@ -120,54 +120,60 @@ export default function AdminComplaint() {
                   <option value="Done">Resolved</option>
                 </select>
               </div>
-              <button 
+              <button
                 onClick={fetchComplaints}
-                className="mt-2 sm:mt-0 inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-cyan-600 to-violet-600 text-white px-4 py-3 font-semibold shadow-lg transition hover:from-cyan-700 hover:to-violet-700"
+                className="mt-2 sm:mt-0 inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-teal-600 to-cyan-700 text-white px-4 py-3 font-semibold shadow-lg transition hover:from-teal-700 hover:to-cyan-800"
               >
                 <RefreshCw size={16} className={loading ? 'animate-spin' : ''} /> <span>Refresh</span>
               </button>
             </div>
           </div>
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">All: {totalCount}</span>
+            <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-amber-700">Pending: {pendingCount}</span>
+            <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-emerald-700">Resolved: {resolvedCount}</span>
+          </div>
 
-          <div className="bg-white/95 rounded-[32px] shadow-[0_30px_80px_rgba(59,130,246,0.15)] border border-slate-200 overflow-hidden">
-            <table className="w-full text-left border-collapse">
+          <div className="bg-[#f7f3ee] rounded-[32px] shadow-[0_22px_60px_rgba(15,23,42,0.12)] border border-[#e7ddd1] overflow-hidden">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[980px] text-left border-separate border-spacing-0">
               <thead>
-                <tr className="bg-gradient-to-r from-cyan-100 to-violet-100 text-slate-600 text-sm uppercase tracking-wider">
-                  <th className="p-4 border-b font-bold w-1/4">Student & Details</th>
-                  <th className="p-4 border-b font-bold w-1/3">Issue description</th>
-                  <th className="p-4 border-b font-bold">Category</th>
-                  <th className="p-4 border-b font-bold">Assignment</th>
-                  <th className="p-4 border-b font-bold text-center">Actions</th>
+                <tr className="bg-[#ebe3d8] text-slate-700 text-sm uppercase tracking-wider">
+                  <th className="p-5 border-b border-[#e2d7ca] font-bold w-1/4">Student & Details</th>
+                  <th className="p-5 border-b border-[#e2d7ca] font-bold w-1/3">Issue description</th>
+                  <th className="p-5 border-b border-[#e2d7ca] font-bold">Category</th>
+                  <th className="p-5 border-b border-[#e2d7ca] font-bold">Assignment</th>
+                  <th className="p-5 border-b border-[#e2d7ca] font-bold text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredComplaints.map(complaint => (
-                  <tr key={complaint._id} className="transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-50 group border-b border-slate-200 last:border-0">
-                    <td className="p-4 align-top">
+                {filteredComplaints.map((complaint, index) => (
+                  <tr key={complaint._id} className={`group border-b border-[#eadfce] last:border-0 transition-colors ${index % 2 === 0 ? 'bg-[#f8f4ee]' : 'bg-[#f2e9dd]'} hover:bg-[#efe3d4]`}>
+                    <td className={`p-5 align-top border-l-4 ${complaint.status === 'Done' ? 'border-emerald-400' : 'border-amber-400'}`}>
                       <div className="font-semibold text-slate-900 text-base">{complaint.anonymous ? 'Anonymous Student' : complaint.displayName}</div>
                       <div className="flex items-center gap-1 mt-2 whitespace-nowrap text-sm text-slate-600">
-                        <Home size={14} className="text-cyan-500" />
+                        <Home size={14} className="text-teal-500" />
                         <span>
                           {complaint.locationType === 'room' ? `Room ${complaint.roomNumber}` : 'General Area'}
                         </span>
                       </div>
-                      <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500">
+                      <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#efe6db] px-3 py-1 text-xs text-slate-600 border border-[#e2d7ca] shadow-sm">
                         <span>{new Date(complaint.createdAt).toLocaleString()}</span>
                       </div>
                     </td>
                     
-                    <td className="p-4 align-top max-w-sm">
-                      <h3 className="font-semibold text-slate-900 mb-2 leading-snug">{complaint.title}</h3>
+                    <td className="p-5 align-top max-w-sm">
+                      <h3 className="font-semibold text-slate-900 mb-2 leading-snug text-[17px]">{complaint.title}</h3>
                       <p className="text-sm text-slate-600 leading-relaxed max-h-28 overflow-hidden">{complaint.description}</p>
                     </td>
 
-                    <td className="p-4 align-top">
-                      <span className="inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-700 px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-sm">
+                    <td className="p-5 align-top">
+                      <span className="inline-flex items-center justify-center rounded-full bg-cyan-100/90 text-cyan-800 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide border border-cyan-200 shadow-sm">
                         {complaint.category}
                       </span>
                     </td>
 
-                    <td className="p-4 align-top">
+                    <td className="p-5 align-top">
                       <div className="space-y-2">
                         <div className="relative w-full">
                           <input 
@@ -175,7 +181,7 @@ export default function AdminComplaint() {
                             placeholder="Assign Worker"
                             value={assignWorkers[complaint._id] !== undefined ? assignWorkers[complaint._id] : complaint.assignedWorker || ''}
                             onChange={(e) => setAssignWorkers({ ...assignWorkers, [complaint._id]: e.target.value })}
-                            className="w-full border border-slate-300 rounded-full px-10 py-2 text-sm text-slate-700 outline-none focus:border-cyan-500 bg-white shadow-sm"
+                            className="w-full border border-[#d9cfbf] rounded-2xl px-10 py-2.5 text-sm text-slate-700 outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-100 bg-[#fcfaf7]"
                           />
                           <UserPlus size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                         </div>
@@ -187,7 +193,7 @@ export default function AdminComplaint() {
                               delete newVals[complaint._id];
                               setAssignWorkers(newVals);
                             }}
-                            className="w-full rounded-full bg-cyan-500 text-white text-xs font-bold uppercase tracking-wide py-2 transition hover:bg-cyan-600"
+                            className="w-full rounded-2xl bg-teal-600 text-white text-xs font-bold uppercase tracking-wide py-2.5 transition hover:bg-teal-700 shadow-sm"
                           >
                             Save assignment
                           </button>
@@ -195,16 +201,16 @@ export default function AdminComplaint() {
                       </div>
                     </td>
 
-                    <td className="p-4 align-top text-center">
+                    <td className="p-5 align-top text-center">
                       <div className="flex flex-col items-center gap-3">
-                        <span className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide w-full text-center ${complaint.status === 'Done' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-cyan-100 text-cyan-700 border border-cyan-200'}`}>
+                        <span className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide w-full text-center shadow-sm ${complaint.status === 'Done' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200'}`}>
                           {complaint.status}
                         </span>
                         
                         {complaint.status === 'Pending' && (
                           <button 
                             onClick={() => handleUpdate(complaint._id, 'Done')}
-                            className="inline-flex items-center justify-center gap-2 w-full rounded-full bg-slate-900 text-white px-3 py-2 text-xs font-semibold transition hover:bg-slate-800 shadow-sm"
+                            className="inline-flex items-center justify-center gap-2 w-full rounded-2xl bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2.5 text-xs font-semibold transition hover:from-slate-700 hover:to-slate-800 shadow-sm"
                           >
                             <CheckCircle size={14} /> Mark Done
                           </button>
@@ -216,11 +222,13 @@ export default function AdminComplaint() {
                 {filteredComplaints.length === 0 && (
                   <tr><td colSpan="5" className="p-12 text-center text-slate-500 text-lg bg-slate-50/50">
                     <CheckCircle size={48} className="mx-auto mb-3 text-emerald-200" />
-                    No complaints found.
+                    <p className="font-semibold text-slate-700">No complaints found.</p>
+                    <p className="mt-2 text-sm text-slate-500">Try changing status filter or refresh to fetch latest data.</p>
                   </td></tr>
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         </main>
       </div>

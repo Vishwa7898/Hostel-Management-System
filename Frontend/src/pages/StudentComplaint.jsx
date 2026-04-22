@@ -93,72 +93,80 @@ export default function StudentComplaint() {
       <div className="flex-1 w-full">
           <div className="mb-10 grid gap-8">
             <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-              <div className="rounded-[32px] border border-slate-200/70 bg-slate-950/95 p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.32)] overflow-hidden">
+              <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-8 text-slate-900 shadow-[0_20px_45px_rgba(15,23,42,0.08)] overflow-hidden">
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-teal-300 font-semibold">Maintenance Hub</p>
-                    <h1 className="mt-4 text-4xl lg:text-5xl font-bold tracking-tight leading-tight">Submit your request with confidence</h1>
-                    <p className="mt-5 max-w-2xl text-slate-300 leading-8">Report any issue in your accommodation or shared facilities. Our team reviews complaints daily and works to resolve them promptly.</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-teal-700 font-semibold">Maintenance Hub</p>
+                    <h1 className="mt-4 text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-slate-900">Submit your request with confidence</h1>
+                    <p className="mt-5 max-w-2xl text-slate-600 leading-8">Report any issue in your accommodation or shared facilities. Our team reviews complaints daily and works to resolve them promptly.</p>
                   </div>
-                  <div className="rounded-[28px] bg-white/10 p-4 flex items-center justify-center w-28 h-28 border border-white/10">
-                    <MessageSquare className="text-teal-300" size={36} />
+                  <div className="rounded-[28px] bg-teal-100 p-4 flex items-center justify-center w-28 h-28 border border-teal-200">
+                    <MessageSquare className="text-teal-700" size={36} />
                   </div>
                 </div>
               </div>
               <div className="grid gap-4">
-                <div className="rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-teal-600 to-slate-900 p-6 text-white shadow-[0_18px_45px_rgba(15,23,42,0.18)]">
+                <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-700 to-cyan-700 p-6 text-white shadow-[0_18px_40px_rgba(15,23,42,0.2)]">
                   <p className="text-lg font-semibold">Track your complaints</p>
-                  <p className="mt-3 text-sm leading-7 text-teal-100/90">View the status and progress of all your submitted complaints.</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-100/90">View the status and progress of all your submitted complaints.</p>
                   <button 
                     onClick={() => navigate('/student-complaints')}
-                    className="mt-4 bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-2xl font-medium text-sm transition-colors"
+                    className="mt-4 bg-white text-slate-900 hover:bg-slate-100 py-2.5 px-4 rounded-2xl font-semibold text-sm transition-colors"
                   >
                     View My Complaints →
                   </button>
                 </div>
+                <div className="rounded-[28px] border border-teal-200 bg-white p-5 shadow-sm">
+                  <p className="text-xs uppercase tracking-[0.24em] text-teal-700 font-semibold">Tips for faster resolution</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                    <li>- Use a clear title with issue type</li>
+                    <li>- Mention exact room/location details</li>
+                    <li>- Add concise steps or symptoms</li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div className="rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-slate-100 via-white to-cyan-50 p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.1)]">
+            <div className="rounded-[32px] border border-teal-200 bg-gradient-to-br from-slate-50 via-white to-teal-50 p-6 md:p-8 shadow-[0_20px_50px_rgba(13,148,136,0.14)]">
               <div className="max-w-4xl mx-auto w-full">
-                <div className="rounded-[28px] bg-slate-950/95 p-6 md:p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.25)] border border-white/10">
+                <div className="rounded-[28px] bg-white p-6 md:p-8 text-slate-900 shadow-[0_24px_60px_rgba(13,148,136,0.2)] border-2 border-teal-300 ring-4 ring-teal-100/70">
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <div>
-                      <p className="text-sm uppercase tracking-[0.3em] text-cyan-300 font-semibold">Complaint Form</p>
-                      <h3 className="mt-3 text-3xl font-bold text-white">Tell us what needs fixing</h3>
+                      <p className="text-sm uppercase tracking-[0.3em] text-teal-700 font-semibold">Complaint Form</p>
+                      <h3 className="mt-3 text-3xl font-bold text-slate-900">Tell us what needs fixing</h3>
                     </div>
-                    <div className="rounded-full bg-cyan-500/15 p-3">
-                      <AlertCircle className="text-cyan-200" size={26} />
+                    <div className="rounded-full bg-teal-100 p-3 ring-2 ring-teal-200">
+                      <AlertCircle className="text-teal-700" size={26} />
                     </div>
                   </div>
                   {error && (
-                    <div className="mb-4 bg-red-50 text-red-700 px-4 py-3 rounded-2xl font-medium text-sm flex items-center gap-2 animate-bounce">
+                    <div className="mb-4 bg-red-50 text-red-700 px-4 py-3 rounded-2xl font-medium text-sm flex items-center gap-2">
                       <AlertCircle size={18} /> {error}
                     </div>
                   )}
                   {success && (
-                    <div className="mb-4 bg-emerald-50 text-emerald-700 px-4 py-3 rounded-2xl font-medium text-sm flex items-center gap-2 animate-pulse">
-                      <CheckCircle size={18} className="animate-bounce" /> {success}
+                    <div className="mb-4 bg-emerald-50 text-emerald-700 px-4 py-3 rounded-2xl font-medium text-sm flex items-center gap-2">
+                      <CheckCircle size={18} /> {success}
                     </div>
                   )}
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-slate-100 mb-2">Location Type <span className="text-orange-300">*</span></label>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Location Type <span className="text-orange-500">*</span></label>
                         <select 
                           value={locationType} 
                           onChange={e => setLocationType(e.target.value)} 
-                          className="w-full p-3 border border-slate-800 rounded-3xl bg-slate-900 text-slate-100 font-medium outline-none transition-all duration-200 hover:border-cyan-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                          className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60"
                         >
                           <option value="room">Room</option>
                           <option value="general">General (Common Area)</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-slate-100 mb-2">Category <span className="text-orange-300">*</span></label>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Category <span className="text-orange-500">*</span></label>
                         <select 
                           value={category} 
                           onChange={e => setCategory(e.target.value)} 
-                          className="w-full p-3 border border-slate-800 rounded-3xl bg-slate-900 text-slate-100 font-medium outline-none transition-all duration-200 hover:border-cyan-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                          className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60"
                         >
                           <option value="">Select Category</option>
                           <option value="Electrical">Electrical</option>
@@ -172,35 +180,35 @@ export default function StudentComplaint() {
                     </div>
                     {locationType === 'room' && (
                       <div>
-                        <label className="block text-sm font-semibold text-slate-100 mb-2">Room Number <span className="text-orange-300">*</span></label>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Room Number <span className="text-orange-500">*</span></label>
                         <select 
                           value={roomNumber} 
                           onChange={e => setRoomNumber(e.target.value)} 
-                          className="w-full p-3 border border-slate-800 rounded-3xl bg-slate-900 text-slate-100 font-medium outline-none transition-all duration-200 hover:border-cyan-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 appearance-none"
+                          className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60 appearance-none"
                         >
                           <option value="">Select a room...</option>
-                          <optgroup label="Floor 1" className="bg-slate-800 text-teal-300">
+                          <optgroup label="Floor 1" className="bg-white text-cyan-700">
                             <option value="101">Room 101</option>
                             <option value="102">Room 102</option>
                             <option value="103">Room 103</option>
                             <option value="104">Room 104</option>
                             <option value="105">Room 105</option>
                           </optgroup>
-                          <optgroup label="Floor 2" className="bg-slate-800 text-teal-300">
+                          <optgroup label="Floor 2" className="bg-white text-cyan-700">
                             <option value="106">Room 106</option>
                             <option value="107">Room 107</option>
                             <option value="108">Room 108</option>
                             <option value="109">Room 109</option>
                             <option value="110">Room 110</option>
                           </optgroup>
-                          <optgroup label="Floor 3" className="bg-slate-800 text-teal-300">
+                          <optgroup label="Floor 3" className="bg-white text-cyan-700">
                             <option value="111">Room 111</option>
                             <option value="112">Room 112</option>
                             <option value="113">Room 113</option>
                             <option value="114">Room 114</option>
                             <option value="115">Room 115</option>
                           </optgroup>
-                          <optgroup label="Floor 4" className="bg-slate-800 text-teal-300">
+                          <optgroup label="Floor 4" className="bg-white text-cyan-700">
                             <option value="116">Room 116</option>
                             <option value="117">Room 117</option>
                             <option value="118">Room 118</option>
@@ -211,41 +219,41 @@ export default function StudentComplaint() {
                       </div>
                     )}
                     <div>
-                      <label className="block text-sm font-semibold text-slate-100 mb-2">Title <span className="text-orange-300">*</span></label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Title <span className="text-orange-500">*</span></label>
                       <input 
                         type="text" 
                         value={title} 
                         onChange={e => setTitle(e.target.value)} 
                         placeholder="Brief description of the issue" 
-                        className="w-full p-3 border border-slate-800 rounded-3xl bg-slate-900 text-slate-100 font-medium outline-none transition-all duration-200 hover:border-cyan-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                        className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-100 mb-2">Description <span className="text-orange-300">*</span></label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Description <span className="text-orange-500">*</span></label>
                       <textarea 
                         value={description} 
                         onChange={e => setDescription(e.target.value)} 
                         placeholder="Provide full details about the issue..." 
-                        className="w-full p-3 border border-slate-800 rounded-3xl bg-slate-900 text-slate-100 font-medium resize-none h-36 outline-none transition-all duration-200 hover:border-cyan-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                        className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium resize-none h-36 outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60"
                       ></textarea>
                     </div>
-                    <div className="flex items-start gap-3 bg-cyan-950/20 p-4 rounded-3xl border border-cyan-800">
+                    <div className="flex items-start gap-3 bg-slate-50 p-4 rounded-3xl border border-slate-200">
                       <input 
                         type="checkbox" 
                         id="anonymous" 
                         checked={anonymous} 
                         onChange={e => setAnonymous(e.target.checked)} 
-                        className="w-5 h-5 text-cyan-500 bg-slate-900 border-cyan-700 rounded focus:ring-cyan-400 cursor-pointer"
+                        className="w-5 h-5 text-teal-600 bg-white border-slate-300 rounded focus:ring-teal-400 cursor-pointer"
                       />
-                      <label htmlFor="anonymous" className="text-sm font-semibold text-slate-100 cursor-pointer flex-1">
+                      <label htmlFor="anonymous" className="text-sm font-semibold text-slate-700 cursor-pointer flex-1">
                         Submit Anonymously
-                        <p className="text-xs text-slate-400 font-medium mt-1">Your name won't be visible to administration.</p>
+                        <p className="text-xs text-slate-500 font-medium mt-1">Your name won't be visible to administration.</p>
                       </label>
                     </div>
                     <button 
                       type="submit" 
                       disabled={loading}
-                      className="w-full bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-cyan-600 hover:to-sky-700 text-white py-4 rounded-3xl font-semibold text-lg shadow-[0_20px_40px_rgba(14,165,233,0.25)] transition-all active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2 hover:shadow-[0_25px_50px_rgba(14,165,233,0.35)] transform hover:scale-[1.02]"
+                      className="w-full bg-gradient-to-r from-teal-600 to-cyan-700 hover:from-teal-700 hover:to-cyan-800 text-white py-4 rounded-3xl font-semibold text-lg shadow-[0_18px_40px_rgba(13,148,136,0.25)] transition-all active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
                     >
                       {loading ? <RefreshCw className="animate-spin" size={20} /> : <CheckCircle size={20} />}
                       {loading ? 'Submitting...' : 'Submit Complaint'}

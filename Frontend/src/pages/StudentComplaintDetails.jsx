@@ -162,51 +162,51 @@ export default function StudentComplaintDetails() {
           )}
           <div className="mb-10 grid gap-8">
             <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-              <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 p-8 text-white shadow-[0_24px_60px_rgba(15,23,42,0.32)]">
-                <div className="absolute -right-8 top-12 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"></div>
-                <div className="absolute -left-8 top-24 h-28 w-28 rounded-full bg-emerald-400/10 blur-3xl"></div>
+              <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-8 text-slate-900 shadow-[0_20px_45px_rgba(15,23,42,0.08)]">
+                <div className="absolute -right-8 top-12 h-40 w-40 rounded-full bg-cyan-200/40 blur-3xl"></div>
+                <div className="absolute -left-8 top-24 h-28 w-28 rounded-full bg-teal-200/40 blur-3xl"></div>
                 <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-cyan-300 font-semibold">Maintenance Hub</p>
-                    <h1 className="mt-4 text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white">Track your requests</h1>
-                    <p className="mt-5 max-w-2xl text-slate-300 leading-8">Monitor the progress of all complaints you've submitted. Our team works diligently to resolve issues promptly.</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-teal-700 font-semibold">Maintenance Hub</p>
+                    <h1 className="mt-4 text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-slate-900">Track your requests</h1>
+                    <p className="mt-5 max-w-2xl text-slate-600 leading-8">Monitor the progress of all complaints you've submitted. Our team works diligently to resolve issues promptly.</p>
                   </div>
                   <div className="flex flex-col gap-4">
-                    <div className="rounded-[28px] bg-white/10 p-4 flex items-center justify-center w-28 h-28 border border-white/10 shadow-lg">
-                      <MessageSquare className="text-cyan-300" size={36} />
+                    <div className="rounded-[28px] bg-teal-100 p-4 flex items-center justify-center w-28 h-28 border border-teal-200 shadow-sm">
+                      <MessageSquare className="text-teal-700" size={36} />
                     </div>
                     <button 
                       onClick={() => navigate('/student-file-complaint')}
-                      className="bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-600 hover:to-violet-600 text-white px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 shadow-[0_18px_45px_rgba(59,130,246,0.3)] hover:shadow-[0_22px_55px_rgba(59,130,246,0.35)] transform hover:-translate-y-0.5"
+                      className="bg-gradient-to-r from-teal-600 to-cyan-700 hover:from-teal-700 hover:to-cyan-800 text-white px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 shadow-[0_16px_35px_rgba(13,148,136,0.3)]"
                     >
                       + New Complaint
                     </button>
                   </div>
                 </div>
                 <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                  <div className="rounded-[28px] bg-slate-950/80 p-6 border border-slate-700 shadow-sm">
-                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400 font-semibold">Total requests</p>
-                    <p className="mt-4 text-3xl font-bold text-white">{complaints.length}</p>
+                  <div className="rounded-[28px] bg-white/80 p-6 border border-slate-200 shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold">Total requests</p>
+                    <p className="mt-4 text-3xl font-bold text-slate-900">{complaints.length}</p>
                   </div>
-                  <div className="rounded-[28px] bg-cyan-500/10 p-6 border border-cyan-300 shadow-sm backdrop-blur-sm">
-                    <p className="text-xs uppercase tracking-[0.25em] text-cyan-200 font-semibold">Pending issues</p>
-                    <p className="mt-4 text-3xl font-bold text-cyan-100">{pendingCount}</p>
+                  <div className="rounded-[28px] bg-amber-50 p-6 border border-amber-200 shadow-sm backdrop-blur-sm">
+                    <p className="text-xs uppercase tracking-[0.25em] text-amber-700 font-semibold">Pending issues</p>
+                    <p className="mt-4 text-3xl font-bold text-amber-800">{pendingCount}</p>
                   </div>
-                  <div className="rounded-[28px] bg-amber-500/10 p-6 border border-amber-300 shadow-sm backdrop-blur-sm">
-                    <p className="text-xs uppercase tracking-[0.25em] text-amber-200 font-semibold">Resolved</p>
-                    <p className="mt-4 text-3xl font-bold text-amber-100">{resolvedCount}</p>
+                  <div className="rounded-[28px] bg-emerald-100/70 p-6 border border-emerald-200 shadow-sm backdrop-blur-sm">
+                    <p className="text-xs uppercase tracking-[0.25em] text-emerald-700 font-semibold">Resolved</p>
+                    <p className="mt-4 text-3xl font-bold text-emerald-800">{resolvedCount}</p>
                   </div>
                 </div>
               </div>
               <div className="grid gap-4">
-                <div className="rounded-[32px] border border-slate-200/70 bg-gradient-to-br from-cyan-500 to-slate-900 p-6 text-white shadow-[0_18px_45px_rgba(15,23,42,0.18)]">
+                <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-700 to-cyan-700 p-6 text-white shadow-[0_18px_40px_rgba(15,23,42,0.2)]">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="rounded-3xl bg-white/10 p-3">
                       <UtensilsCrossed className="text-white" size={20} />
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Need to file a new complaint?</p>
-                      <p className="mt-2 text-sm leading-6 text-teal-100/90">Use the 'Complaints' menu or the button above to report any issues immediately.</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-100/90">Use the 'Complaints' menu or the button above to report any issues immediately.</p>
                     </div>
                   </div>
                   <button
@@ -218,7 +218,7 @@ export default function StudentComplaintDetails() {
                 </div>
               </div>
             </div>
-            <div className="rounded-[32px] border border-slate-200/70 bg-white p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.12)]">
+            <div className="rounded-[32px] border border-slate-200 bg-white p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.1)]">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-slate-900">My Complaints Details</h2>
@@ -264,12 +264,19 @@ export default function StudentComplaintDetails() {
                     <CheckCircle size={60} className="text-slate-200 mb-4" />
                     <p className="text-lg font-medium">No complaints history found.</p>
                     <p className="text-sm mt-2 max-w-xs mx-auto">You can submit a new complaint using the form if you are facing any issues.</p>
+                    <button
+                      type="button"
+                      onClick={() => navigate('/student-file-complaint')}
+                      className="mt-5 rounded-2xl bg-gradient-to-r from-teal-600 to-cyan-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:from-teal-700 hover:to-cyan-800"
+                    >
+                      File New Complaint
+                    </button>
                   </div>
                 ) : (
-                  <div className="grid gap-6">
+                  <div className="grid gap-5">
                     {displayedComplaints.map(complaint => (
-                      <div key={complaint._id} className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(59,130,246,0.12)]">
-                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-indigo-400 to-violet-500"></div>
+                      <div key={complaint._id} className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-slate-700"></div>
                         <div className="relative mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] ${
@@ -285,13 +292,13 @@ export default function StudentComplaintDetails() {
                               <div className="flex gap-2">
                                 <button
                                   onClick={() => handleEdit(complaint)}
-                                  className="text-xs bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition-colors"
+                                  className="text-xs bg-teal-600 text-white px-3 py-1.5 rounded-full hover:bg-teal-700 transition-colors"
                                 >
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => handleDeleteComplaint(complaint._id)}
-                                  className="text-xs bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition-colors"
+                                  className="text-xs bg-rose-500 text-white px-3 py-1.5 rounded-full hover:bg-rose-600 transition-colors"
                                 >
                                   Delete
                                 </button>
@@ -300,14 +307,14 @@ export default function StudentComplaintDetails() {
                           </div>
                         </div>
                         {editingComplaint === complaint._id ? (
-                          <div className="space-y-4">
+                          <div className="space-y-4 rounded-3xl border-2 border-teal-200 bg-teal-50/40 p-5 shadow-[0_12px_30px_rgba(13,148,136,0.15)]">
                             <div className="grid gap-4 sm:grid-cols-2">
                               <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Category</label>
                                 <select
                                   value={editCategory}
                                   onChange={(e) => setEditCategory(e.target.value)}
-                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-4 focus:ring-teal-200/70 focus:border-teal-500"
                                 >
                                   <option value="">Select Category</option>
                                   <option value="Electrical">Electrical</option>
@@ -323,7 +330,7 @@ export default function StudentComplaintDetails() {
                                 <select
                                   value={editLocationType}
                                   onChange={(e) => setEditLocationType(e.target.value)}
-                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-4 focus:ring-teal-200/70 focus:border-teal-500"
                                 >
                                   <option value="room">Room</option>
                                   <option value="general">General Area</option>
@@ -337,7 +344,7 @@ export default function StudentComplaintDetails() {
                                   type="text"
                                   value={editRoomNumber}
                                   onChange={(e) => setEditRoomNumber(e.target.value)}
-                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-4 focus:ring-teal-200/70 focus:border-teal-500"
                                   placeholder="Enter room number"
                                 />
                               </div>
@@ -348,7 +355,7 @@ export default function StudentComplaintDetails() {
                                 type="text"
                                 value={editTitle}
                                 onChange={(e) => setEditTitle(e.target.value)}
-                                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-4 focus:ring-teal-200/70 focus:border-teal-500"
                                 placeholder="Brief title of the issue"
                               />
                             </div>
@@ -358,7 +365,7 @@ export default function StudentComplaintDetails() {
                                 value={editDescription}
                                 onChange={(e) => setEditDescription(e.target.value)}
                                 rows={4}
-                                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-4 focus:ring-teal-200/70 focus:border-teal-500"
                                 placeholder="Detailed description of the issue"
                               />
                             </div>
