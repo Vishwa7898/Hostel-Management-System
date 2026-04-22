@@ -8,12 +8,20 @@ export default function StudentComplaint() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [locationType, setLocationType] = useState('room');
+  const [selectedFloor, setSelectedFloor] = useState('');
   const [roomNumber, setRoomNumber] = useState('');
   const [anonymous, setAnonymous] = useState(false);
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const ROOMS_BY_FLOOR = {
+    1: ["101", "102", "103", "104", "105"],
+    2: ["106", "107", "108", "109", "110"],
+    3: ["111", "112", "113", "114", "115"],
+    4: ["116", "117", "118", "119", "120"]
+  };
 
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -34,20 +42,16 @@ export default function StudentComplaint() {
     }
     
     if (locationType === 'room') {
+      if (!selectedFloor) {
+        return setError('Please select a floor.');
+      }
       if (!roomNumber) {
         return setError('Room number is required for room complaints.');
       }
       
-      const validRooms = {
-        1: ["101", "102", "103", "104", "105"],
-        2: ["106", "107", "108", "109", "110"],
-        3: ["111", "112", "113", "114", "115"],
-        4: ["116", "117", "118", "119", "120"]
-      };
-      
-      const floor = roomNumber.charAt(0);
-      if (!validRooms[floor] || !validRooms[floor].includes(roomNumber)) {
-        return setError(`Invalid room number. Please select a valid room.`);
+      const validForFloor = ROOMS_BY_FLOOR[selectedFloor];
+      if (!validForFloor || !validForFloor.includes(roomNumber)) {
+        return setError(`Invalid room number for the selected floor.`);
       }
     }
 
@@ -76,6 +80,7 @@ export default function StudentComplaint() {
         setCategory('');
         setTitle('');
         setDescription('');
+        setSelectedFloor('');
         setRoomNumber('');
         setAnonymous(false);
       } else {
@@ -179,43 +184,38 @@ export default function StudentComplaint() {
                       </div>
                     </div>
                     {locationType === 'room' && (
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Room Number <span className="text-orange-500">*</span></label>
-                        <select 
-                          value={roomNumber} 
-                          onChange={e => setRoomNumber(e.target.value)} 
-                          className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60 appearance-none"
-                        >
-                          <option value="">Select a room...</option>
-                          <optgroup label="Floor 1" className="bg-white text-cyan-700">
-                            <option value="101">Room 101</option>
-                            <option value="102">Room 102</option>
-                            <option value="103">Room 103</option>
-                            <option value="104">Room 104</option>
-                            <option value="105">Room 105</option>
-                          </optgroup>
-                          <optgroup label="Floor 2" className="bg-white text-cyan-700">
-                            <option value="106">Room 106</option>
-                            <option value="107">Room 107</option>
-                            <option value="108">Room 108</option>
-                            <option value="109">Room 109</option>
-                            <option value="110">Room 110</option>
-                          </optgroup>
-                          <optgroup label="Floor 3" className="bg-white text-cyan-700">
-                            <option value="111">Room 111</option>
-                            <option value="112">Room 112</option>
-                            <option value="113">Room 113</option>
-                            <option value="114">Room 114</option>
-                            <option value="115">Room 115</option>
-                          </optgroup>
-                          <optgroup label="Floor 4" className="bg-white text-cyan-700">
-                            <option value="116">Room 116</option>
-                            <option value="117">Room 117</option>
-                            <option value="118">Room 118</option>
-                            <option value="119">Room 119</option>
-                            <option value="120">Room 120</option>
-                          </optgroup>
-                        </select>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Floor <span className="text-orange-500">*</span></label>
+                          <select 
+                            value={selectedFloor} 
+                            onChange={e => {
+                              setSelectedFloor(e.target.value);
+                              setRoomNumber(''); // Reset room when floor changes
+                            }} 
+                            className="w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60"
+                          >
+                            <option value="">Select Floor</option>
+                            <option value="1">Floor 1</option>
+                            <option value="2">Floor 2</option>
+                            <option value="3">Floor 3</option>
+                            <option value="4">Floor 4</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-700 mb-2">Room Number <span className="text-orange-500">*</span></label>
+                          <select 
+                            value={roomNumber} 
+                            onChange={e => setRoomNumber(e.target.value)} 
+                            disabled={!selectedFloor}
+                            className={`w-full p-3 border border-slate-200 rounded-3xl bg-slate-50 text-slate-700 font-medium outline-none transition-all duration-200 hover:border-teal-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-200/60 appearance-none ${!selectedFloor ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          >
+                            <option value="">{selectedFloor ? 'Select Room' : 'Select floor first'}</option>
+                            {selectedFloor && ROOMS_BY_FLOOR[selectedFloor].map(room => (
+                              <option key={room} value={room}>Room {room}</option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     )}
                     <div>

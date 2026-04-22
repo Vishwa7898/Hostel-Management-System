@@ -12,21 +12,20 @@ const validateRoomNumber = (roomNumber) => {
   if (!roomNumber) return { isValid: false, message: "Room number is required for room-related complaints" };
   
   const roomStr = roomNumber.toString();
-  const floorDigit = roomStr.charAt(0);
-  const floor = parseInt(floorDigit);
   
-  if (!VALID_ROOMS[floor]) {
-    return { 
-      isValid: false, 
-      message: `Invalid room number. Valid floors are 1-4.` 
-    };
+  // Find which floor this room belongs to by searching the directory
+  let foundFloor = null;
+  for (const floor in VALID_ROOMS) {
+    if (VALID_ROOMS[floor].includes(roomStr)) {
+      foundFloor = floor;
+      break;
+    }
   }
   
-  const floorRooms = VALID_ROOMS[floor];
-  if (!floorRooms.includes(roomStr)) {
-    return {
-      isValid: false,
-      message: `Invalid room number. Valid rooms for Floor ${floor} are: ${floorRooms.join(", ")}`
+  if (!foundFloor) {
+    return { 
+      isValid: false, 
+      message: `Invalid room number. Please select a valid room from the directory.` 
     };
   }
   
