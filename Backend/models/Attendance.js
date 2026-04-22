@@ -30,6 +30,10 @@ const AttendanceSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    overdueNotificationSent: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 
