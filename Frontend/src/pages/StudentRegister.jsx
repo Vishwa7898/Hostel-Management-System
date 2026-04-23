@@ -5,15 +5,15 @@ import hostelBackground from '../assets/hostel_bg.png';
 
 export default function StudentRegister() {
   const sriLankanProvinces = [
-    'Northern Province',
-    'Southern Province',
-    'Easten Province',
-    'Western Province',
-    'Central Province',
-    'North Central province',
-    'Sabaragamuwa Province',
-    'Uva Province',
-    'North Western Province'
+    'Northern',
+    'Southern',
+    'Eastern',
+    'Western',
+    'Central',
+    'North Central',
+    'Sabaragamuwa',
+    'Uva',
+    'North Western'
   ];
 
   const [formData, setFormData] = useState({
