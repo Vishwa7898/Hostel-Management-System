@@ -76,7 +76,7 @@ export default function WelcomePage() {
             </div>
             
             <h2 className="mb-6 text-6xl font-black leading-[1.1] md:text-8xl">
-              " Your <span className="text-yellow-500 italic font-serif">Home</span> , <br />
+              " Your <span className="text-yellow-500 italic font-serif">Home,</span> <br />
               <span className="text-purple-500">Away From</span> <br />
               <span className="text-blue-600 italic font-serif">Home</span> "
             </h2>

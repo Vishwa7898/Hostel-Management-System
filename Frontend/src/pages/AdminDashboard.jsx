@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import AdminShell from '../components/layout/AdminShell';
+import staysphereLogo from '../assets/staysphere logo.png';
 
 export default function AdminDashboard() {
   const [records, setRecords] = useState([]);
@@ -64,16 +65,60 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleDownloadPDF = () => {
+  const getImageDataUrl = (url) =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+
+  const handleDownloadPDF = async () => {
   const doc = new jsPDF();
 
-  const title = dateFilter 
-    ? `Attendance Report - ${dateFilter}` 
-    : 'Complete Attendance Report';
+  try {
+    const logoDataUrl = await getImageDataUrl(staysphereLogo);
+    doc.addImage(logoDataUrl, 'PNG', 14, 8, 20, 20);
+  } catch (err) {
+    console.error('Failed to load StaySphere logo for PDF:', err);
+  }
 
-  doc.setFontSize(18);
-  doc.setTextColor(40, 40, 40);
-  doc.text(title, 14, 20);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const nameY = 18;
+  const centerX = pageWidth / 2;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(30);
+  const stayText = 'Stay';
+  const sphereText = 'Sphere';
+  const stayWidth = doc.getTextWidth(stayText);
+  const sphereWidth = doc.getTextWidth(sphereText);
+  const totalNameWidth = stayWidth + sphereWidth;
+  const nameStartX = centerX - totalNameWidth / 2;
+
+  doc.setTextColor(107, 114, 128); // gray
+  doc.text(stayText, nameStartX, nameY);
+  doc.setTextColor(34, 197, 94); // green
+  doc.text(sphereText, nameStartX + stayWidth, nameY);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(14);
+  doc.setTextColor(70, 70, 70);
+  doc.text('Student Attendance Report', centerX, 28, { align: 'center' });
+
+  if (dateFilter) {
+    doc.setFontSize(10);
+    doc.setTextColor(90, 90, 90);
+    doc.text(`Date: ${dateFilter}`, centerX, 34, { align: 'center' });
+  }
 
   const tableColumn = [
     "Student ID",
@@ -104,7 +149,7 @@ export default function AdminDashboard() {
   autoTable(doc, {
     head: [tableColumn],
     body: tableRows,
-    startY: 30,
+    startY: dateFilter ? 40 : 36,
     theme: 'grid',
     styles: { fontSize: 10 },
     headStyles: { fillColor: [59, 130, 246] }, // blue

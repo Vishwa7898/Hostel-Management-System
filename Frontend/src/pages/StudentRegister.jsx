@@ -77,15 +77,13 @@ export default function StudentRegister() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent)]"></div>
 
       <div className="bg-white/95 backdrop-blur-xl w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden relative z-10">
-        
+        <div className="bg-sky-200/90 border-b border-sky-300 px-8 py-5 text-center">
+          <h1 className="text-5xl font-bold tracking-tight text-sky-900">StaySphere</h1>
+          <p className="text-3xl font-semibold text-sky-800">Student Registration</p>
+        </div>
+
         <div className="p-10 md:p-12">
           <form onSubmit={handleRegister} className="space-y-10">
-            
-            {/* Title Section */}
-            <div className="text-center mb-8">
-              <h1 className="text-5xl font-bold tracking-tighter bg-gradient-to-r from-green-600 to-gray-600 bg-clip-text text-transparent mb-2">StaySphere</h1>
-              <p className="text-3xl font-bold text-gray-800">Student Registration</p>
-            </div>
 
             {/* Profile Photo */}
             <div className="flex justify-center">
