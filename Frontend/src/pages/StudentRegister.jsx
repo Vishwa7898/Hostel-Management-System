@@ -4,8 +4,28 @@ import { Camera, Eye, EyeOff, Upload, User } from 'lucide-react';
 import hostelBackground from '../assets/hostel_bg.png';
 
 export default function StudentRegister() {
+  const sriLankanProvinces = [
+    'Northern',
+    'Southern',
+    'Eastern',
+    'Western',
+    'Central',
+    'North Central',
+    'Sabaragamuwa',
+    'Uva',
+    'North Western'
+  ];
+
   const [formData, setFormData] = useState({
-    name: '', address: '', city: '', studentPhone: '', email: '', password: '', guardianName: '', contactNumber: ''
+    name: '',
+    address: '',
+    city: '',
+    province: '',
+    studentPhone: '',
+    email: '',
+    password: '',
+    guardianName: '',
+    contactNumber: ''
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -18,7 +38,23 @@ export default function StudentRegister() {
   const profileInputRef = useRef(null);
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const lettersOnlyFields = ['name', 'guardianName', 'city'];
+    const phoneFields = ['studentPhone', 'contactNumber'];
+
+    if (lettersOnlyFields.includes(name)) {
+      const sanitizedValue = value.replace(/[^A-Za-z\s]/g, '');
+      setFormData({ ...formData, [name]: sanitizedValue });
+      return;
+    }
+
+    if (phoneFields.includes(name)) {
+      const sanitizedValue = value.replace(/\D/g, '').slice(0, 10);
+      setFormData({ ...formData, [name]: sanitizedValue });
+      return;
+    }
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handlePhotoUpload = (e) => {
@@ -30,6 +66,38 @@ export default function StudentRegister() {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+
+    const lettersWithSpacesRegex = /^[A-Za-z\s]+$/;
+    const phoneRegex = /^\d{10}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!lettersWithSpacesRegex.test(formData.name.trim())) {
+      return setError('Full Name can only contain letters and spaces.');
+    }
+
+    if (!lettersWithSpacesRegex.test(formData.guardianName.trim())) {
+      return setError('Guardian Name can only contain letters and spaces.');
+    }
+
+    if (!lettersWithSpacesRegex.test(formData.city.trim())) {
+      return setError('City can only contain letters and spaces.');
+    }
+
+    if (!formData.province) {
+      return setError('Please select a province.');
+    }
+
+    if (!phoneRegex.test(formData.studentPhone)) {
+      return setError('Student Phone Number must contain exactly 10 digits.');
+    }
+
+    if (!phoneRegex.test(formData.contactNumber)) {
+      return setError('Guardian Phone Number must contain exactly 10 digits.');
+    }
+
+    if (!emailRegex.test(formData.email.trim())) {
+      return setError('Please enter a valid email address with @.');
+    }
 
     if (!profilePhoto) return setError('Please upload a profile photo');
     if (!nicFront) return setError('Please upload ID Card Front');
@@ -125,6 +193,8 @@ export default function StudentRegister() {
                 <input 
                   type="text" name="name" required placeholder="Full Name" 
                   value={formData.name} onChange={handleInputChange}
+                  pattern="[A-Za-z\s]+"
+                  title="Full Name can only contain letters and spaces."
                   className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
                 />
 
@@ -137,12 +207,32 @@ export default function StudentRegister() {
                 <input 
                   type="text" name="city" required placeholder="City" 
                   value={formData.city} onChange={handleInputChange}
+                  pattern="[A-Za-z\s]+"
+                  title="City can only contain letters and spaces."
                   className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
                 />
+
+                <select
+                  name="province"
+                  required
+                  value={formData.province}
+                  onChange={handleInputChange}
+                  className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all"
+                >
+                  <option value="">Select Province</option>
+                  {sriLankanProvinces.map((province) => (
+                    <option key={province} value={province}>
+                      {province}
+                    </option>
+                  ))}
+                </select>
 
                 <input 
                   type="tel" name="studentPhone" required placeholder="Student Phone Number" 
                   value={formData.studentPhone} onChange={handleInputChange}
+                  maxLength={10}
+                  pattern="\d{10}"
+                  title="Student Phone Number must be exactly 10 digits."
                   className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
                 />
 
@@ -226,11 +316,16 @@ export default function StudentRegister() {
               <input 
                 type="text" name="guardianName" required placeholder="Guardian Name" 
                 value={formData.guardianName} onChange={handleInputChange}
+                pattern="[A-Za-z\s]+"
+                title="Guardian Name can only contain letters and spaces."
                 className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
               />
               <input 
                 type="tel" name="contactNumber" required placeholder="Guardian Phone Number" 
                 value={formData.contactNumber} onChange={handleInputChange}
+                maxLength={10}
+                pattern="\d{10}"
+                title="Guardian Phone Number must be exactly 10 digits."
                 className="w-full px-6 py-4 rounded-2xl border border-transparent bg-zinc-100 focus:bg-white focus:border-violet-400 focus:ring-4 focus:ring-violet-200 outline-none text-lg transition-all" 
               />
             </div>
