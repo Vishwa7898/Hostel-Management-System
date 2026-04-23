@@ -175,104 +175,84 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
       title="Admin Dashboard"
       subtitle="Monitor student movements and generate reports."
     >
-        <div className="flex justify-between items-end mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-1 flex items-center space-x-2">
-              <Users size={24} className="text-orange-500" />
-              <span>Attendance Management</span>
-            </h2>
-            <p className="text-slate-500">Monitor student movements and generate reports.</p>
+      <div className="flex-1 min-w-0 px-0 py-0">
+        <header className="rounded-[32px] bg-gradient-to-br from-slate-900 via-cyan-900 to-teal-800 text-white shadow-[0_28px_80px_rgba(15,23,42,0.3)] border border-cyan-700/40 p-8 mb-10 overflow-hidden relative">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-cyan-400/25 blur-3xl"></div>
+          <div className="absolute left-0 top-20 h-32 w-32 rounded-full bg-teal-300/20 blur-3xl"></div>
+          <div className="relative grid gap-6 lg:grid-cols-[1.6fr_1fr] lg:items-center">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-cyan-200 font-semibold"> Student Attendance</p>
+              <h1 className="mt-3 text-4xl font-bold tracking-tight">Attendance Management</h1>
+              <p className="mt-4 max-w-2xl text-cyan-100/90">Monitor student movements, export reports, and keep records up to date.</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-[24px] bg-white/10 border border-white/20 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-cyan-100 font-semibold">Inside Student</p>
+                <p className="mt-3 text-3xl font-bold">{insideCount}</p>
+              </div>
+              <div className="rounded-[24px] bg-orange-500/20 border border-orange-300/60 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.24em] text-orange-100 font-semibold">Outside Student</p>
+                <p className="mt-3 text-3xl font-bold">{outsideCount}</p>
+              </div>
+            </div>
           </div>
-          <div className="flex space-x-3 items-center">
+        </header>
+
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between mb-6">
+          <div>
+            <h2 className="text-3xl font-bold text-slate-800 mb-1 flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 shadow-sm">
+                <Users size={20} />
+              </span>
+              All Student Attendance 
+            </h2>
+        
+          </div>
+          <div className="flex flex-wrap gap-3 items-end">
             <div className="flex flex-col">
-              <label className="text-xs font-semibold text-slate-500 uppercase mb-1">Filter by Date</label>
-              <input 
-                type="date" 
-                className="border border-slate-300 rounded px-3 py-2 text-slate-700 outline-none focus:border-orange-500"
+              <label className="text-xs font-semibold text-slate-500 uppercase mb-2">Filter by Date</label>
+              <input
+                type="date"
+                className="border border-slate-300 rounded-2xl px-4 py-3 text-slate-700 outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 bg-white shadow-sm"
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
               />
             </div>
-            <div className="flex space-x-2 mt-5">
-              <button 
-                onClick={handleDownloadReport}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded flex items-center space-x-1 transition-colors shadow-sm text-sm"
-              >
-                <Download size={16} /> <span>CSV</span>
-              </button>
-              <button 
-                onClick={handleDownloadPDF}
-                className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded flex items-center space-x-1 transition-colors shadow-sm text-sm"
-              >
-                <FileText size={16} /> <span>PDF</span>
-              </button>
-            </div>
+            <button
+              onClick={handleDownloadReport}
+              className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 text-white px-4 py-3 font-semibold shadow-sm transition hover:bg-emerald-700"
+            >
+              <Download size={16} /> <span>Export CSV</span>
+            </button>
+            <button
+              onClick={handleDownloadPDF}
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-800 text-white px-4 py-3 font-semibold shadow-sm transition hover:bg-slate-900"
+            >
+              <FileText size={16} /> <span>Export PDF</span>
+            </button>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-
-  {/* INSIDE CARD */}
-  <div className="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-teal-500 hover:scale-105 transition-all duration-300">
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-sm font-semibold text-gray-500 uppercase">Inside Students</p>
-        <h2 className="text-4xl font-extrabold text-teal-600 mt-2">
-          {insideCount}
-        </h2>
-      </div>
-
-      <div className="bg-teal-100 p-4 rounded-full">
-        🟢
-      </div>
-    </div>
-
-    <div className="mt-4 text-sm text-gray-400">
-      Currently inside hostel
-    </div>
-  </div>
+        <div className="bg-[#f7f3ee] rounded-[32px] shadow-[0_22px_60px_rgba(15,23,42,0.12)] border border-[#e7ddd1] overflow-hidden">
 
 
-  {/* OUTSIDE CARD */}
-  <div className="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-orange-500 hover:scale-105 transition-all duration-300">
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-sm font-semibold text-gray-500 uppercase">Outside Students</p>
-        <h2 className="text-4xl font-extrabold text-orange-500 mt-2">
-          {outsideCount}
-        </h2>
-      </div>
 
-      <div className="bg-orange-100 p-4 rounded-full">
-        🟠
-      </div>
-    </div>
-
-    <div className="mt-4 text-sm text-gray-400">
-      Currently outside hostel
-    </div>
-  </div>
-
-</div>
-
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-separate border-spacing-0">
             <thead>
-              <tr className="bg-gradient-to-r from-orange-400 to-orange-500 text-white text-sm uppercase tracking-wider">
-                <th className="p-6 border-b font-bold text-sm">Student ID</th>
-                <th className="p-6 border-b font-bold text-sm">Student Name</th>
-                <th className="p-6 border-b font-bold text-sm">Date</th>
-                <th className="p-6 border-b font-bold text-sm">Check Out</th>
-                <th className="p-6 border-b font-bold text-sm">Expected Return Date</th>
-                <th className="p-6 border-b font-bold text-sm">Expected Return Time</th>
-                <th className="p-6 border-b font-bold text-sm">Check In</th>
-                <th className="p-6 border-b font-bold text-sm">Status</th>
+              <tr className="bg-[#ebe3d8] text-slate-700 text-sm uppercase tracking-wider">
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Student ID</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Student Name</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Date</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Check Out</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Expected Return Date</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Expected Return Time</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Check In</th>
+                <th className="p-6 border-b border-[#e2d7ca] font-bold text-sm">Status</th>
               </tr>
             </thead>
             <tbody>
               {records.map((record, index) => (
-                <tr key={record._id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-orange-50'} hover:bg-orange-100 border-b last:border-0 transition-all duration-200`}>
+                <tr key={record._id} className={`${index % 2 === 0 ? 'bg-[#f8f4ee]' : 'bg-[#f2e9dd]'} hover:bg-[#efe3d4] border-b border-[#eadfce] last:border-0 transition-all duration-200`}>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.user?.studentId || 'N/A'}</td>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.user?.name || 'N/A'}</td>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.date}</td>
@@ -285,7 +265,7 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
                   </td>
                   <td className="p-5 text-slate-700 text-base font-medium">{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-'}</td>
                   <td className="p-5 text-slate-700 text-base font-medium">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide shadow-sm ${record.status === 'Inside' ? 'bg-teal-100 text-teal-700' : 'bg-orange-100 text-orange-700'}`}>
+                    <span className={`px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide shadow-sm ${record.status === 'Inside' ? 'bg-teal-100 text-teal-700 border border-teal-200' : 'bg-orange-100 text-orange-700 border border-orange-200'}`}>
                       {record.status}
                     </span>
                   </td>
@@ -296,8 +276,8 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
               )}
             </tbody>
           </table>
-          <div className="mt-10 p-6 rounded-2xl shadow-md border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-teal-50">
-           <h3 className="text-3xl font-extrabold text-blue-600 mb-6 text-center tracking-wide">
+          <div className="mt-10 p-6 rounded-2xl shadow-sm border border-[#e2d7ca] bg-gradient-to-br from-[#f8f4ee] via-white to-[#eefaf8]">
+           <h3 className="text-3xl font-extrabold text-slate-800 mb-6 text-center tracking-wide">
   📊 Attendance Distribution</h3>
 
           <ResponsiveContainer width="100%" height={320}>
@@ -318,7 +298,7 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
       {chartData.map((entry, index) => (
         <Cell 
           key={index} 
-          fill={index === 0 ? "#14b8a6" : "#f97316"} 
+          fill={COLORS[index % COLORS.length]} 
         />
       ))}
     </Pie>
@@ -336,6 +316,7 @@ const COLORS = ['#14b8a6', '#f97316']; // teal & orange
 </ResponsiveContainer>
 </div>
         </div>
+      </div>
     </AdminShell>
   );
 }
